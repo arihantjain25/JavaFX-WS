@@ -35,4 +35,14 @@ public class Controller {
         Parents.getRootStack().push(root);
         stage.show();
     }
+
+    public void reconfigDatabase() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dbconfig.fxml"));
+        Parent root = fxmlLoader.load();
+        Stage stage = Main.getPrimaryStage();
+        Scene scene = stage.getScene();
+        scene.setRoot(root);
+        Parents.getRootStack().push(root);
+        stage.show();
+    }
 }
