@@ -1,0 +1,9 @@
+{
+    "title": "info",
+    "" : "char_name.*",
+    "foo" : {
+        "hello": "imdb_id",
+        "order": "kind",
+        "asdffsad" : "id"
+    }
+}

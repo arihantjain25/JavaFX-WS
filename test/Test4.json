@@ -1,0 +1,11 @@
+{
+  "shipperid": "shipper_id",
+  "users": {
+    "country_names": "country",
+    "fax_numbers": "fax",
+    "users": {
+      "country_names": "country",
+      "fax_numbers": "fax"
+    }
+  }
+}

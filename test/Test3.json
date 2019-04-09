@@ -1,0 +1,10 @@
+{
+  "vernacular_name": "VernacularName",
+  "source": "uid",
+  "users": {
+    "rank_id": "RankId"
+  },
+  "count": {
+    "url": "traitid"
+  }
+}
