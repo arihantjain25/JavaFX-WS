@@ -23,14 +23,7 @@ public class Controller {
 
     @FXML
     public DB onButtonClicked() {
-        try {
-            DB db = new DB("jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/", dbname.getText(),
+            return new DB("jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/", dbname.getText(),
                     dbuser.getText(), dbpass.getText());
-            System.out.println("Database Connected.");
-            return db;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

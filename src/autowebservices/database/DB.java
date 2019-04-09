@@ -70,12 +70,12 @@ public class DB {
 
                 }
             }
+            System.out.println("Database Connected.");
 
         } catch (SQLException e) {
-            System.err.println("There was an error getting the metadata: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Incorrect details or insufficient privileges");
+//            e.printStackTrace();
         }
-
     }
 
     /*
