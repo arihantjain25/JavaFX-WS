@@ -1,29 +1,30 @@
-package sample;
+package gui;
 
-import autowebservices.database.DB;
-import autowebservices.grammar.JSONLexer;
-import autowebservices.grammar.JSONParser;
+import gui.Parents;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-
-import java.io.IOException;
-import java.util.Optional;
 
 public class Main extends Application {
 
+    private static Stage primaryStage;
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Plug and Play Web Services");
-        primaryStage.setScene(new Scene(root, 690, 481));
-        primaryStage.show();
+    public void start(Stage stage) throws Exception {
+        primaryStage = stage;
+        Parent root = FXMLLoader.load(getClass().getResource("dbconfig.fxml"));
+        stage.setTitle("Plug and Play Web Services");
+        Scene primaryScene = new Scene(root);
+        stage.setScene(primaryScene);
+        Parents.getRootStack().push(root);
+        stage.show();
+
+//        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+//        primaryStage.setTitle("Plug and Play Web Services");
+//        primaryStage.setScene(new Scene(root, 690, 481));
+//        primaryStage.show();
 //        try {
 //            DB db;
 //            String jdbcUrl = "jdbc:postgresql://localhost:5432/";
@@ -46,6 +47,9 @@ public class Main extends Application {
 //        }
     }
 
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
 
     public static void main(String[] args) {
         launch(args);
