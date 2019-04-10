@@ -5,17 +5,15 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="785.0" prefWidth="1155.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.Controller">
-   <children>
-      <TextArea layoutX="18.0" layoutY="108.0" prefHeight="614.0" prefWidth="302.0" />
-      <Label layoutX="18.0" layoutY="80.0" text="Enter the JSON Schema" />
-      <Label layoutX="357.0" layoutY="80.0" text="Select Path(s)" />
-      <TextArea layoutX="357.0" layoutY="108.0" prefHeight="614.0" prefWidth="302.0" />
-      <TextArea layoutX="695.0" layoutY="108.0" prefHeight="614.0" prefWidth="445.0" />
-      <Label layoutX="695.0" layoutY="80.0" text="JSON Output" />
-      <Button layoutX="108.0" layoutY="734.0" mnemonicParsing="false" text="Generate Paths" />
-      <Button layoutX="425.0" layoutY="734.0" mnemonicParsing="false" text="Generate Web Service" />
-      <Button layoutX="509.0" layoutY="14.0" mnemonicParsing="false" text="Reconfigure Database" onAction="#reconfigDatabase"/>
-      <Button layoutX="855.0" layoutY="734.0" mnemonicParsing="false" text="Save settings as" />
-   </children>
+<AnchorPane fx:id="anchorPane" prefHeight="785.0" prefWidth="1155.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DatabaseController">
+    <TextArea fx:id="jsonschema" layoutX="18.0" layoutY="108.0" prefHeight="614.0" prefWidth="302.0" />
+    <Label layoutX="18.0" layoutY="80.0" text="Enter the JSON Schema" />
+    <Label layoutX="357.0" layoutY="80.0" text="Select Path(s)" />
+    <TextArea layoutX="357.0" layoutY="108.0" prefHeight="614.0" prefWidth="302.0" />
+    <TextArea layoutX="695.0" layoutY="108.0" prefHeight="614.0" prefWidth="445.0" />
+    <Label layoutX="695.0" layoutY="80.0" text="JSON Output" />
+    <Button layoutX="108.0" layoutY="734.0" mnemonicParsing="false" onAction="#generatePaths" text="Generate Paths" />
+    <Button layoutX="425.0" layoutY="734.0" mnemonicParsing="false" text="Generate Web Service" />
+<!--    <Button layoutX="509.0" layoutY="14.0" mnemonicParsing="false" onAction="#reconfigDatabase" text="Reconfigure Database" />-->
+    <Button layoutX="855.0" layoutY="734.0" mnemonicParsing="false" text="Save settings as" />
 </AnchorPane>
