@@ -30,12 +30,12 @@ public class DB {
     Map<String, Set<String>> fkColumns;
 
     // Connect to the database and build all of the info for the graph
-    public DB(String url, String dbName, String uName, String pwd) {
+    public DB(String url, String dbName, String uName, String pwd) throws SQLException {
         jdbcUrl = url;
         databaseName = dbName;
         this.userName = uName;
         password = pwd;
-        try {
+//        try {
             // Open connection
             conn = DriverManager.getConnection(jdbcUrl + dbName, userName, password);
 
@@ -72,10 +72,10 @@ public class DB {
             }
             System.out.println("Database Connected.");
 
-        } catch (SQLException e) {
-            System.err.println("Incorrect details or insufficient privileges");
-//            e.printStackTrace();
-        }
+//        } catch (SQLException e) {
+//            System.err.println("Incorrect details or insufficient privileges");
+////            e.printStackTrace();
+//        }
     }
 
     /*

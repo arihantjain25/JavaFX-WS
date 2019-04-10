@@ -7,20 +7,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Controller {
     public TextField dburi;
     public TextField dbname;
-    public TextField dbpass;
+    public PasswordField dbpass;
     public TextField dbuser;
     public TextField dbport;
     public AnchorPane anchorPane;
     public Button connectdb;
     public DB db;
 
-    public void connectDatabase() throws IOException {
+    public void connectDatabase() throws IOException, SQLException {
             this.db = new DB("jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/", dbname.getText(),
                     dbuser.getText(), dbpass.getText());
             loadApplication();
