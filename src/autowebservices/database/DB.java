@@ -70,7 +70,7 @@ public class DB {
 
                 }
             }
-            System.out.println("Database Connected.");
+//            System.out.println("Database Connected.");
 
 //        } catch (SQLException e) {
 //            System.err.println("Incorrect details or insufficient privileges");
