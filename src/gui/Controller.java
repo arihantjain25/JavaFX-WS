@@ -62,6 +62,5 @@ public class Controller {
         CommonTokenStream ts = new CommonTokenStream(lexer);
         JSONParser parser = new JSONParser(ts);
         parser.json(db);
-
     }
 }
