@@ -195,30 +195,11 @@ public class PatternTree {
 
     public int generatePathGraphs(ArrayList<Integer> arrayList, HashMap<Integer, Integer> hashMap, HashMap<Integer, Set<ForeignKey>> allPaths) {
         System.err.println("The paths from the best to the worst are as follows:- ");
-        System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         for (Integer i : arrayList) {
-            SingleGraph graph = new SingleGraph("Tutorial 1");
-            //SimpleGraph<String, DefaultEdge> g
-            //     = new SimpleGraph<>(DefaultEdge.class);
             List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(0));
-            graph.setStrict(false);
-            graph.setAutoCreate(true);
-            graph.addAttribute("ui.stylesheet", "node {\n" +
-                    "\tshape: circle;\n" +
-                    "\tsize: 15px, 20px;\n" +
-                    "\tfill-mode: plain;   /* Default.          */\n" +
-                    "\tfill-color: red;    /* Default is black. */\n" +
-                    "\tstroke-mode: plain; /* Default is none.  */\n" +
-                    "\tstroke-color: blue; /* Default is black. */\n" +
-                    "}");
-
-//            System.out.print(arrayList1.get(0).getFromTable() + "  ");
             for (ForeignKey foreignKey : arrayList1) {
-                System.out.println(foreignKey.getFromTable() + "      " + foreignKey.getToTable());
-//                g.addEdge(foreignKey.getFromTable()+foreignKey.getToTable(), foreignKey.getFromTable());
-                graph.addEdge(foreignKey.getFromTable() + foreignKey.getToTable(), foreignKey.getFromTable(), foreignKey.getToTable());
+                System.out.println(foreignKey.getFromTable() + "      " + foreignKey.getToTable() + "       " + foreignKey.getColumnJoin());
             }
-//            graph.display();
             System.out.println();
         }
         Scanner reader = new Scanner(System.in);

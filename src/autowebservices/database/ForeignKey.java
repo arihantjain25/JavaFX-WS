@@ -67,4 +67,8 @@ public class ForeignKey {
         }
         return result;
     }
+
+    public String getColumnJoin() {
+        return fromColumns.get(0);
+    }
 }

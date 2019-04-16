@@ -1,17 +1,10 @@
 package gui;
 
-import autowebservices.database.DB;
-import autowebservices.grammar.JSONLexer;
-import autowebservices.grammar.JSONParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-
 import java.sql.SQLException;
 
 public class Main extends Application {
