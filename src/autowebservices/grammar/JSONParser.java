@@ -121,11 +121,7 @@ public class JSONParser extends Parser {
 			        
 			setState(11);
 			value();
-				try {
-					v.exitJson();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				v.exitJson();
 			}
 		}
 		catch (RecognitionException re) {

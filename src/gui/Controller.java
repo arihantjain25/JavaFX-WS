@@ -63,4 +63,8 @@ public class Controller {
         JSONParser parser = new JSONParser(ts);
         parser.json(db);
     }
+
+    public void generateImages() {
+
+    }
 }

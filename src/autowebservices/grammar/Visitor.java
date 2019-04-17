@@ -60,16 +60,19 @@ public class Visitor {
     }
 
 
-    public static void exitJson() throws IllegalAccessException, SQLException {
-        String filePath = "test/Test3.json";
-        SQLPull sqlPull = new SQLPull();
+    public static void exitJson() throws IllegalAccessException, IOException {
         Map<String, Map<String, List<Path>>> mapMap = new HashMap<>();
         Set<ForeignKey> treePaths = tree.computeTreePaths(joinGraph, null);
         List<String> listTables = tree.listTables();
         List<String> listColumns = tree.listColumns();
-        String query = sqlPull.generateQuery(joinGraph, treePaths,
-                listColumns.toString(), listTables);
+//        String query = sqlPull.generateQuery(joinGraph, treePaths,
+//                listColumns.toString(), listTables);
 //        System.out.println(query);
+    }
+
+    public void op(String query) throws SQLException {
+        String filePath = "test/Test3.json";
+        SQLPull sqlPull = new SQLPull();
         JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
         String[] fillArray = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {

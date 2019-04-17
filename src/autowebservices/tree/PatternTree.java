@@ -13,8 +13,11 @@ import autowebservices.joingraph.Path;
 //import autowebservices.output.json.ArrayFormatter;
 //import autowebservices.output.json.ObjFormatter;
 //import autowebservices.output.json.PairFormatter;
-import org.graphstream.graph.implementations.SingleGraph;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -174,7 +177,7 @@ public class PatternTree {
         }
     }
 
-    public Set<ForeignKey> computeTreePaths(Graph joinGraph, String parentTable) throws IllegalAccessException {
+    public Set<ForeignKey> computeTreePaths(Graph joinGraph, String parentTable) throws IllegalAccessException, IOException {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
         if (hasChildren()) {
@@ -186,10 +189,33 @@ public class PatternTree {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
             String query = sqlPull.generateRowsQuery(joinGraph, set,
                     listColumns().toString(), listTables());
-            queryAndNumberRows.put(query, getRowsNumber(query));
+            queryAndNumberRows.put(query.split("EXPLAIN ")[1], getRowsNumber(query));
         }
-        System.out.println(sortByValue(queryAndNumberRows));
+        HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
+        FileWriter fileWriter = new FileWriter("queries.txt");
+        Iterator it = temp.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            fileWriter.write((pair.getKey() + "!" + pair.getValue()) + "!");
+            it.remove();
+        }
+        fileWriter.close();
+        String[] temp2 = usingBufferedReader().split("!");
         return allPaths.get(0);
+    }
+
+    public static String usingBufferedReader() {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader("queries.txt"))) {
+
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return contentBuilder.toString();
     }
 
     public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
