@@ -69,7 +69,7 @@ public class Visitor {
         List<String> listColumns = tree.listColumns();
         String query = sqlPull.generateQuery(joinGraph, treePaths,
                 listColumns.toString(), listTables);
-        System.out.println(query);
+//        System.out.println(query);
         JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
         String[] fillArray = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {

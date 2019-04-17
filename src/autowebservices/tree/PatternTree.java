@@ -181,30 +181,35 @@ public class PatternTree {
             PatternTree rootNode = getRoot();
             allPaths = savePaths(joinGraph, rootNode, null, allPaths);
         }
-        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
             String query = sqlPull.generateRowsQuery(joinGraph, set,
                     listColumns().toString(), listTables());
-            hashMap.put(i, getRowsNumber(query));
+            queryAndNumberRows.put(query, getRowsNumber(query));
         }
-        ArrayList<Integer> arrayList = getRanking(hashMap);
-        int n = generatePathGraphs(arrayList, hashMap, allPaths);
-        return allPaths.get(arrayList.get(n));
+        System.out.println(sortByValue(queryAndNumberRows));
+        return allPaths.get(0);
     }
 
-    public int generatePathGraphs(ArrayList<Integer> arrayList, HashMap<Integer, Integer> hashMap, HashMap<Integer, Set<ForeignKey>> allPaths) {
+    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
+        list.sort((val1, val2) -> (val2.getValue()).compareTo(val1.getValue()));
+        HashMap<String, Integer> temp = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> l : list)
+            temp.put(l.getKey(), l.getValue());
+        return temp;
+    }
+
+    public void generatePathGraphs(ArrayList<Integer> arrayList, HashMap<Integer, Integer> hashMap, HashMap<Integer, Set<ForeignKey>> allPaths) {
         System.err.println("The paths from the best to the worst are as follows:- ");
         for (Integer i : arrayList) {
-            List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(0));
+            List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
             for (ForeignKey foreignKey : arrayList1) {
                 System.out.println(foreignKey.getFromTable() + "      " + foreignKey.getToTable() + "       " + foreignKey.getColumnJoin());
             }
             System.out.println();
         }
-        Scanner reader = new Scanner(System.in);
-        System.out.print("Enter the path number: ");
-        return reader.nextInt();
     }
 
     public PatternTree getRoot() {
