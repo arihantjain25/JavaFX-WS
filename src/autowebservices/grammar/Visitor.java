@@ -61,10 +61,10 @@ public class Visitor {
 
 
     public static void exitJson() throws IllegalAccessException, IOException {
-        Map<String, Map<String, List<Path>>> mapMap = new HashMap<>();
+//        Map<String, Map<String, List<Path>>> mapMap = new HashMap<>();
         Set<ForeignKey> treePaths = tree.computeTreePaths(joinGraph, null);
-        List<String> listTables = tree.listTables();
-        List<String> listColumns = tree.listColumns();
+//        List<String> listTables = tree.listTables();
+//        List<String> listColumns = tree.listColumns();
 //        String query = sqlPull.generateQuery(joinGraph, treePaths,
 //                listColumns.toString(), listTables);
 //        System.out.println(query);
