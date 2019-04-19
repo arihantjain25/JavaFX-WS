@@ -9,7 +9,7 @@
   <property name="compiler.args.javafx-ws" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
   
   <property name="javafx-ws.output.dir" value="${module.javafx-ws.basedir}/out/production/JavaFX-WS"/>
-  <property name="javafx-ws.testoutput.dir" value="${module.javafx-ws.basedir}/out/test/JavaFX-WS"/>
+<!--  <property name="javafx-ws.testoutput.dir" value="${module.javafx-ws.basedir}/out/test/JavaFX-WS"/>-->
   
   <path id="javafx-ws.module.bootclasspath">
     <!-- Paths to be included in compilation bootclasspath -->
@@ -27,7 +27,7 @@
   </path>
   
   <path id="javafx-ws.runtime.module.classpath">
-    <pathelement location="${javafx-ws.testoutput.dir}"/>
+<!--    <pathelement location="${javafx-ws.testoutput.dir}"/>-->
     <pathelement location="${javafx-ws.output.dir}"/>
   </path>
   
@@ -64,6 +64,6 @@
   
   <target name="clean.module.javafx-ws" description="cleanup module">
     <delete dir="${javafx-ws.output.dir}"/>
-    <delete dir="${javafx-ws.testoutput.dir}"/>
+<!--    <delete dir="${javafx-ws.testoutput.dir}"/>-->
   </target>
 </project>
