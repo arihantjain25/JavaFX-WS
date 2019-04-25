@@ -132,6 +132,8 @@ public class JSONParser extends Parser {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
 			exitRule();
 		}

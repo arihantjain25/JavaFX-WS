@@ -10,9 +10,6 @@ import autowebservices.database.ForeignKey;
 import autowebservices.datapull.SQLPull;
 import autowebservices.joingraph.Graph;
 import autowebservices.joingraph.Path;
-//import autowebservices.output.json.ArrayFormatter;
-//import autowebservices.output.json.ObjFormatter;
-//import autowebservices.output.json.PairFormatter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,6 +18,10 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+//import autowebservices.output.json.ArrayFormatter;
+//import autowebservices.output.json.ObjFormatter;
+//import autowebservices.output.json.PairFormatter;
 
 /**
  * This class represents a pattern tree. A pattern tree is constructed when a
@@ -187,20 +188,27 @@ public class PatternTree {
         HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
+            List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
+            StringBuilder addPath = new StringBuilder();
+            for (ForeignKey foreignKey : arrayList1) {
+                addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
+            }
             String query = sqlPull.generateRowsQuery(joinGraph, set,
                     listColumns().toString(), listTables());
-            queryAndNumberRows.put(query.split("EXPLAIN ")[1], getRowsNumber(query));
+            queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumber(query));
         }
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
         FileWriter fileWriter = new FileWriter("queries.txt");
         Iterator it = temp.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-            fileWriter.write((pair.getKey() + "!" + pair.getValue()) + "!");
+            fileWriter.write((pair.getKey() + "!!!" + pair.getValue()) + "!!!");
             it.remove();
         }
         fileWriter.close();
-        String[] temp2 = usingBufferedReader().split("!");
+        String[] temp2 = usingBufferedReader().split("!!!");
+        for (String s : temp2)
+            System.out.println(s);
         return allPaths.get(0);
     }
 

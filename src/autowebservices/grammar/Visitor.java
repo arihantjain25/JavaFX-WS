@@ -11,25 +11,11 @@ import autowebservices.datapull.SQLPull;
 import autowebservices.joingraph.Graph;
 import autowebservices.joingraph.Path;
 import autowebservices.tree.PatternTree;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.layout.BorderPane;
 import org.json.JSONArray;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 // import autowebservices.database.ForeignKey;
 // import java.util.Set;
 
@@ -60,17 +46,25 @@ public class Visitor {
     }
 
 
-    public static void exitJson() throws IllegalAccessException, IOException {
-//        Map<String, Map<String, List<Path>>> mapMap = new HashMap<>();
+    public static void exitJson() throws IllegalAccessException, IOException, SQLException {
+        Map<String, Map<String, List<Path>>> mapMap = new HashMap<>();
         Set<ForeignKey> treePaths = tree.computeTreePaths(joinGraph, null);
-//        List<String> listTables = tree.listTables();
-//        List<String> listColumns = tree.listColumns();
+        List<String> listTables = tree.listTables();
+        List<String> listColumns = tree.listColumns();
+//        SQLPull sqlPull = new SQLPull();
 //        String query = sqlPull.generateQuery(joinGraph, treePaths,
 //                listColumns.toString(), listTables);
+        op("SELECT DISTINCT taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"\n" +
+                "FROM taxa \n" +
+                "LEFT JOIN taxavernaculars ON taxavernaculars.\"TID\" = taxa.\"TID\"\n" +
+                "LEFT JOIN tmtraittaxalink ON taxa.\"TID\" = tmtraittaxalink.\"tid\"\n" +
+                "LEFT JOIN users ON taxa.\"modifiedUid\" = users.\"uid\"\n" +
+                "LEFT JOIN tmtraits ON tmtraittaxalink.\"traitid\" = tmtraits.\"traitid\"\n" +
+                "ORDER BY taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"");
 //        System.out.println(query);
     }
 
-    public void op(String query) throws SQLException {
+    public static void op(String query) throws SQLException {
         String filePath = "test/Test3.json";
         SQLPull sqlPull = new SQLPull();
         JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
