@@ -1,6 +1,7 @@
 package gui;
 
 import autowebservices.database.DB;
+import autowebservices.datapull.SQLPull;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import autowebservices.grammar.JSONParser;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.json.JSONArray;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -66,5 +68,32 @@ public class Controller {
 
     public void generateImages() {
 
+    }
+
+    public void selectInput() throws FileNotFoundException, SQLException {
+        op("SELECT DISTINCT taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"\n" +
+                "FROM taxa \n" +
+                "LEFT JOIN taxavernaculars ON taxavernaculars.\"TID\" = taxa.\"TID\"\n" +
+                "LEFT JOIN tmtraittaxalink ON taxa.\"TID\" = tmtraittaxalink.\"tid\"\n" +
+                "LEFT JOIN users ON taxa.\"modifiedUid\" = users.\"uid\"\n" +
+                "LEFT JOIN tmtraits ON tmtraittaxalink.\"traitid\" = tmtraits.\"traitid\"\n" +
+                "ORDER BY taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"");
+    }
+
+    public void op(String query) throws SQLException, FileNotFoundException {
+        String filePath = "test/Test3.json";
+        db = establishConnection();
+        SQLPull sqlPull = new SQLPull();
+        JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
+        String[] fillArray = new String[jsonArray.length()];
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String str = jsonArray.get(i).toString();
+            if (jsonArray.get(i).toString().equals("{}")) {
+                fillArray[i] = "null";
+            } else {
+                fillArray[i] = str.split("\":")[1].replace("}", "");
+            }
+        }
+        sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
     }
 }

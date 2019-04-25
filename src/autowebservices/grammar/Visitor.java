@@ -6,18 +6,12 @@
 package autowebservices.grammar;
 
 import autowebservices.database.DB;
-import autowebservices.database.ForeignKey;
-import autowebservices.datapull.SQLPull;
 import autowebservices.joingraph.Graph;
-import autowebservices.joingraph.Path;
 import autowebservices.tree.PatternTree;
-import org.json.JSONArray;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-// import autowebservices.database.ForeignKey;
-// import java.util.Set;
 
 /**
  * @author Curtis Dyreson
@@ -30,16 +24,7 @@ public class Visitor {
     private static Graph joinGraph;
 
     public static void enterJson(DB db) throws IOException {
-
-        // Initialize the database and tree
         treeStack = new Stack();
-//        String jdbcUrl = "jdbc:postgresql://localhost:5432/";
-//        String dbName = "symbiota2";
-//        String username = "postgres";
-//        String password = "password";
-////        String dbName = "imdb";
-////        String password = ".namjklsd.";
-//        db = new DB(jdbcUrl, dbName, username, password);
         Visitor.db = db;
         tree = new PatternTree(db);
         joinGraph = new Graph(db);
@@ -47,42 +32,10 @@ public class Visitor {
 
 
     public static void exitJson() throws IllegalAccessException, IOException, SQLException {
-        Map<String, Map<String, List<Path>>> mapMap = new HashMap<>();
-        Set<ForeignKey> treePaths = tree.computeTreePaths(joinGraph, null);
-        List<String> listTables = tree.listTables();
-        List<String> listColumns = tree.listColumns();
-//        SQLPull sqlPull = new SQLPull();
-//        String query = sqlPull.generateQuery(joinGraph, treePaths,
-//                listColumns.toString(), listTables);
-        op("SELECT DISTINCT taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"\n" +
-                "FROM taxa \n" +
-                "LEFT JOIN taxavernaculars ON taxavernaculars.\"TID\" = taxa.\"TID\"\n" +
-                "LEFT JOIN tmtraittaxalink ON taxa.\"TID\" = tmtraittaxalink.\"tid\"\n" +
-                "LEFT JOIN users ON taxa.\"modifiedUid\" = users.\"uid\"\n" +
-                "LEFT JOIN tmtraits ON tmtraittaxalink.\"traitid\" = tmtraits.\"traitid\"\n" +
-                "ORDER BY taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"");
-//        System.out.println(query);
+        tree.computeTreePaths(joinGraph, null);
     }
-
-    public static void op(String query) throws SQLException {
-        String filePath = "test/Test3.json";
-        SQLPull sqlPull = new SQLPull();
-        JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
-        String[] fillArray = new String[jsonArray.length()];
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String str = jsonArray.get(i).toString();
-            if (jsonArray.get(i).toString().equals("{}")) {
-                fillArray[i] = "null";
-            } else {
-                fillArray[i] = str.split("\":")[1].replace("}", "");
-            }
-        }
-        sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
-    }
-
 
     public static void enterArray() {
-//            System.out.println("entering array");
         PatternTree child = new PatternTree(db, tree, PatternTree.arrayType);
         treeStack.push(tree);
         tree = child;
@@ -93,7 +46,6 @@ public class Visitor {
     }
 
     public static void enterObj() {
-//            System.out.println("descending a level");
         treeStack.push(tree);
         PatternTree child = new PatternTree(db, tree, PatternTree.objType);
         treeStack.push(tree);
@@ -101,13 +53,10 @@ public class Visitor {
     }
 
     public static void exitObj() {
-//            System.out.println("going up a level");
         tree = treeStack.pop();
     }
 
     public static void enterPair(String key) {
-        // System.out.println($STRING.text + " " + $value.text);
-//            System.out.println("comp: enterPair " + key);
         key = key.replace("\"", "");
         tree = treeStack.peek();
         PatternTree child = new PatternTree(db, tree, key, PatternTree.pairType);
@@ -117,15 +66,12 @@ public class Visitor {
     }
 
     public static void parsedString(String value) {
-        // System.out.println($STRING.text + " " + $value.text);
-//            System.out.println("comp: parsedString " + value);
         value = value.replace("\"", "");
         tree = treeStack.pop();
         tree.buildPotentialLabels(value);
     }
 
     public static void exitPair() {
-//            System.out.println("comp: exitPair ");
         tree = treeStack.peek();
     }
 }

@@ -92,24 +92,6 @@ public class PatternTree {
         value = s;
     }
 
-//    public List<Formatter> buildFormatter(Formatter parent) {
-//        List<Formatter> result = new ArrayList<>();
-//        if (treeType == pairType) {
-//            result.add(new PairFormatter(parent, label));
-//        } else if (treeType == objType) {
-//            result.add(new ObjFormatter(parent));
-//        } else {
-//            result.add(new ArrayFormatter(parent));
-//        }
-//        if (hasChildren()) {
-//            for (PatternTree child : children) {
-//                result.addAll(child.buildFormatter(result.get(result.size())));
-//            }
-//        }
-//
-//        return result;
-//    }
-
     public boolean hasChildren() {
         return children != null;
     }
@@ -178,7 +160,7 @@ public class PatternTree {
         }
     }
 
-    public Set<ForeignKey> computeTreePaths(Graph joinGraph, String parentTable) throws IllegalAccessException, IOException {
+    public void computeTreePaths(Graph joinGraph, String parentTable) throws IOException {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
         if (hasChildren()) {
@@ -209,7 +191,6 @@ public class PatternTree {
         String[] temp2 = usingBufferedReader().split("!!!");
         for (String s : temp2)
             System.out.println(s);
-        return allPaths.get(0);
     }
 
     public static String usingBufferedReader() {
@@ -233,17 +214,6 @@ public class PatternTree {
         for (Map.Entry<String, Integer> l : list)
             temp.put(l.getKey(), l.getValue());
         return temp;
-    }
-
-    public void generatePathGraphs(ArrayList<Integer> arrayList, HashMap<Integer, Integer> hashMap, HashMap<Integer, Set<ForeignKey>> allPaths) {
-        System.err.println("The paths from the best to the worst are as follows:- ");
-        for (Integer i : arrayList) {
-            List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
-            for (ForeignKey foreignKey : arrayList1) {
-                System.out.println(foreignKey.getFromTable() + "      " + foreignKey.getToTable() + "       " + foreignKey.getColumnJoin());
-            }
-            System.out.println();
-        }
     }
 
     public PatternTree getRoot() {
@@ -389,3 +359,21 @@ public class PatternTree {
         }
     }
 }
+
+//    public List<Formatter> buildFormatter(Formatter parent) {
+//        List<Formatter> result = new ArrayList<>();
+//        if (treeType == pairType) {
+//            result.add(new PairFormatter(parent, label));
+//        } else if (treeType == objType) {
+//            result.add(new ObjFormatter(parent));
+//        } else {
+//            result.add(new ArrayFormatter(parent));
+//        }
+//        if (hasChildren()) {
+//            for (PatternTree child : children) {
+//                result.addAll(child.buildFormatter(result.get(result.size())));
+//            }
+//        }
+//
+//        return result;
+//    }
