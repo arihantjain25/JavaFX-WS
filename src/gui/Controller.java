@@ -56,9 +56,12 @@ public class Controller {
         stage.show();
     }
 
-    public void generatePaths() throws SQLException, FileNotFoundException {
+    public void generatePaths() throws SQLException, IOException {
         db = establishConnection();
         String jschema = jsonschema.getText();
+        FileWriter fileWriter = new FileWriter("schema.json");
+        fileWriter.write(jschema);
+        fileWriter.close();
         CharStream charStream = CharStreams.fromString(jschema);
         JSONLexer lexer = new JSONLexer(charStream);
         CommonTokenStream ts = new CommonTokenStream(lexer);
@@ -82,7 +85,7 @@ public class Controller {
     }
 
     public void op(String query) throws SQLException, FileNotFoundException {
-        String filePath = "test/Test3.json";
+        String filePath = "schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
         JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));

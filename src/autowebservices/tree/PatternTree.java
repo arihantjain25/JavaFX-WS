@@ -196,7 +196,6 @@ public class PatternTree {
     public static String usingBufferedReader() {
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader("queries.txt"))) {
-
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
