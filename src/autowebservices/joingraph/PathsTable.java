@@ -48,24 +48,14 @@ public class PathsTable {
     }
 
     public void addPath(String fromTable, String toTable, Path path) {
-//        System.out.println(path.getFKs());
-
-        // Initialize row if necessary
         if (!table.containsKey(fromTable)) {
             table.put(fromTable, new HashMap());
         }
-
-        // Initialize column if necessary
         Map<String, List<Path>> map = table.get(fromTable);
-//        System.err.println(table.get(fromTable));
         if (!map.containsKey(toTable)) {
             map.put(toTable, new ArrayList());
         }
-
-        // Add path to list of paths at row column position
         List<Path> paths = map.get(toTable);
         paths.add(path);
-//         System.out.println("Adding path " + path.getFKs().size() + " " + fromTable + " " + path.getStart() + " to " + toTable + " " + path.getEnd());
     }
-
 }

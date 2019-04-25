@@ -128,11 +128,7 @@ public class JSONParser extends Parser {
 			_localctx.exception = re;
 			_errHandler.reportError(this, re);
 			_errHandler.recover(this, re);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			exitRule();

@@ -35,52 +35,37 @@ public class DB {
         databaseName = dbName;
         this.userName = uName;
         password = pwd;
-//        try {
-            // Open connection
-            conn = DriverManager.getConnection(jdbcUrl + dbName, userName, password);
+        // Open connection
+        conn = DriverManager.getConnection(jdbcUrl + dbName, userName, password);
 
-            // Get the metadata for the connnection
-            metadata = conn.getMetaData();
+        // Get the metadata for the connnection
+        metadata = conn.getMetaData();
 
-            // Get the table names
-            tableSet = new HashSet();
-            List<String> tables = this.getTableNames();
-            tableSet.addAll(tables);
-
-            // Build foreign keys
-            this.buildFKs(tables);
-            // this.printFKs(tables);
-            // Build the column names
-            columnLookup = new HashMap();
-            for (String table : tables) {
-                List<String> names = this.getColumnNames(table);
-                for (String col : names) {
-                    // System.out.println("Doing " + col + " " + table);
-                    if (fkColumns.containsKey(table)) {
-                        if (fkColumns.get(table).contains(col)) {
-                            // System.out.println("Removing " + table + "." + col);
-                            continue;
-                        }
+        // Get the table names
+        tableSet = new HashSet();
+        List<String> tables = this.getTableNames();
+        tableSet.addAll(tables);
+        this.buildFKs(tables);
+        // Build the column names
+        columnLookup = new HashMap();
+        for (String table : tables) {
+            List<String> names = this.getColumnNames(table);
+            for (String col : names) {
+                if (fkColumns.containsKey(table)) {
+                    if (fkColumns.get(table).contains(col)) {
+                        continue;
                     }
-                    if (!columnLookup.containsKey(col)) {
-                        columnLookup.put(col, new HashSet());
-                    }
-                    Set<String> colTables = columnLookup.get(col);
-                    colTables.add(table);
-
                 }
-            }
-//            System.out.println("Database Connected.");
+                if (!columnLookup.containsKey(col)) {
+                    columnLookup.put(col, new HashSet());
+                }
+                Set<String> colTables = columnLookup.get(col);
+                colTables.add(table);
 
-//        } catch (SQLException e) {
-//            System.err.println("Incorrect details or insufficient privileges");
-////            e.printStackTrace();
-//        }
+            }
+        }
     }
 
-    /*
-    * Getter method - return the list of foreign keys
-     */
     public List<ForeignKey> getForeignKeys() {
         return fks;
     }
@@ -102,7 +87,6 @@ public class DB {
     }
 
     public Set<String> columnLookup(String key) {
-        // System.out.println(columnLookup.keySet());
         if (columnLookup.containsKey(key)) {
             return columnLookup.get(key);
         } else {
@@ -139,7 +123,6 @@ public class DB {
         tables = new ArrayList();
         while (rs.next()) {
             tables.add(rs.getString("TABLE_NAME"));
-            //System.out.println(rs.getString("TABLE_NAME"));
         }
         return tables;
     }
@@ -154,7 +137,6 @@ public class DB {
             String tabName = rs.getString("FKTABLE_NAME");
             String tabFromName = rs.getString("PKTABLE_NAME");
             name = tabName + "." + name;
-            //System.out.println(name);
             if (keyMap.containsKey(name)) {
                 ForeignKey fk = keyMap.get(name);
                 fk.addFromColumn(rs.getString("PKCOLUMN_NAME"));
@@ -206,22 +188,16 @@ public class DB {
     }
 
     public void printFKs(List<String> tables) throws SQLException {
-//        rs = metadata.getCrossReference(null, null, null, null, null, null);
-//        ResultSetMetaData rsMeta = rs.getMetaData();
         DatabaseMetaData dbMeta = conn.getMetaData();
         System.out.println("Foreign Keys are\n");
-        //rs = dbMeta.getExportedKeys("", "", "");
         rs = metadata.getCrossReference(null, null, null, null, null, null);
         while (rs.next()) {
-            //System.out.println(rs.getString("FKCOLUMN_NAME"));
             System.out.println(
                     rs.getString("FKTABLE_NAME")
-                    + "\t" + rs.getString("FK_NAME")
-                    + "\t" + rs.getString("FKCOLUMN_NAME")
-                    + "\t\t" + rs.getString("PKTABLE_NAME")
-//                    + "\t" + rs.getString("FKTABLE_NAME")
-                    + "\t" + rs.getString("PKCOLUMN_NAME")
-
+                            + "\t" + rs.getString("FK_NAME")
+                            + "\t" + rs.getString("FKCOLUMN_NAME")
+                            + "\t\t" + rs.getString("PKTABLE_NAME")
+                            + "\t" + rs.getString("PKCOLUMN_NAME")
             );
         }
     }
@@ -229,14 +205,8 @@ public class DB {
     public List<String> getColumnNames(String table) throws SQLException {
         List<String> names = new ArrayList();
         rs = metadata.getColumns(null, null, table, null);
-        //System.out.println(actualTable.toUpperCase());
         while (rs.next()) {
             names.add(rs.getString("COLUMN_NAME"));
-            /*
-            System.out.println(rs.getString("COLUMN_NAME") + " "
-                    + rs.getString("TYPE_NAME") + " "
-                    + rs.getString("COLUMN_SIZE"));
-             */
         }
         return names;
     }

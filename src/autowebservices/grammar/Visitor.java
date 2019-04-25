@@ -10,7 +10,6 @@ import autowebservices.joingraph.Graph;
 import autowebservices.tree.PatternTree;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -23,15 +22,14 @@ public class Visitor {
     private static Stack<PatternTree> treeStack;
     private static Graph joinGraph;
 
-    public static void enterJson(DB db) throws IOException {
+    public static void enterJson(DB db) {
         treeStack = new Stack();
         Visitor.db = db;
         tree = new PatternTree(db);
         joinGraph = new Graph(db);
     }
 
-
-    public static void exitJson() throws IllegalAccessException, IOException, SQLException {
+    public static void exitJson() throws IOException {
         tree.computeTreePaths(joinGraph, null);
     }
 

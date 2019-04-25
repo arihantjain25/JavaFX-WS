@@ -27,29 +27,5 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
         launch(args);
-
-
-
-//        CharStream charStream = CharStreams.fromString("{\n" +
-//                "  \"vernacular_name\": \"VernacularName\",\n" +
-//                "  \"source\": \"uid\",\n" +
-//                "  \"users\": {\n" +
-//                "    \"rank_id\": \"RankId\"\n" +
-//                "  },\n" +
-//                "  \"count\": {\n" +
-//                "    \"url\": \"traitid\"\n" +
-//                "  }\n" +
-//                "}");
-//        String jdbcUrl = "jdbc:postgresql://localhost:5432/";
-//        String dbName = "symbiota2";
-//        String username = "postgres";
-//        String password = "password";
-////        String dbName = "imdb";
-////        String password = ".namjklsd.";
-//        DB db = new DB(jdbcUrl, dbName, username, password);
-//        JSONLexer lexer = new JSONLexer(charStream);
-//        CommonTokenStream ts = new CommonTokenStream(lexer);
-//        JSONParser parser = new JSONParser(ts);
-//        parser.json(db);
     }
 }

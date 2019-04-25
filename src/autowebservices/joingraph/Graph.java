@@ -22,14 +22,7 @@ public class Graph {
     Map<String, List<Edge>> fromEdges;
     Map<String, List<Edge>> toEdges;
     PathsTable shortestPaths = null;
-//    HashSet<String> stringPaths = new HashSet<>();
-//    ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
-//    String[] allNodesArray;
-//    PathsTable tempPaths = null;
 
-    /*
-     * Create an empty join graph
-     */
     public Graph() {
         fromEdges = new HashMap();
         toEdges = new HashMap();
@@ -40,28 +33,17 @@ public class Graph {
         toEdges = new HashMap();
         try {
             List<String> tables = db.getTableNames();
-
-            for (String s : tables) {
-                this.addTable(s);
-            }
+            for (String s : tables) this.addTable(s);
             List<ForeignKey> fks = db.buildFKs(tables);
-            for (ForeignKey fk : fks) {
-                this.addFK(fk);
-            }
+            for (ForeignKey fk : fks) this.addFK(fk);
             this.computeShortestPaths();
         } catch (SQLException e) {
             System.err.println("There was an error getting the metadata: "
                     + e.getMessage());
             e.printStackTrace();
-            //} catch (ClassNotFoundException e) {
-            //    e.printStackTrace();
         }
     }
 
-
-    /*
-     * Add a node (a Table) to the graph
-     */
     public void addTable(String table) {
         if (fromEdges.containsKey(table)) {
             System.err.println("JoinGraph: Adding Table that already exists " + table);
@@ -71,9 +53,6 @@ public class Graph {
         toEdges.put(table, new ArrayList(3));
     }
 
-    /*
-     * Add a foreign key (an Edge) to the graph
-     */
     public void addFK(ForeignKey fk) {
         String fromTable = fk.getFromTable();
         if (!fromEdges.containsKey(fromTable)) {
@@ -92,33 +71,18 @@ public class Graph {
         return paths;
     }
 
-
-    /*
-     * Compute a table of the shortest paths in the graph
-     */
     public void computeShortestPaths() {
         List<Path> newPaths = new ArrayList();
-
-        // Initialize path matrix if needed
         if (shortestPaths == null) {
-            // Initialize with paths of length one
             shortestPaths = new PathsTable();
-
-            // Get all the nodes in the graph
             Set<String> allNodes = new HashSet();
-
             allNodes.addAll(fromEdges.keySet());
             allNodes.addAll(toEdges.keySet());
-
-            // Iterate through all of the nodes
             for (String table : allNodes) {
-                // Get all of the edges to and from this node
                 List<Edge> edges = new ArrayList();
                 if (fromEdges.containsKey(table)) {
                     edges.addAll(fromEdges.get(table));
                 }
-
-                // Iterate through all of the edges
                 for (Edge edge : edges) {
                     ForeignKey fk = edge.getForeignKey();
                     String toTable = fk.getToTable();
@@ -129,35 +93,21 @@ public class Graph {
                 }
             }
         }
-
-        // Compute the shortest paths
         computeShortestPaths(newPaths);
     }
 
-
-
-public void computeShortestPaths(List<Path> newPaths) {
-
-        // Done if there are no new paths
-        if (newPaths.size() == 0) {
+    public void computeShortestPaths(List<Path> newPaths) {
+        if (newPaths.size() == 0)
             return;
-        }
-
-        // Paths that we computer in this round
         List<Path> computedPaths = new ArrayList();
-
         for (Path path : newPaths) {
             String pathStartTable = path.getStart();
             String pathEndTable = path.getEnd();
-
-            //Try the From edges first
             if (fromEdges.containsKey(pathEndTable)) {
                 List<Edge> edges = fromEdges.get(pathEndTable);
                 for (Edge edge : edges) {
                     String possibleEndTable = edge.getForeignKey().getToTable();
                     if (!shortestPaths.contains(pathStartTable, possibleEndTable)) {
-
-                        // Found a new edge
                         Path tempPath = new Path(path);
                         tempPath.push(edge.getForeignKey());
                         computedPaths.add(tempPath);
@@ -168,11 +118,8 @@ public void computeShortestPaths(List<Path> newPaths) {
         for (Path path : computedPaths) {
             shortestPaths.addPath(path);
         }
-
         computeShortestPaths(computedPaths);
-
     }
-
 }
 
 //    public void computeBestPaths() {

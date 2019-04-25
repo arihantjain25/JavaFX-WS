@@ -55,20 +55,9 @@ public class Path {
     public void put(ForeignKey fk) {
         path.add(0, fk);
     }
+//
 
-    public boolean equals(Path other) {
-        for (ForeignKey fk : path) {
-            
-        }
-        return true;
-    }
-    
     public void push(ForeignKey fk) {
-
-        if (path.size() > 0) {
-//            System.out.println("Pushing " + this.getStart() + " " + this.getEnd() + " " + fk.getFromTable() + " " + fk.getToTable());
-        }
-
         path.add(fk);
     }
 
@@ -76,3 +65,11 @@ public class Path {
         return path.size();
     }
 }
+
+
+//    public boolean equals(Path other) {
+//        for (ForeignKey fk : path) {
+//
+//        }
+//        return true;
+//    }
