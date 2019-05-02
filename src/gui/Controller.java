@@ -46,7 +46,7 @@ public class Controller {
         return new DB(dbinfo[0], dbinfo[1], dbinfo[2], dbinfo[3]);
     }
 
-    public void loadApplication() throws IOException, SQLException {
+    public void loadApplication() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = Main.getPrimaryStage();
@@ -67,11 +67,12 @@ public class Controller {
         CommonTokenStream ts = new CommonTokenStream(lexer);
         JSONParser parser = new JSONParser(ts);
         parser.json(db);
-        selectInput();
+        generateImages();
     }
 
-    public void generateImages() {
-
+    public void generateImages() throws IOException {
+        ProcessBuilder builder = new ProcessBuilder("python", "pyscripts\\creategraphimages.py");
+        Process p = builder.start();
     }
 
     public void selectInput() throws FileNotFoundException, SQLException {
