@@ -188,9 +188,9 @@ public class PatternTree {
             it.remove();
         }
         fileWriter.close();
-        String[] temp2 = usingBufferedReader().split("!!!");
-        for (String s : temp2)
-            System.out.println(s);
+//        String[] temp2 = usingBufferedReader().split("!!!");
+//        for (String s : temp2)
+//            System.out.println(s);
     }
 
     public static String usingBufferedReader() {

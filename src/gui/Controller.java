@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.util.concurrent.TimeUnit;
+
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -83,8 +83,8 @@ public class Controller {
     }
 
     public void generateImages() throws IOException {
-        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/pyscripts/creategraphimages.py");
-//        ProcessBuilder builderwin = new ProcessBuilder("python", "pyscripts\\creategraphimages.py");
+        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
+//        ProcessBuilder builderwin = new ProcessBuilder("python", "creategraphimages.py");
         Process p = builderlinux.start();
         try {
             p.waitFor();
@@ -94,9 +94,9 @@ public class Controller {
 
     private void openDirectoryChooser() {
         File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images");
-            FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
-            filesJpg = selectedDirectory.listFiles(filterJpg);
-            openTitledPane();
+        FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
+        filesJpg = selectedDirectory.listFiles(filterJpg);
+        openTitledPane();
     }
 
     private void openTitledPane() {

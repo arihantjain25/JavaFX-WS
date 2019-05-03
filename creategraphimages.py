@@ -1,6 +1,11 @@
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+import os
+
+filelist = [ f for f in os.listdir('/home/arihant/IdeaProjects/JavaFX-WS/images/') ]
+for f in filelist:
+    os.remove(os.path.join('/home/arihant/IdeaProjects/JavaFX-WS/images/', f))
 
 f = open('queries.txt', 'r')
 strArr = f.read().split('!!!')
