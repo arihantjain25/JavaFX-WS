@@ -2,11 +2,16 @@ package gui;
 
 import autowebservices.database.DB;
 import autowebservices.datapull.SQLPull;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -15,6 +20,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.json.JSONArray;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -29,6 +36,11 @@ public class Controller {
     public Button connectdb;
     public TextArea jsonschema;
     public DB db;
+    File filesJpg[];
+    Image images[];
+    ImageView imageViews[];
+    BufferedImage bufferedImage[];
+    TitledPane titledPanes[];
 
     public void connectDatabase() throws IOException, SQLException {
         FileWriter fileWriter = new FileWriter("dbinfo.txt");
@@ -73,6 +85,47 @@ public class Controller {
     public void generateImages() throws IOException {
         ProcessBuilder builder = new ProcessBuilder("python", "pyscripts\\creategraphimages.py");
         Process p = builder.start();
+    }
+
+    private void openDirectoryChooser() {
+//        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = new File("");
+        if (selectedDirectory != null) {
+            FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
+            filesJpg = selectedDirectory.listFiles(filterJpg);
+            openTitledPane();
+        }
+    }
+
+    private void openTitledPane() {
+        int numOfJpg = filesJpg.length;
+        images = new Image[numOfJpg];
+        bufferedImage = new BufferedImage[numOfJpg];
+        imageViews = new ImageView[numOfJpg];
+        titledPanes = new TitledPane[numOfJpg];
+        for (int i = 0; i < numOfJpg; i++) {
+            try {
+                File file = filesJpg[i];
+                bufferedImage[i] = ImageIO.read(file);
+                images[i] = SwingFXUtils.toFXImage(bufferedImage[i], null);
+                imageViews[i] = new ImageView();
+                imageViews[i].setImage(images[i]);
+                imageViews[i].setFitWidth(400);
+                imageViews[i].setPreserveRatio(true);
+                imageViews[i].setSmooth(true);
+                imageViews[i].setCache(true);
+                titledPanes[i] = new TitledPane(String.valueOf(i), imageViews[i]);
+            } catch (IOException ignored) { }
+        }
+        Accordion accordion = new Accordion();
+        accordion.getPanes().addAll(titledPanes);
+        Stage titledPaneStage = new Stage();
+        titledPaneStage.setTitle("TitledPane");
+        Scene scene = new Scene(new Group(), 400, 400);
+        Group root = (Group) scene.getRoot();
+        root.getChildren().add(accordion);
+        titledPaneStage.setScene(scene);
+        titledPaneStage.show();
     }
 
     public void selectInput() throws FileNotFoundException, SQLException {
