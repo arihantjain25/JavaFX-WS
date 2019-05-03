@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -35,6 +36,7 @@ public class Controller {
     public AnchorPane anchorPane;
     public Button connectdb;
     public TextArea jsonschema;
+    public TitledPane titledPane;
     public DB db;
     File filesJpg[];
     Image images[];
@@ -112,7 +114,7 @@ public class Controller {
                 images[i] = SwingFXUtils.toFXImage(bufferedImage[i], null);
                 imageViews[i] = new ImageView();
                 imageViews[i].setImage(images[i]);
-                imageViews[i].setFitWidth(500);
+                imageViews[i].setFitWidth(365);
                 imageViews[i].setPreserveRatio(true);
                 imageViews[i].setSmooth(true);
                 imageViews[i].setCache(true);
@@ -122,13 +124,7 @@ public class Controller {
         }
         Accordion accordion = new Accordion();
         accordion.getPanes().addAll(titledPanes);
-        Stage titledPaneStage = new Stage();
-        titledPaneStage.setTitle("TitledPane");
-        Scene scene = new Scene(new Group(), 500, 500);
-        Group root = (Group) scene.getRoot();
-        root.getChildren().add(accordion);
-        titledPaneStage.setScene(scene);
-        titledPaneStage.show();
+        titledPane.setContent(accordion);
     }
 
     public void selectInput() throws FileNotFoundException, SQLException {
