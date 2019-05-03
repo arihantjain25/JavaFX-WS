@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
+import java.util.concurrent.TimeUnit;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -83,18 +83,20 @@ public class Controller {
     }
 
     public void generateImages() throws IOException {
-        ProcessBuilder builder = new ProcessBuilder("python", "pyscripts\\creategraphimages.py");
-        Process p = builder.start();
+        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/pyscripts/creategraphimages.py");
+//        ProcessBuilder builderwin = new ProcessBuilder("python", "pyscripts\\creategraphimages.py");
+        Process p = builderlinux.start();
+        try {
+            p.waitFor();
+        } catch (InterruptedException ignored) { }
+        openDirectoryChooser();
     }
 
     private void openDirectoryChooser() {
-//        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = new File("");
-        if (selectedDirectory != null) {
+        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images");
             FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
             filesJpg = selectedDirectory.listFiles(filterJpg);
             openTitledPane();
-        }
     }
 
     private void openTitledPane() {
@@ -110,18 +112,19 @@ public class Controller {
                 images[i] = SwingFXUtils.toFXImage(bufferedImage[i], null);
                 imageViews[i] = new ImageView();
                 imageViews[i].setImage(images[i]);
-                imageViews[i].setFitWidth(400);
+                imageViews[i].setFitWidth(500);
                 imageViews[i].setPreserveRatio(true);
                 imageViews[i].setSmooth(true);
                 imageViews[i].setCache(true);
                 titledPanes[i] = new TitledPane(String.valueOf(i), imageViews[i]);
-            } catch (IOException ignored) { }
+            } catch (IOException ignored) {
+            }
         }
         Accordion accordion = new Accordion();
         accordion.getPanes().addAll(titledPanes);
         Stage titledPaneStage = new Stage();
         titledPaneStage.setTitle("TitledPane");
-        Scene scene = new Scene(new Group(), 400, 400);
+        Scene scene = new Scene(new Group(), 500, 500);
         Group root = (Group) scene.getRoot();
         root.getChildren().add(accordion);
         titledPaneStage.setScene(scene);

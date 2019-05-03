@@ -18,6 +18,6 @@ for c in temp_column:
     df = pd.DataFrame({'from': from_column, 'to': to_column})
     G = nx.from_pandas_edgelist(df, 'from', 'to', create_using=nx.Graph())
     nx.draw(G, with_labels=True, node_size=1500)
-    plt.savefig('images/' + str(i) + '.png')
+    plt.savefig('/home/arihant/IdeaProjects/JavaFX-WS/images/' + str(i) + '.png')
     plt.clf()
     i = i + 1
