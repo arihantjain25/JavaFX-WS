@@ -159,7 +159,7 @@ public class SQLPull{
         }
     }
 
-    public void fillNested(String filePath, String[] fillArray, int count) {
+    public String fillNested(String filePath, String[] fillArray, int count) {
         int num = 0;
         String schema = readAllBytes(filePath);
         String[] fillObj = new String[count];
@@ -188,7 +188,7 @@ public class SQLPull{
         }
         finalOut.append("]");
         finalOut.deleteCharAt(finalOut.length() - 2);
-        System.out.println(finalOut);
+        return finalOut.toString();
     }
 
     public String fillObject(String schema, String[] fillObject) {

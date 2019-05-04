@@ -4,7 +4,6 @@ import autowebservices.database.DB;
 import autowebservices.datapull.SQLPull;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -36,7 +34,10 @@ public class Controller {
     public AnchorPane anchorPane;
     public Button connectdb;
     public TextArea jsonschema;
+    public TextField pathNumber;
     public TitledPane titledPane;
+    String finalQuery;
+    String finalOut;
     public DB db;
     File filesJpg[];
     Image images[];
@@ -85,17 +86,19 @@ public class Controller {
     }
 
     public void generateImages() throws IOException {
-        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
-//        ProcessBuilder builderwin = new ProcessBuilder("python", "creategraphimages.py");
-        Process p = builderlinux.start();
+//        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
+        ProcessBuilder builderwin = new ProcessBuilder("python", "creategraphimages.py");
+        Process p = builderwin.start();
         try {
             p.waitFor();
-        } catch (InterruptedException ignored) { }
+        } catch (InterruptedException ignored) {
+        }
         openDirectoryChooser();
     }
 
     private void openDirectoryChooser() {
-        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images");
+//        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images");
+        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
         openTitledPane();
@@ -127,14 +130,46 @@ public class Controller {
         titledPane.setContent(accordion);
     }
 
-    public void selectInput() throws FileNotFoundException, SQLException {
-        op("SELECT DISTINCT taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"\n" +
-                "FROM taxa \n" +
-                "LEFT JOIN taxavernaculars ON taxavernaculars.\"TID\" = taxa.\"TID\"\n" +
-                "LEFT JOIN tmtraittaxalink ON taxa.\"TID\" = tmtraittaxalink.\"tid\"\n" +
-                "LEFT JOIN users ON taxa.\"modifiedUid\" = users.\"uid\"\n" +
-                "LEFT JOIN tmtraits ON tmtraittaxalink.\"traitid\" = tmtraits.\"traitid\"\n" +
-                "ORDER BY taxavernaculars.\"VernacularName\", users.\"uid\", taxa.\"RankId\", tmtraits.\"traitid\"");
+    public void generateWebServices() {
+        String paths = pathNumber.getText();
+        String[] tempPath = paths.split(" ");
+        int[] path = new int[tempPath.length];
+        for (int i = 0; i < tempPath.length; i++)
+            path[i] = Integer.parseInt(tempPath[i]);
+        String[] temp2 = usingBufferedReader().split("!!!");
+        String[] pathQueries = new String[temp2.length / 3 + 1];
+        int j = 0;
+        for (int i = 0; i < temp2.length; i++) {
+            if (i % 3 == 0)
+                pathQueries[j++] = temp2[i];
+        }
+        StringBuilder result = new StringBuilder();
+        for (int value : path) {
+            if (result.toString().equals(""))
+                result.append(pathQueries[value]);
+            else result.append(" UNION \n").append(pathQueries[value]);
+        }
+        finalQuery = result.toString();
+        generateOutput();
+    }
+
+    public void generateOutput() {
+        try {
+            op(finalQuery);
+        } catch (SQLException | FileNotFoundException ignored) { }
+    }
+
+    public static String usingBufferedReader() {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader("queries.txt"))) {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return contentBuilder.toString();
     }
 
     public void op(String query) throws SQLException, FileNotFoundException {
@@ -151,6 +186,7 @@ public class Controller {
                 fillArray[i] = str.split("\":")[1].replace("}", "");
             }
         }
-        sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
+        finalOut = sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
+        System.out.println(finalOut);
     }
 }

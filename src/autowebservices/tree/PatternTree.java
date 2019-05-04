@@ -188,23 +188,8 @@ public class PatternTree {
             it.remove();
         }
         fileWriter.close();
-//        String[] temp2 = usingBufferedReader().split("!!!");
-//        for (String s : temp2)
-//            System.out.println(s);
     }
 
-    public static String usingBufferedReader() {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader("queries.txt"))) {
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                contentBuilder.append(sCurrentLine).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return contentBuilder.toString();
-    }
 
     public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());

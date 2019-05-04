@@ -14,9 +14,9 @@
     <TextArea layoutX="756.0" layoutY="65.0" prefHeight="614.0" prefWidth="384.0" />
     <Label layoutX="756.0" layoutY="25.0" text="JSON Output" />
     <Button layoutX="108.0" layoutY="734.0" mnemonicParsing="false" onAction="#generatePaths" text="Generate Paths" />
-    <Button layoutX="425.0" layoutY="734.0" mnemonicParsing="false" text="Generate Web Service" />
-    <Button layoutX="855.0" layoutY="734.0" mnemonicParsing="false" text="Save settings as" />
+    <Button layoutX="462.0" layoutY="734.0" mnemonicParsing="false" onAction="#generateWebServices" text="Generate Web Service" />
+    <Button layoutX="898.0" layoutY="734.0" mnemonicParsing="false" text="Save settings as" />
    <TitledPane fx:id="titledPane" layoutX="346.0" layoutY="65.0" prefHeight="614.0" prefWidth="365.0" />
-   <TextField layoutX="422.0" layoutY="708.0" />
-   <Label layoutX="443.0" layoutY="686.0" text="Enter Path numbers" />
+   <TextField fx:id="pathNumber" layoutX="454.0" layoutY="703.0" />
+   <Label layoutX="476.0" layoutY="686.0" text="Enter Path numbers" />
 </AnchorPane>
