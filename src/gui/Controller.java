@@ -131,7 +131,7 @@ public class Controller {
         titledPane.setContent(accordion);
     }
 
-    public void generateWebServices() {
+    public void showWebServices() {
         String paths = pathNumber.getText();
         String[] tempPath = paths.split(" ");
         int[] path = new int[tempPath.length];
@@ -177,6 +177,10 @@ public class Controller {
     public void showJson(String json) {
         jsonout.setEditable(false);
         jsonout.setText(json);
+    }
+
+    public void generateWebServices() {
+        System.out.println("add python script");
     }
 
     public void demoGenerator(String query) throws SQLException, IOException {
