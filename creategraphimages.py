@@ -9,7 +9,7 @@ filelist = [ f for f in os.listdir(path) ]
 for f in filelist:
     os.remove(os.path.join(path, f))
 
-f = open('queries.txt', 'r')
+f = open('generatedfiles/queries.txt', 'r')
 strArr = f.read().split('!!!')
 arr = [x.replace('\n', ' ') for x in strArr]
 temp_column = arr[1::3]
@@ -25,6 +25,6 @@ for c in temp_column:
     df = pd.DataFrame({'from': from_column, 'to': to_column})
     G = nx.from_pandas_edgelist(df, 'from', 'to', create_using=nx.Graph())
     nx.draw(G, with_labels=True, node_size=1500)
-    plt.savefig(path  + str(i) + '.png')
+    plt.savefig(path + str(i) + '.png')
     plt.clf()
     i = i + 1

@@ -143,7 +143,8 @@ public class Controller {
         for (int i = 0; i < temp2.length; i++) {
             if (i % 3 == 0)
                 pathQueries[j++] = temp2[i];
-        }        StringBuilder result = new StringBuilder();
+        }
+        StringBuilder result = new StringBuilder();
         for (int value : path) {
             if (result.toString().equals(""))
                 result.append(pathQueries[value]);
@@ -162,7 +163,7 @@ public class Controller {
     }
 
     public void prettifyJson() throws IOException {
-        //        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/prettyjson.py");
+//        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/prettyjson.py");
         ProcessBuilder builderwin = new ProcessBuilder("python", "prettyjson.py");
         Process p = builderwin.start();
         try {
@@ -170,19 +171,12 @@ public class Controller {
         } catch (InterruptedException ignored) {
         }
         String prettyJson = usingBufferedReader("generatedfiles/demooutput.txt");
-        System.out.println(prettyJson);
+        showJson(prettyJson);
     }
 
-    public static String usingBufferedReader(String fileName) {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                contentBuilder.append(sCurrentLine).append("\n");
-            }
-        } catch (IOException ignored) {
-        }
-        return contentBuilder.toString();
+    public void showJson(String json) {
+        jsonout.setEditable(false);
+        jsonout.setText(json);
     }
 
     public void demoGenerator(String query) throws SQLException, IOException {
@@ -203,5 +197,17 @@ public class Controller {
         FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
         fileWriter.write(finalOut);
         fileWriter.close();
+    }
+
+    public static String usingBufferedReader(String fileName) {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        } catch (IOException ignored) {
+        }
+        return contentBuilder.toString();
     }
 }
