@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -48,7 +47,7 @@ public class Controller {
     TitledPane titledPanes[];
 
     public void connectDatabase() throws IOException, SQLException {
-        FileWriter fileWriter = new FileWriter("dbinfo.txt");
+        FileWriter fileWriter = new FileWriter("generatedfiles/dbinfo.txt");
         String url = "jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/" + "!" + dbname.getText() + "!" + dbuser.getText() + "!" + dbpass.getText();
         fileWriter.write(url);
         fileWriter.close();
@@ -57,7 +56,7 @@ public class Controller {
     }
 
     public DB establishConnection() throws FileNotFoundException, SQLException {
-        File file = new File("dbinfo.txt");
+        File file = new File("generatedfiles/dbinfo.txt");
         Scanner sc = new Scanner(file);
         String[] dbinfo = sc.nextLine().split("!");
         return new DB(dbinfo[0], dbinfo[1], dbinfo[2], dbinfo[3]);
@@ -76,7 +75,7 @@ public class Controller {
     public void generatePaths() throws SQLException, IOException {
         db = establishConnection();
         String jschema = jsonschema.getText();
-        FileWriter fileWriter = new FileWriter("schema.json");
+        FileWriter fileWriter = new FileWriter("generatedfiles/schema.json");
         fileWriter.write(jschema);
         fileWriter.close();
         CharStream charStream = CharStreams.fromString(jschema);
@@ -138,14 +137,13 @@ public class Controller {
         int[] path = new int[tempPath.length];
         for (int i = 0; i < tempPath.length; i++)
             path[i] = Integer.parseInt(tempPath[i]);
-        String[] temp2 = usingBufferedReader().split("!!!");
+        String[] temp2 = usingBufferedReader("generatedfiles/queries.txt").split("!!!");
         String[] pathQueries = new String[temp2.length / 3 + 1];
         int j = 0;
         for (int i = 0; i < temp2.length; i++) {
             if (i % 3 == 0)
                 pathQueries[j++] = temp2[i];
-        }
-        StringBuilder result = new StringBuilder();
+        }        StringBuilder result = new StringBuilder();
         for (int value : path) {
             if (result.toString().equals(""))
                 result.append(pathQueries[value]);
@@ -159,7 +157,8 @@ public class Controller {
         try {
             demoGenerator(finalQuery);
             prettifyJson();
-        } catch (SQLException | IOException ignored) { }
+        } catch (SQLException | IOException ignored) {
+        }
     }
 
     public void prettifyJson() throws IOException {
@@ -168,22 +167,26 @@ public class Controller {
         Process p = builderwin.start();
         try {
             p.waitFor();
-        } catch (InterruptedException ignored) { }
+        } catch (InterruptedException ignored) {
+        }
+        String prettyJson = usingBufferedReader("generatedfiles/demooutput.txt");
+        System.out.println(prettyJson);
     }
 
-    public static String usingBufferedReader() {
+    public static String usingBufferedReader(String fileName) {
         StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader("queries.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
             }
-        } catch (IOException ignored) { }
+        } catch (IOException ignored) {
+        }
         return contentBuilder.toString();
     }
 
     public void demoGenerator(String query) throws SQLException, IOException {
-        String filePath = "schema.json";
+        String filePath = "generatedfiles/schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
         JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
@@ -197,7 +200,7 @@ public class Controller {
             }
         }
         finalOut = sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
-        FileWriter fileWriter = new FileWriter("demooutput.txt");
+        FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
         fileWriter.write(finalOut);
         fileWriter.close();
     }

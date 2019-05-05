@@ -180,7 +180,7 @@ public class PatternTree {
             queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumber(query));
         }
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
-        FileWriter fileWriter = new FileWriter("queries.txt");
+        FileWriter fileWriter = new FileWriter("generatedfiles/queries.txt");
         Iterator it = temp.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
