@@ -11,7 +11,7 @@
     <TextArea fx:id="jsonschema" layoutX="17.0" layoutY="65.0" prefHeight="614.0" prefWidth="302.0" text="{&#10;  &quot;vernacular_name&quot;: &quot;VernacularName&quot;,&#10;  &quot;source&quot;: &quot;uid&quot;,&#10;  &quot;users&quot;: {&#10;    &quot;rank_id&quot;: &quot;RankId&quot;&#10;  },&#10;  &quot;count&quot;: {&#10;    &quot;url&quot;: &quot;traitid&quot;&#10;  }&#10;}" />
     <Label layoutX="20.0" layoutY="25.0" text="Enter the JSON Schema" />
     <Label layoutX="357.0" layoutY="25.0" text="Select Path(s)" />
-    <TextArea layoutX="756.0" layoutY="65.0" prefHeight="614.0" prefWidth="384.0" />
+    <TextArea fx:id="jsonout" layoutX="756.0" layoutY="65.0" prefHeight="614.0" prefWidth="384.0" />
     <Label layoutX="756.0" layoutY="25.0" text="JSON Output" />
     <Button layoutX="108.0" layoutY="734.0" mnemonicParsing="false" onAction="#generatePaths" text="Generate Paths" />
     <Button layoutX="462.0" layoutY="734.0" mnemonicParsing="false" onAction="#generateWebServices" text="Generate Web Service" />

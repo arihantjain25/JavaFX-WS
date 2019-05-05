@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="add tilted panes">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="to display output">
+      <change afterPath="$PROJECT_DIR$/prettyjson.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/antlr_4_7_1_complete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/antlr_4_7_1_complete.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/creategraphimages.py" beforeDir="false" afterPath="$PROJECT_DIR$/creategraphimages.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gs-core-1.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gs-ui-1.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jgrapht-core-1.3.0.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gui/main.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/main.fxml" afterDir="false" />
     </list>
@@ -67,26 +72,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gui/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-              <folding>
-                <element signature="e#677#678#0" expanded="true" />
-                <element signature="e#712#713#0" expanded="true" />
-                <element signature="e#758#759#0" expanded="true" />
-                <element signature="e#786#787#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gui/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-206">
-              <caret line="152" selection-start-line="152" selection-end-line="152" />
+            <state relative-caret-position="423">
+              <caret line="156" lean-forward="true" selection-start-line="156" selection-end-line="156" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -95,19 +85,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
+        <entry file="file://$PROJECT_DIR$/creategraphimages.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="190" selection-start-line="190" selection-end-line="190" />
+            <state relative-caret-position="340">
+              <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
+        <entry file="file://$PROJECT_DIR$/prettyjson.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="190" selection-start-line="190" selection-end-line="190" />
+            <state relative-caret-position="170">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -126,8 +119,8 @@
         <entry file="file://$PROJECT_DIR$/src/gui/main.fxml">
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="10" selection-start-column="10" selection-end-column="10" />
+            <state relative-caret-position="374">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
@@ -139,6 +132,7 @@
       <list>
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -147,6 +141,7 @@
       <find>catch</find>
       <find>out.txt</find>
       <find>buffer</find>
+      <find>getPrimaryStage</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Arihant Jain\IdeaProjects\JavaFX-WS</dir>
@@ -182,11 +177,13 @@
         <option value="$PROJECT_DIR$/src/autowebservices/database/DB.java" />
         <option value="$PROJECT_DIR$/out.txt" />
         <option value="$PROJECT_DIR$/pyscripts/creategraphimages.py" />
+        <option value="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" />
+        <option value="$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java" />
         <option value="$PROJECT_DIR$/src/gui/Main.java" />
         <option value="$PROJECT_DIR$/src/gui/main.fxml" />
-        <option value="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" />
+        <option value="$PROJECT_DIR$/creategraphimages.py" />
+        <option value="$PROJECT_DIR$/prettyjson.py" />
         <option value="$PROJECT_DIR$/src/gui/Controller.java" />
-        <option value="$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java" />
       </list>
     </option>
   </component>
@@ -206,7 +203,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -218,6 +214,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -232,7 +229,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/gson-2.8.2.jar!/" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -241,6 +238,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Arihant Jain\IdeaProjects\JavaFX-WS\images" />
+      <recent name="C:\Users\Arihant Jain\IdeaProjects\JavaFX-WS\lib" />
       <recent name="C:\Users\Arihant Jain\IdeaProjects\JavaFX-WS\pyscripts" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -379,7 +378,10 @@
       <workItem from="1556239937467" duration="1021000" />
       <workItem from="1556663058608" duration="2638000" />
       <workItem from="1556670200711" duration="11136000" />
-      <workItem from="1556782034730" duration="16687000" />
+      <workItem from="1556782034730" duration="17616000" />
+      <workItem from="1556995783539" duration="1367000" />
+      <workItem from="1557018331118" duration="2098000" />
+      <workItem from="1557020842607" duration="6252000" />
     </task>
     <task id="LOCAL-00001" summary="to fix error stack trace">
       <created>1554773642977</created>
@@ -458,17 +460,24 @@
       <option name="project" value="LOCAL" />
       <updated>1556898979220</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="to display output">
+      <created>1556969884731</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1556969884731</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89249000" />
+    <option name="totallyTimeSpent" value="99895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.14285715" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.14765458" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Palette&#9;" order="3" />
@@ -477,7 +486,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32394367" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32394367" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39937353" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -560,7 +569,8 @@
     <MESSAGE value="remove path dependency" />
     <MESSAGE value="add graph images" />
     <MESSAGE value="add tilted panes" />
-    <option name="LAST_COMMIT_MESSAGE" value="add tilted panes" />
+    <MESSAGE value="to display output" />
+    <option name="LAST_COMMIT_MESSAGE" value="to display output" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -581,9 +591,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/ResultGenerator.java" />
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/Main.java" />
-    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/ext/jfxrt.jar!/javafx/application/Application.class" />
     <entry file="file://$PROJECT_DIR$/test/Test1.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -713,20 +720,23 @@
     <entry file="file://$PROJECT_DIR$/pyscripts/0.png" />
     <entry file="file://$PROJECT_DIR$/pyscripts/1.png" />
     <entry file="file://$PROJECT_DIR$/pyscripts/2.png" />
-    <entry file="file://$PROJECT_DIR$/0.png" />
-    <entry file="file://$PROJECT_DIR$/2.png" />
-    <entry file="file://$PROJECT_DIR$/1.png" />
+    <entry file="file://$PROJECT_DIR$/images/0.png" />
+    <entry file="file://$PROJECT_DIR$/images/2.png" />
+    <entry file="file://$PROJECT_DIR$/images/1.png" />
     <entry file="file://$PROJECT_DIR$/out.txt" />
-    <entry file="file://$PROJECT_DIR$/pyscripts/queries.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyscripts/creategraphimages.py">
+    <entry file="file://$PROJECT_DIR$/pyscripts/queries.txt" />
+    <entry file="file://$PROJECT_DIR$/pyscripts/creategraphimages.py" />
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="3009">
+          <caret line="190" selection-start-line="190" selection-end-line="190" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2754">
+          <caret line="190" selection-start-line="190" selection-end-line="190" />
         </state>
       </provider>
     </entry>
@@ -741,16 +751,17 @@
     <entry file="file://$PROJECT_DIR$/src/gui/main.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="10" selection-start-column="10" selection-end-column="10" />
+        <state relative-caret-position="374">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="474">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#677#678#0" expanded="true" />
             <element signature="e#712#713#0" expanded="true" />
             <element signature="e#758#759#0" expanded="true" />
@@ -759,24 +770,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
+    <entry file="file://$PROJECT_DIR$/demooutput.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="190" selection-start-line="190" selection-end-line="190" />
+        <state relative-caret-position="357">
+          <caret line="21" column="1" lean-forward="true" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
+    <entry file="file://$PROJECT_DIR$/prettyjson.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="190" selection-start-line="190" selection-end-line="190" />
+        <state relative-caret-position="170">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/creategraphimages.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="37" lean-forward="true" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-206">
-          <caret line="152" selection-start-line="152" selection-end-line="152" />
+        <state relative-caret-position="423">
+          <caret line="156" lean-forward="true" selection-start-line="156" selection-end-line="156" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -834,7 +855,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Events</last-edited>
+          <last-edited>JavaFX-WS</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

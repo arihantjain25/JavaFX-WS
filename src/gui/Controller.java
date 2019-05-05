@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -36,6 +37,7 @@ public class Controller {
     public TextArea jsonschema;
     public TextField pathNumber;
     public TitledPane titledPane;
+    public TextArea jsonout;
     String finalQuery;
     String finalOut;
     public DB db;
@@ -98,7 +100,7 @@ public class Controller {
 
     private void openDirectoryChooser() {
 //        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images");
-        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images");
+        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
         openTitledPane();
@@ -155,8 +157,18 @@ public class Controller {
 
     public void generateOutput() {
         try {
-            op(finalQuery);
-        } catch (SQLException | FileNotFoundException ignored) { }
+            demoGenerator(finalQuery);
+            prettifyJson();
+        } catch (SQLException | IOException ignored) { }
+    }
+
+    public void prettifyJson() throws IOException {
+        //        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/prettyjson.py");
+        ProcessBuilder builderwin = new ProcessBuilder("python", "prettyjson.py");
+        Process p = builderwin.start();
+        try {
+            p.waitFor();
+        } catch (InterruptedException ignored) { }
     }
 
     public static String usingBufferedReader() {
@@ -166,13 +178,11 @@ public class Controller {
             while ((sCurrentLine = br.readLine()) != null) {
                 contentBuilder.append(sCurrentLine).append("\n");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) { }
         return contentBuilder.toString();
     }
 
-    public void op(String query) throws SQLException, FileNotFoundException {
+    public void demoGenerator(String query) throws SQLException, IOException {
         String filePath = "schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
@@ -187,6 +197,8 @@ public class Controller {
             }
         }
         finalOut = sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
-        System.out.println(finalOut);
+        FileWriter fileWriter = new FileWriter("demooutput.txt");
+        fileWriter.write(finalOut);
+        fileWriter.close();
     }
 }

@@ -10,6 +10,10 @@
           <option value="pyscripts.creategraphimages.matplotlib" />
           <option value="networkx" />
           <option value="pyscripts.creategraphimages.str" />
+          <option value="json" />
+          <option value="os" />
+          <option value="creategraphimages.*" />
+          <option value="prettyjson.*" />
         </list>
       </option>
     </inspection_tool>
