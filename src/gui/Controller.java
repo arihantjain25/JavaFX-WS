@@ -180,6 +180,40 @@ public class Controller {
         jsonout.setText(json);
     }
 
+    public void demoGenerator(String query) throws SQLException, IOException {
+        String filePath = "generatedfiles/schema.json";
+        db = establishConnection();
+        SQLPull sqlPull = new SQLPull();
+        JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
+        String[] fillArray = new String[jsonArray.length()];
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String str = jsonArray.get(i).toString();
+            if (jsonArray.get(i).toString().equals("{}")) {
+                fillArray[i] = "null";
+            } else {
+                fillArray[i] = str.split("\":")[1].replace("}", "");
+            }
+        }
+        finalOut = sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
+        FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
+        fileWriter.write(finalOut);
+        fileWriter.close();
+        newSchema = sqlPull.generateFillableSchema(filePath).toString();
+        System.out.println();
+    }
+
+    public static String usingBufferedReader(String fileName) {
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                contentBuilder.append(sCurrentLine).append("\n");
+            }
+        } catch (IOException ignored) {
+        }
+        return contentBuilder.toString();
+    }
+
     public void generateWebServices() {
         File file = new File("generatedfiles/dbinfo.txt");
         Scanner sc = null;
@@ -230,39 +264,13 @@ public class Controller {
                 "if __name__ == '__main__':\n" +
                 "    app.run()\n";
         System.out.println(py_ws);
-    }
-
-    public void demoGenerator(String query) throws SQLException, IOException {
-        String filePath = "generatedfiles/schema.json";
-        db = establishConnection();
-        SQLPull sqlPull = new SQLPull();
-        JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
-        String[] fillArray = new String[jsonArray.length()];
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String str = jsonArray.get(i).toString();
-            if (jsonArray.get(i).toString().equals("{}")) {
-                fillArray[i] = "null";
-            } else {
-                fillArray[i] = str.split("\":")[1].replace("}", "");
-            }
-        }
-        finalOut = sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
-        FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
-        fileWriter.write(finalOut);
-        fileWriter.close();
-        newSchema = sqlPull.generateFillableSchema(filePath).toString();
-        System.out.println();
-    }
-
-    public static String usingBufferedReader(String fileName) {
-        StringBuilder contentBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                contentBuilder.append(sCurrentLine).append("\n");
-            }
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter("webservice.py");
+            fileWriter.write(py_ws);
+            fileWriter.close();
         } catch (IOException ignored) {
         }
-        return contentBuilder.toString();
+
     }
 }
