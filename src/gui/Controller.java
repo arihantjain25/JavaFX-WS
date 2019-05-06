@@ -99,7 +99,7 @@ public class Controller {
     }
 
     private void openDirectoryChooser() {
-        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images");
+        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/");
 //        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
@@ -164,9 +164,8 @@ public class Controller {
     }
 
     public void prettifyJson() throws IOException {
-//        ProcessBuilder builderlinux = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/prettyjson.py");
-        ProcessBuilder builderwin = new ProcessBuilder("python", "prettyjson.py");
-        Process p = builderwin.start();
+        ProcessBuilder builder = new ProcessBuilder("python", "prettyjson.py");
+        Process p = builder.start();
         try {
             p.waitFor();
         } catch (InterruptedException ignored) {
