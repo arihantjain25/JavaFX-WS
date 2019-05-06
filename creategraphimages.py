@@ -5,6 +5,7 @@ import os
 
 # directory = r'C:\Users\Arihant Jain\IdeaProjects\JavaFX-WS\images'
 directory =  '/home/arihant/IdeaProjects/JavaFX-WS/images/'
+os.makedirs(os.path.dirname(directory), exist_ok=True)
 filelist = [ f for f in os.listdir(directory) ]
 for f in filelist:
     os.remove(os.path.join(directory, f))
