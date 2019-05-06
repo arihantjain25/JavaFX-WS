@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Controller {
@@ -103,6 +104,9 @@ public class Controller {
 //        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
+        if (filesJpg != null) {
+            Arrays.sort(filesJpg);
+        }
         openTitledPane();
     }
 
@@ -224,17 +228,18 @@ public class Controller {
         if (sc != null) {
             dbinfo = sc.nextLine().split("!");
         }
+        String[] temp_host_port = dbinfo[0].split("//")[1].split(":");
         String py_ws = "from flask import Flask\n" +
                 "import psycopg2\n" +
                 "import json\n" +
                 "\n" +
                 "app = Flask(__name__)\n" +
                 "\n" +
-                "host = '" + "localhost" + "' \n" +
+                "host = '" + temp_host_port[0] + "' \n" +
                 "database = '" + dbinfo[1] + "' \n" +
                 "user = '" + dbinfo[2] + "' \n" +
                 "password = '" + dbinfo[3] + "' \n" +
-                "port = '" + "5432" + "' \n" +
+                "port = '" + temp_host_port[1].split("/")[0] + "' \n" +
                 "query = '''" + finalQuery + "''' \n" +
                 "json_schema = '''" + newSchema + "''' \n" +
                 "@app.route('/')\n" +
