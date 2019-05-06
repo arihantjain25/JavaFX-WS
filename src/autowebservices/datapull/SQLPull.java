@@ -160,23 +160,9 @@ public class SQLPull{
     }
 
     public String fillNested(String filePath, String[] fillArray, int count) {
+        StringBuilder newSchema = generateFillableSchema(filePath);
         int num = 0;
-        String schema = readAllBytes(filePath);
         String[] fillObj = new String[count];
-        schema = schema.replaceAll("\\s+", "");
-        String[] str = schema.split("");
-        for (int i = 0; i < str.length; i++) {
-            if (str[i].equals("\"") && str[i - 1].equals(":")) {
-                if (str[i - 2].equals("\"")) {
-                    i++;
-                    while (!str[i].equals("\"")) {
-                        str[i++] = "";
-                    }
-                }
-            }
-        }
-        StringBuilder newSchema = new StringBuilder();
-        for (String s : str) newSchema.append(s);
         StringBuilder finalOut = new StringBuilder();
         finalOut.append("[");
         for (int i = 0; i < fillArray.length; i++) {
@@ -195,5 +181,24 @@ public class SQLPull{
         for (String s:fillObject)
             schema = schema.replaceFirst("\"\"", s);
         return schema;
+    }
+
+    public StringBuilder generateFillableSchema(String filePath) {
+        String schema = readAllBytes(filePath);
+        schema = schema.replaceAll("\\s+", "");
+        String[] str = schema.split("");
+        for (int i = 0; i < str.length; i++) {
+            if (str[i].equals("\"") && str[i - 1].equals(":")) {
+                if (str[i - 2].equals("\"")) {
+                    i++;
+                    while (!str[i].equals("\"")) {
+                        str[i++] = "";
+                    }
+                }
+            }
+        }
+        StringBuilder newSchema = new StringBuilder();
+        for (String s : str) newSchema.append(s);
+        return newSchema;
     }
 }

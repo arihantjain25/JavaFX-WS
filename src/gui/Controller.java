@@ -39,6 +39,7 @@ public class Controller {
     public TextArea jsonout;
     String finalQuery;
     String finalOut;
+    String newSchema;
     public DB db;
     File filesJpg[];
     Image images[];
@@ -180,7 +181,55 @@ public class Controller {
     }
 
     public void generateWebServices() {
-        System.out.println("add python script");
+        File file = new File("generatedfiles/dbinfo.txt");
+        Scanner sc = null;
+        try {
+            sc = new Scanner(file);
+        } catch (FileNotFoundException ignored) {
+        }
+        String[] dbinfo = new String[0];
+        if (sc != null) {
+            dbinfo = sc.nextLine().split("!");
+        }
+        String py_ws = "from flask import Flask\n" +
+                "import psycopg2\n" +
+                "import json\n" +
+                "\n" +
+                "app = Flask(__name__)\n" +
+                "\n" +
+                "host = '" + "localhost" + "' \n" +
+                "database = '" + dbinfo[1] + "' \n" +
+                "user = '" + dbinfo[2] + "' \n" +
+                "password = '" + dbinfo[3] + "' \n" +
+                "port = '" + "5432" + "' \n" +
+                "query = '''" + finalQuery + "''' \n" +
+                "json_schema = '''" + newSchema + "''' \n" +
+                "@app.route('/')\n" +
+                "def hello_world():\n" +
+                "    conn = psycopg2.connect(host=host, database=database, user=user, password=password, port=port)\n" +
+                "    cur = conn.cursor()\n" +
+                "    cur.execute(query)\n" +
+                "    result = cur.fetchall()\n" +
+                "    ugly_json = '['\n" +
+                "    for row in result:\n" +
+                "        temp = json_schema\n" +
+                "        for r in row:\n" +
+                "            if r is None:\n" +
+                "                temp = temp.replace('\"\"', 'null', 1)\n" +
+                "            else:\n" +
+                "                temp = temp.replace('\"\"', '\"' + str(r) + '\"', 1)\n" +
+                "        ugly_json = ugly_json + temp + ','\n" +
+                "\n" +
+                "    ugly_json = ugly_json[:-1]\n" +
+                "    ugly_json = ugly_json + ']'\n" +
+                "    parsed = json.loads(ugly_json)\n" +
+                "    pretty_json = json.dumps(parsed, indent=2)\n" +
+                "    return pretty_json\n" +
+                "\n" +
+                "\n" +
+                "if __name__ == '__main__':\n" +
+                "    app.run()\n";
+        System.out.println(py_ws);
     }
 
     public void demoGenerator(String query) throws SQLException, IOException {
@@ -201,6 +250,8 @@ public class Controller {
         FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
         fileWriter.write(finalOut);
         fileWriter.close();
+        newSchema = sqlPull.generateFillableSchema(filePath).toString();
+        System.out.println();
     }
 
     public static String usingBufferedReader(String fileName) {
