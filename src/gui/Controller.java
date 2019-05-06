@@ -4,6 +4,7 @@ import autowebservices.database.DB;
 import autowebservices.datapull.SQLPull;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,6 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -38,6 +42,7 @@ public class Controller {
     public TextField pathNumber;
     public TitledPane titledPane;
     public TextArea jsonout;
+    public Button generatews;
     String finalQuery;
     String finalOut;
     String newSchema;
@@ -267,11 +272,33 @@ public class Controller {
                 "\n" +
                 "if __name__ == '__main__':\n" +
                 "    app.run()\n";
-        System.out.println(py_ws);
-        FileWriter fileWriter = null;
+        Group root = new Group();
+        Stage stage = new Stage();
+        Button savews = new Button();
+        Text text = new Text();
+        text.setText(py_ws);
+        savews.setText("Save file as");
+        savews.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(".py files", "*.PY");
+            fileChooser.getExtensionFilters().add(extFilter);
+            File file1 = fileChooser.showSaveDialog(stage);
+            if (file1 != null) {
+                SaveFile(py_ws, file1);
+            }
+        });
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(text, savews);
+        root.getChildren().add(vBox);
+        stage.setScene(new Scene(root, 800, 750));
+        stage.show();
+    }
+
+    private void SaveFile(String content, File file) {
         try {
-            fileWriter = new FileWriter("webservice.py");
-            fileWriter.write(py_ws);
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(file.getAbsolutePath() + ".py");
+            fileWriter.write(content);
             fileWriter.close();
         } catch (IOException ignored) {
         }

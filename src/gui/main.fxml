@@ -15,7 +15,7 @@
     <Label layoutX="756.0" layoutY="25.0" text="JSON Output" />
     <Button layoutX="108.0" layoutY="734.0" mnemonicParsing="false" onAction="#generatePaths" text="Generate Paths" />
     <Button layoutX="462.0" layoutY="734.0" mnemonicParsing="false" onAction="#showWebServices" text="Show Web Service" />
-    <Button layoutX="898.0" layoutY="734.0" mnemonicParsing="false" onAction="#generateWebServices" text="Generate Web Service" />
+    <Button fx:id="generatews" layoutX="898.0" layoutY="734.0" mnemonicParsing="false" onAction="#generateWebServices" text="Generate Web Service" />
    <TitledPane fx:id="titledPane" layoutX="346.0" layoutY="65.0" prefHeight="614.0" prefWidth="365.0" />
    <TextField fx:id="pathNumber" layoutX="454.0" layoutY="703.0" />
    <Label layoutX="476.0" layoutY="686.0" text="Enter Path numbers" />
