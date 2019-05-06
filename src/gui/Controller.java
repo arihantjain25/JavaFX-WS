@@ -105,8 +105,8 @@ public class Controller {
     }
 
     private void openDirectoryChooser() {
-        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/");
-//        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\");
+        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images/");
+//        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
         if (filesJpg != null) {
@@ -274,11 +274,12 @@ public class Controller {
                 "    app.run()\n";
         Group root = new Group();
         Stage stage = new Stage();
-        Button savews = new Button();
+        stage.setTitle("Generated Web Service");
+        Button save_ws = new Button();
         Text text = new Text();
         text.setText(py_ws);
-        savews.setText("Save file as");
-        savews.setOnAction(event -> {
+        save_ws.setText("Save file as");
+        save_ws.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(".py files", "*.PY");
             fileChooser.getExtensionFilters().add(extFilter);
@@ -288,7 +289,7 @@ public class Controller {
             }
         });
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(text, savews);
+        vBox.getChildren().addAll(text, save_ws);
         root.getChildren().add(vBox);
         stage.setScene(new Scene(root, 800, 750));
         stage.show();
@@ -302,6 +303,5 @@ public class Controller {
             fileWriter.close();
         } catch (IOException ignored) {
         }
-
     }
 }
