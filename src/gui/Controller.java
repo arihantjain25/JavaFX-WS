@@ -279,6 +279,7 @@ public class Controller {
         Button save_ws = new Button();
         TextArea textArea = new TextArea();
         textArea.setEditable(false);
+        textArea.setMinSize(800, 725);
         textArea.setText(py_ws);
         save_ws.setText("Save file as");
         save_ws.setOnAction(event -> {
