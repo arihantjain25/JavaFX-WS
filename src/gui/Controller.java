@@ -147,19 +147,21 @@ public class Controller {
         for (int i = 0; i < tempPath.length; i++)
             path[i] = Integer.parseInt(tempPath[i]);
         String[] temp2 = usingBufferedReader("generatedfiles/queries.txt").split("!!!");
-        String[] pathQueries = new String[temp2.length / 3 + 1];
+        String[] pathQueries = new String[(temp2.length - 1) / 3 + 1];
         int j = 0;
-        for (int i = 0; i < temp2.length; i++) {
+        for (int i = 0; i < temp2.length - 1; i++) {
             if (i % 3 == 0)
                 pathQueries[j++] = temp2[i];
         }
         StringBuilder result = new StringBuilder();
         for (int value : path) {
             if (result.toString().equals(""))
-                result.append(pathQueries[value]);
-            else result.append(" UNION \n").append(pathQueries[value]);
+                result.append(pathQueries[value].split("ORDER BY")[0]);
+            else result.append(" UNION \n").append(pathQueries[value].split("ORDER BY")[0]);
         }
+        result.append(temp2[temp2.length - 1]);
         finalQuery = result.toString();
+        System.out.println(finalQuery);
         generateOutput();
     }
 
@@ -275,8 +277,9 @@ public class Controller {
         Stage stage = new Stage();
         stage.setTitle("Generated Web Service");
         Button save_ws = new Button();
-        Text text = new Text();
-        text.setText(py_ws);
+        TextArea textArea = new TextArea();
+        textArea.setEditable(false);
+        textArea.setText(py_ws);
         save_ws.setText("Save file as");
         save_ws.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
@@ -288,7 +291,7 @@ public class Controller {
             }
         });
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(text, save_ws);
+        vBox.getChildren().addAll(textArea, save_ws);
         root.getChildren().add(vBox);
         stage.setScene(new Scene(root, 800, 750));
         stage.show();

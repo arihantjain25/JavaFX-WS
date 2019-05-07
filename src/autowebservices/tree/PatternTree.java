@@ -171,7 +171,8 @@ public class PatternTree {
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumber(query));
             }
         }
-
+        String queryorderby = "";
+        boolean flag = true;
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
             List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
@@ -179,7 +180,10 @@ public class PatternTree {
             for (ForeignKey foreignKey : arrayList1)
                 addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
             String query = sqlPull.generateRowsQuery(joinGraph, set, listColumns().toString(), listTables());
-            System.out.println(query.split("EXPLAIN ")[1]);
+            if (flag) {
+                queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
+                flag = false;
+            }
             queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumber(query));
         }
 
@@ -192,6 +196,14 @@ public class PatternTree {
             fileWriter.write((pair.getKey() + "!!!" + pair.getValue()) + "!!!");
             it.remove();
         }
+
+        String[] tempOrderBy = queryorderby.split("\"");
+        StringBuilder orderby = new StringBuilder("ORDER BY ");
+
+        for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
+            orderby.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
+        orderby.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
+        fileWriter.write(orderby.toString());
         fileWriter.close();
     }
 
