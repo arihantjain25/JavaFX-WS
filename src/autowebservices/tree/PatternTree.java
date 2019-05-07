@@ -17,9 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-//import autowebservices.output.json.ArrayFormatter;
-//import autowebservices.output.json.ObjFormatter;
-//import autowebservices.output.json.PairFormatter;
 
 /**
  * This class represents a pattern tree. A pattern tree is constructed when a
@@ -111,10 +108,6 @@ public class PatternTree {
             children = new ArrayList<>(3);
         }
         children.add(t);
-    }
-
-    public String getValue() {
-        return value;
     }
 
     public List<String> listTables() {
@@ -334,46 +327,4 @@ public class PatternTree {
     public int parseQueryOutput(String row) {
         return Integer.parseInt(row.split(" ")[3].split("=")[1]);
     }
-
-    public List<PatternTree> getChildren() {
-        return children;
-    }
-
-    public String formatResult() {
-        String result = "";
-        if (children != null) {
-        }
-        return result;
-    }
-
-    public void testRanking() {
-        HashMap<Integer, Integer> hashMap = new HashMap<>();
-        hashMap.put(0, 120);
-        hashMap.put(1, 7);
-        hashMap.put(2, 4000);
-        hashMap.put(3, 55);
-        ArrayList<Integer> arrayList = getRanking(hashMap);
-        System.out.println(arrayList.get(0));
-        for (Integer i : arrayList) {
-            System.err.println(hashMap.get(i) + "       " + i);
-        }
-    }
 }
-
-//    public List<Formatter> buildFormatter(Formatter parent) {
-//        List<Formatter> result = new ArrayList<>();
-//        if (treeType == pairType) {
-//            result.add(new PairFormatter(parent, label));
-//        } else if (treeType == objType) {
-//            result.add(new ObjFormatter(parent));
-//        } else {
-//            result.add(new ArrayFormatter(parent));
-//        }
-//        if (hasChildren()) {
-//            for (PatternTree child : children) {
-//                result.addAll(child.buildFormatter(result.get(result.size())));
-//            }
-//        }
-//
-//        return result;
-//    }
