@@ -19,17 +19,21 @@ import java.util.*;
 /**
  * @author Curtis Dyreson
  */
-public class SQLPull{
+public class SQLPull {
 
     public String generateQuery(Graph graph, Set<ForeignKey> result, String columns, List<String> tableList) {
         Set<String> tablesSet = new HashSet();
-        for (ForeignKey fk : result) {
-            tablesSet.add(fk.getFromTable());
-            tablesSet.add(fk.getToTable());
+        if (result != null) {
+            for (ForeignKey fk : result) {
+                tablesSet.add(fk.getFromTable());
+                tablesSet.add(fk.getToTable());
+            }
         }
+
         for (String table : tableList) {
             tablesSet.add(table);
         }
+
         String tables = tablesSet.toString();
         tables = tables.replace("[", "");
         tables = tables.replace("]", "");
@@ -45,15 +49,18 @@ public class SQLPull{
         HashSet<String> uniqueFkConditions = new HashSet<>();
         String leftjoin = "FROM " + tableArr[0] + " ";
 
-        for (ForeignKey fk : result) {
-            ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(fk.generateJoinCondition().split("=")[0].replaceAll(" ", ""));
-            arrayList.add(fk.generateJoinCondition().split("=")[1].replaceAll(" ", ""));
-            Collections.sort(arrayList);
-            if (uniqueFkConditions.add(arrayList.toString())) {
-                listOfUniqueFkConditions.add(fk.generateJoinCondition());
+        if (result != null) {
+            for (ForeignKey fk : result) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add(fk.generateJoinCondition().split("=")[0].replaceAll(" ", ""));
+                arrayList.add(fk.generateJoinCondition().split("=")[1].replaceAll(" ", ""));
+                Collections.sort(arrayList);
+                if (uniqueFkConditions.add(arrayList.toString())) {
+                    listOfUniqueFkConditions.add(fk.generateJoinCondition());
+                }
             }
         }
+
         while (listOfUniqueFkConditions.size() != 0) {
             leftjoin += "\n";
             String fkCondition = addNextCondition(tableCanBeUsed, listOfUniqueFkConditions);
@@ -82,6 +89,7 @@ public class SQLPull{
                 tableCanBeUsed.add(str);
             }
         }
+
         if (!leftOutTables.equals(""))
             leftjoin = "FROM " + leftOutTables + leftjoin.split("FROM ")[1];
 
@@ -178,7 +186,7 @@ public class SQLPull{
     }
 
     public String fillObject(String schema, String[] fillObject) {
-        for (String s:fillObject)
+        for (String s : fillObject)
             schema = schema.replaceFirst("\"\"", s);
         return schema;
     }

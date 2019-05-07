@@ -75,7 +75,6 @@ public class Controller {
         Stage stage = Main.getPrimaryStage();
         Scene scene = stage.getScene();
         scene.setRoot(root);
-        Parents.getRootStack().push(root);
         stage.show();
     }
 

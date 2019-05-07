@@ -163,30 +163,43 @@ public class PatternTree {
     public void computeTreePaths(Graph joinGraph, String parentTable) throws IOException {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
+        HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
+
         if (hasChildren()) {
             PatternTree rootNode = getRoot();
             allPaths = savePaths(joinGraph, rootNode, null, allPaths);
+
+            if (rootNode.children.size() == 1) {
+                String query = sqlPull.generateRowsQuery(joinGraph, new HashSet<>(),
+                        listColumns().toString(), listTables());
+                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumber(query));
+            }
         }
-        HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
+
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
             List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
             StringBuilder addPath = new StringBuilder();
+
             for (ForeignKey foreignKey : arrayList1) {
                 addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
             }
+
             String query = sqlPull.generateRowsQuery(joinGraph, set,
                     listColumns().toString(), listTables());
             queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumber(query));
         }
+
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
         FileWriter fileWriter = new FileWriter("generatedfiles/queries.txt");
         Iterator it = temp.entrySet().iterator();
+
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             fileWriter.write((pair.getKey() + "!!!" + pair.getValue()) + "!!!");
             it.remove();
         }
+
         fileWriter.close();
     }
 

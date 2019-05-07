@@ -16,7 +16,6 @@ public class Main extends Application {
         stage.setTitle("Plug and Play Web Services");
         Scene primaryScene = new Scene(root);
         stage.setScene(primaryScene);
-        Parents.getRootStack().push(root);
         stage.show();
     }
 
