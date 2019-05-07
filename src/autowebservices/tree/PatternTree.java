@@ -11,8 +11,6 @@ import autowebservices.datapull.SQLPull;
 import autowebservices.joingraph.Graph;
 import autowebservices.joingraph.Path;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -168,10 +166,8 @@ public class PatternTree {
         if (hasChildren()) {
             PatternTree rootNode = getRoot();
             allPaths = savePaths(joinGraph, rootNode, null, allPaths);
-
             if (rootNode.children.size() == 1) {
-                String query = sqlPull.generateRowsQuery(joinGraph, new HashSet<>(),
-                        listColumns().toString(), listTables());
+                String query = sqlPull.generateRowsQuery(joinGraph, new HashSet<>(), listColumns().toString(), listTables());
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumber(query));
             }
         }
@@ -180,13 +176,10 @@ public class PatternTree {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
             List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
             StringBuilder addPath = new StringBuilder();
-
-            for (ForeignKey foreignKey : arrayList1) {
+            for (ForeignKey foreignKey : arrayList1)
                 addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
-            }
-
-            String query = sqlPull.generateRowsQuery(joinGraph, set,
-                    listColumns().toString(), listTables());
+            String query = sqlPull.generateRowsQuery(joinGraph, set, listColumns().toString(), listTables());
+            System.out.println(query.split("EXPLAIN ")[1]);
             queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumber(query));
         }
 
@@ -199,7 +192,6 @@ public class PatternTree {
             fileWriter.write((pair.getKey() + "!!!" + pair.getValue()) + "!!!");
             it.remove();
         }
-
         fileWriter.close();
     }
 
@@ -208,8 +200,7 @@ public class PatternTree {
         List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
         list.sort((val1, val2) -> (val2.getValue()).compareTo(val1.getValue()));
         HashMap<String, Integer> temp = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> l : list)
-            temp.put(l.getKey(), l.getValue());
+        for (Map.Entry<String, Integer> l : list) temp.put(l.getKey(), l.getValue());
         return temp;
     }
 
@@ -319,7 +310,7 @@ public class PatternTree {
         try (ResultSet resultSet = db.executeQuery(query)) {
             resultSet.next();
             String toParse = resultSet.getString("QUERY PLAN");
-            return parseOpString(toParse);
+            return parseQueryOutput(toParse);
         } catch (SQLException e) {
             System.out.println(query);
             System.out.println();
@@ -328,7 +319,7 @@ public class PatternTree {
         return Integer.parseInt("0");
     }
 
-    public int parseOpString(String row) {
+    public int parseQueryOutput(String row) {
         return Integer.parseInt(row.split(" ")[3].split("=")[1]);
     }
 
