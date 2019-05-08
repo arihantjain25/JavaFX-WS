@@ -27,7 +27,7 @@ for c in temp_column:
     df = pd.DataFrame({'from': from_column, 'to': to_column})
     G = nx.from_pandas_edgelist(df, 'from', 'to', create_using=nx.Graph())
     nx.draw(G, with_labels=True, node_size=1500)
-    plt.suptitle('Number of rows:' + str(temp_numrows[i]))
+    plt.suptitle('Estimated number of rows:' + str(temp_numrows[i]))
     plt.savefig(directory + '\\' + str(i) + '.png')
     plt.clf()
     i = i + 1

@@ -160,7 +160,7 @@ public class PatternTree {
             PatternTree rootNode = getRoot();
             allPaths = savePaths(joinGraph, rootNode, null, allPaths);
             if (rootNode.children.size() == 1) {
-                String query = sqlPull.generateRowsQuery(joinGraph, new HashSet<>(), listColumns().toString(), listTables());
+                String query = sqlPull.generateRowsEstimaiton(joinGraph, new HashSet<>(), listColumns().toString(), listTables());
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumber(query));
             }
         }
@@ -172,7 +172,7 @@ public class PatternTree {
             StringBuilder addPath = new StringBuilder();
             for (ForeignKey foreignKey : arrayList1)
                 addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
-            String query = sqlPull.generateRowsQuery(joinGraph, set, listColumns().toString(), listTables());
+            String query = sqlPull.generateRowsEstimaiton(joinGraph, set, listColumns().toString(), listTables());
             if (flag) {
                 queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
                 flag = false;

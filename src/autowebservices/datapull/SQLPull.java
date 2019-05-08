@@ -63,7 +63,7 @@ public class SQLPull {
 
         while (listOfUniqueFkConditions.size() != 0) {
             leftjoin += "\n";
-            String fkCondition = addNextCondition(tableCanBeUsed, listOfUniqueFkConditions);
+            String fkCondition = addNextConditionInQuery(tableCanBeUsed, listOfUniqueFkConditions);
             if (fkCondition == null) {
                 String table = listOfUniqueFkConditions.get(0).replaceAll(" ", "").split("=")[0].split("\\.")[0];
                 tableCanBeUsed.add(table);
@@ -101,11 +101,11 @@ public class SQLPull {
     }
 
 
-    public String generateRowsQuery(Graph graph, Set<ForeignKey> result, String columns, List<String> tableList) {
+    public String generateRowsEstimaiton(Graph graph, Set<ForeignKey> result, String columns, List<String> tableList) {
         return "EXPLAIN " + generateQuery(graph, result, columns, tableList);
     }
 
-    public String addNextCondition(HashSet<String> tableCanBeUsed, ArrayList<String> listOfUniqueFkConditions) {
+    public String addNextConditionInQuery(HashSet<String> tableCanBeUsed, ArrayList<String> listOfUniqueFkConditions) {
         for (String str : listOfUniqueFkConditions) {
             int count1 = 0;
             int count2 = 0;
@@ -123,7 +123,7 @@ public class SQLPull {
         return null;
     }
 
-    public String readAllBytes(String filePath) {
+    public String readAllBytesInAFile(String filePath) {
         String content = "";
         try {
             content = new String(Files.readAllBytes(Paths.get(filePath)));
@@ -134,7 +134,7 @@ public class SQLPull {
     }
 
     public int getCountForValues(String filePath) {
-        String str = readAllBytes(filePath);
+        String str = readAllBytesInAFile(filePath);
         str = str.replaceAll("\\s+", "");
         String findStr = "\":\"";
         int lastIndex = 0;
@@ -149,7 +149,7 @@ public class SQLPull {
         return count;
     }
 
-    public JSONArray convertToJSON(ResultSet resultSet) {
+    public JSONArray convertQueryResultToJson(ResultSet resultSet) {
         try {
             JSONArray jsonArray = new JSONArray();
             while (resultSet.next()) {
@@ -167,7 +167,7 @@ public class SQLPull {
         }
     }
 
-    public String fillNested(String filePath, String[] fillArray, int count) {
+    public String hydrateJson(String filePath, String[] fillArray, int count) {
         StringBuilder newSchema = generateFillableSchema(filePath);
         int num = 0;
         String[] fillObj = new String[count];
@@ -176,7 +176,7 @@ public class SQLPull {
         for (int i = 0; i < fillArray.length; i++) {
             fillObj[num++] = fillArray[i];
             if (num == count) {
-                finalOut.append(fillObject(newSchema.toString(), fillObj)).append(",");
+                finalOut.append(fillObjectInJson(newSchema.toString(), fillObj)).append(",");
                 num = 0;
             }
         }
@@ -185,14 +185,14 @@ public class SQLPull {
         return finalOut.toString();
     }
 
-    public String fillObject(String schema, String[] fillObject) {
+    public String fillObjectInJson(String schema, String[] fillObject) {
         for (String s : fillObject)
             schema = schema.replaceFirst("\"\"", s);
         return schema;
     }
 
     public StringBuilder generateFillableSchema(String filePath) {
-        String schema = readAllBytes(filePath);
+        String schema = readAllBytesInAFile(filePath);
         schema = schema.replaceAll("\\s+", "");
         String[] str = schema.split("");
         for (int i = 0; i < str.length; i++) {

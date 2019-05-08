@@ -99,10 +99,10 @@ public class Controller {
             p.waitFor();
         } catch (InterruptedException ignored) {
         }
-        openDirectoryChooser();
+        showImagesInApp();
     }
 
-    private void openDirectoryChooser() {
+    private void showImagesInApp() {
 //        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images/");
         File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
@@ -192,7 +192,7 @@ public class Controller {
         String filePath = "generatedfiles/schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
-        JSONArray jsonArray = sqlPull.convertToJSON(db.executeQuery(query));
+        JSONArray jsonArray = sqlPull.convertQueryResultToJson(db.executeQuery(query));
         String[] fillArray = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {
             String str = jsonArray.get(i).toString();
@@ -202,7 +202,7 @@ public class Controller {
                 fillArray[i] = str.split("\":")[1].replace("}", "");
             }
         }
-        finalOut = sqlPull.fillNested(filePath, fillArray, sqlPull.getCountForValues(filePath));
+        finalOut = sqlPull.hydrateJson(filePath, fillArray, sqlPull.getCountForValues(filePath));
         FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
         fileWriter.write(finalOut);
         fileWriter.close();
