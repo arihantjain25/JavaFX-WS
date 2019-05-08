@@ -94,7 +94,6 @@ public class PatternTree {
         return new ArrayList<>(tables);
     }
 
-
     private void listOfTablesInTree(PatternTree tree, HashSet<String> result) {
         if (isNotRoot()) {
             if (table != null) {
@@ -189,7 +188,6 @@ public class PatternTree {
         fileWriter.close();
     }
 
-
     private static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
         list.sort((val1, val2) -> (val2.getValue()).compareTo(val1.getValue()));
@@ -197,7 +195,6 @@ public class PatternTree {
         for (Map.Entry<String, Integer> l : list) temp.put(l.getKey(), l.getValue());
         return temp;
     }
-
 
     private HashMap<Integer, Set<ForeignKey>> savePaths(Graph joinGraph, PatternTree objRoot, HashMap<Integer, Set<ForeignKey>> allPaths) {
         if (hasChildren(objRoot)) {
@@ -273,12 +270,6 @@ public class PatternTree {
         return tempAllPaths;
     }
 
-//    public <K, V extends Comparable<? super V>> List<Map.Entry<K, V>> hashMapValueSort(Map<K, V> map) {
-//        List<Map.Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
-//        sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-//        return sortedEntries;
-//    }
-
     private int getRowsNumberFromOutput(String query) {
         try (ResultSet resultSet = db.executeQuery(query)) {
             resultSet.next();
@@ -296,3 +287,10 @@ public class PatternTree {
         return Integer.parseInt(row.split(" ")[3].split("=")[1]);
     }
 }
+
+
+//    public <K, V extends Comparable<? super V>> List<Map.Entry<K, V>> hashMapValueSort(Map<K, V> map) {
+//        List<Map.Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
+//        sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+//        return sortedEntries;
+//    }
