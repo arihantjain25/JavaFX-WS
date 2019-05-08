@@ -42,15 +42,10 @@ public class Controller {
     public TitledPane titledPane;
     public TextArea jsonout;
     public Button generatews;
-    String finalQuery;
-    String finalOut;
-    String newSchema;
-    public DB db;
-    File filesJpg[];
-    Image images[];
-    ImageView imageViews[];
-    BufferedImage bufferedImage[];
-    TitledPane titledPanes[];
+    private String finalQuery;
+    private String newSchema;
+    private DB db;
+    private File[] filesJpg;
 
     public void connectDatabase() throws IOException, SQLException {
         FileWriter fileWriter = new FileWriter("generatedfiles/dbinfo.txt");
@@ -61,14 +56,14 @@ public class Controller {
         loadApplication();
     }
 
-    public DB establishConnection() throws FileNotFoundException, SQLException {
+    private DB establishConnection() throws FileNotFoundException, SQLException {
         File file = new File("generatedfiles/dbinfo.txt");
         Scanner sc = new Scanner(file);
         String[] dbinfo = sc.nextLine().split("!");
         return new DB(dbinfo[0], dbinfo[1], dbinfo[2], dbinfo[3]);
     }
 
-    public void loadApplication() throws IOException {
+    private void loadApplication() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = Main.getPrimaryStage();
@@ -91,7 +86,7 @@ public class Controller {
         generateImages();
     }
 
-    public void generateImages() throws IOException {
+    private void generateImages() throws IOException {
 //        ProcessBuilder builder = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
         ProcessBuilder builder = new ProcessBuilder("python", "creategraphimages.py");
         Process p = builder.start();
@@ -115,10 +110,10 @@ public class Controller {
 
     private void openTitledPane() {
         int numOfJpg = filesJpg.length;
-        images = new Image[numOfJpg];
-        bufferedImage = new BufferedImage[numOfJpg];
-        imageViews = new ImageView[numOfJpg];
-        titledPanes = new TitledPane[numOfJpg];
+        Image[] images = new Image[numOfJpg];
+        BufferedImage[] bufferedImage = new BufferedImage[numOfJpg];
+        ImageView[] imageViews = new ImageView[numOfJpg];
+        TitledPane[] titledPanes = new TitledPane[numOfJpg];
         for (int i = 0; i < numOfJpg; i++) {
             try {
                 File file = filesJpg[i];
@@ -164,7 +159,7 @@ public class Controller {
         generateOutput();
     }
 
-    public void generateOutput() {
+    private void generateOutput() {
         try {
             demoOutputGenerator(finalQuery);
             prettifyJson();
@@ -172,7 +167,7 @@ public class Controller {
         }
     }
 
-    public void prettifyJson() throws IOException {
+    private void prettifyJson() throws IOException {
         ProcessBuilder builder = new ProcessBuilder("python", "prettyjson.py");
         Process p = builder.start();
         try {
@@ -183,12 +178,12 @@ public class Controller {
         showJson(prettyJson);
     }
 
-    public void showJson(String json) {
+    private void showJson(String json) {
         jsonout.setEditable(false);
         jsonout.setText(json);
     }
 
-    public void demoOutputGenerator(String query) throws SQLException, IOException {
+    private void demoOutputGenerator(String query) throws SQLException, IOException {
         String filePath = "generatedfiles/schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
@@ -202,7 +197,7 @@ public class Controller {
                 fillArray[i] = str.split("\":")[1].replace("}", "");
             }
         }
-        finalOut = sqlPull.hydrateJson(filePath, fillArray, sqlPull.getCountForValues(filePath));
+        String finalOut = sqlPull.hydrateJson(filePath, fillArray, sqlPull.getCountForValues(filePath));
         FileWriter fileWriter = new FileWriter("generatedfiles/demooutput.txt");
         fileWriter.write(finalOut);
         fileWriter.close();
@@ -210,7 +205,7 @@ public class Controller {
         System.out.println();
     }
 
-    public static String usingBufferedReader(String fileName) {
+    private static String usingBufferedReader(String fileName) {
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String sCurrentLine;

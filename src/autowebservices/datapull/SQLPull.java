@@ -6,7 +6,6 @@
 package autowebservices.datapull;
 
 import autowebservices.database.ForeignKey;
-import autowebservices.joingraph.Graph;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,8 +20,8 @@ import java.util.*;
  */
 public class SQLPull {
 
-    public String generateQuery(Graph graph, Set<ForeignKey> result, String columns, List<String> tableList) {
-        Set<String> tablesSet = new HashSet();
+    private String generateQuery(Set<ForeignKey> result, String columns, List<String> tableList) {
+        Set<String> tablesSet = new HashSet<>();
         if (result != null) {
             for (ForeignKey fk : result) {
                 tablesSet.add(fk.getFromTable());
@@ -30,10 +29,7 @@ public class SQLPull {
             }
         }
 
-        for (String table : tableList) {
-            tablesSet.add(table);
-        }
-
+        tablesSet.addAll(tableList);
         String tables = tablesSet.toString();
         tables = tables.replace("[", "");
         tables = tables.replace("]", "");
@@ -41,13 +37,11 @@ public class SQLPull {
         columns = columns.replace("]", "");
         tables = tables.replaceAll(" ", "");
         String[] tableArr = tables.split(",");
-        String[] orderOfTables = columns.replaceAll(" ", "").split(",");
-        for (int i = 0; i < orderOfTables.length; i++) orderOfTables[i] = orderOfTables[i].split("\\.")[0];
         HashSet<String> tableCanBeUsed = new HashSet<>();
         tableCanBeUsed.add(tableArr[0]);
         ArrayList<String> listOfUniqueFkConditions = new ArrayList<>();
         HashSet<String> uniqueFkConditions = new HashSet<>();
-        String leftjoin = "FROM " + tableArr[0] + " ";
+        StringBuilder leftjoin = new StringBuilder("FROM " + tableArr[0] + " ");
 
         if (result != null) {
             for (ForeignKey fk : result) {
@@ -62,36 +56,38 @@ public class SQLPull {
         }
 
         while (listOfUniqueFkConditions.size() != 0) {
-            leftjoin += "\n";
+            leftjoin.append("\n");
             String fkCondition = addNextConditionInQuery(tableCanBeUsed, listOfUniqueFkConditions);
             if (fkCondition == null) {
                 String table = listOfUniqueFkConditions.get(0).replaceAll(" ", "").split("=")[0].split("\\.")[0];
                 tableCanBeUsed.add(table);
-                leftjoin += ", " + table + " ";
+                leftjoin.append(", ").append(table).append(" ");
             } else {
                 String str1 = fkCondition.replaceAll(" ", "").split("=")[0].split("\\.")[0];
                 String str2 = fkCondition.replaceAll(" ", "").split("=")[1].split("\\.")[0];
                 if (!tableCanBeUsed.contains(str1)) {
-                    leftjoin = leftjoin + "LEFT JOIN " + str1;
+                    leftjoin.append("LEFT JOIN ").append(str1);
                     tableCanBeUsed.add(str1);
                 } else {
-                    leftjoin = leftjoin + "LEFT JOIN " + str2;
+                    leftjoin.append("LEFT JOIN ").append(str2);
                     tableCanBeUsed.add(str2);
                 }
-                leftjoin = leftjoin + " ON " + fkCondition;
+                leftjoin.append(" ON ").append(fkCondition);
             }
         }
 
-        String leftOutTables = "";
+        StringBuilder leftOutTables = new StringBuilder();
         for (String str : tableArr) {
             if (!tableCanBeUsed.contains(str)) {
-                leftOutTables += str + ", ";
+                leftOutTables.append(str).append(", ");
                 tableCanBeUsed.add(str);
             }
         }
 
-        if (!leftOutTables.equals(""))
-            leftjoin = "FROM " + leftOutTables + leftjoin.split("FROM ")[1];
+        String[] orderOfTables = columns.replaceAll(" ", "").split(",");
+        for (int i = 0; i < orderOfTables.length; i++) orderOfTables[i] = orderOfTables[i].split("\\.")[0];
+        if (!leftOutTables.toString().equals(""))
+            leftjoin = new StringBuilder("FROM " + leftOutTables + leftjoin.toString().split("FROM ")[1]);
 
         String s = "";
         s = "SELECT DISTINCT " + columns + "\n" + s;
@@ -101,11 +97,11 @@ public class SQLPull {
     }
 
 
-    public String generateRowsEstimaiton(Graph graph, Set<ForeignKey> result, String columns, List<String> tableList) {
-        return "EXPLAIN " + generateQuery(graph, result, columns, tableList);
+    public String generateRowsEstimaiton(Set<ForeignKey> result, String columns, List<String> tableList) {
+        return "EXPLAIN " + generateQuery(result, columns, tableList);
     }
 
-    public String addNextConditionInQuery(HashSet<String> tableCanBeUsed, ArrayList<String> listOfUniqueFkConditions) {
+    private String addNextConditionInQuery(HashSet<String> tableCanBeUsed, ArrayList<String> listOfUniqueFkConditions) {
         for (String str : listOfUniqueFkConditions) {
             int count1 = 0;
             int count2 = 0;
@@ -123,7 +119,7 @@ public class SQLPull {
         return null;
     }
 
-    public String readAllBytesInAFile(String filePath) {
+    private String readAllBytesInAFile(String filePath) {
         String content = "";
         try {
             content = new String(Files.readAllBytes(Paths.get(filePath)));
@@ -173,8 +169,8 @@ public class SQLPull {
         String[] fillObj = new String[count];
         StringBuilder finalOut = new StringBuilder();
         finalOut.append("[");
-        for (int i = 0; i < fillArray.length; i++) {
-            fillObj[num++] = fillArray[i];
+        for (String s : fillArray) {
+            fillObj[num++] = s;
             if (num == count) {
                 finalOut.append(fillObjectInJson(newSchema.toString(), fillObj)).append(",");
                 num = 0;
@@ -185,7 +181,7 @@ public class SQLPull {
         return finalOut.toString();
     }
 
-    public String fillObjectInJson(String schema, String[] fillObject) {
+    private String fillObjectInJson(String schema, String[] fillObject) {
         for (String s : fillObject)
             schema = schema.replaceFirst("\"\"", s);
         return schema;

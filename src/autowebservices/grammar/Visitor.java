@@ -15,61 +15,61 @@ import java.util.*;
 /**
  * @author Curtis Dyreson
  */
-public class Visitor {
+class Visitor {
 
     private static PatternTree tree;
     private static DB db;
     private static Stack<PatternTree> treeStack;
     private static Graph joinGraph;
 
-    public static void enterJson(DB db) {
-        treeStack = new Stack();
+    static void enterJson(DB db) {
+        treeStack = new Stack<>();
         Visitor.db = db;
         tree = new PatternTree(db);
         joinGraph = new Graph(db);
     }
 
-    public static void exitJson() throws IOException {
-        tree.computeTreePaths(joinGraph, null);
+    static void exitJson() throws IOException {
+        tree.computeTreePaths(joinGraph);
     }
 
-    public static void enterArray() {
-        PatternTree child = new PatternTree(db, tree, PatternTree.arrayType);
+    static void enterArray() {
+        PatternTree child = new PatternTree(db);
         treeStack.push(tree);
         tree = child;
     }
 
-    public static void exitArray() {
+    static void exitArray() {
         tree = treeStack.pop();
     }
 
-    public static void enterObj() {
+    static void enterObj() {
         treeStack.push(tree);
-        PatternTree child = new PatternTree(db, tree, PatternTree.objType);
+        PatternTree child = new PatternTree(db);
         treeStack.push(tree);
         tree = child;
     }
 
-    public static void exitObj() {
+    static void exitObj() {
         tree = treeStack.pop();
     }
 
-    public static void enterPair(String key) {
+    static void enterPair(String key) {
         key = key.replace("\"", "");
         tree = treeStack.peek();
-        PatternTree child = new PatternTree(db, tree, key, PatternTree.pairType);
+        PatternTree child = new PatternTree(db, tree, key);
         tree.addChild(child);
         tree = child;
         treeStack.push(child);
     }
 
-    public static void parsedString(String value) {
+    static void parsedString(String value) {
         value = value.replace("\"", "");
         tree = treeStack.pop();
         tree.buildPotentialLabels(value);
     }
 
-    public static void exitPair() {
+    static void exitPair() {
         tree = treeStack.peek();
     }
 }

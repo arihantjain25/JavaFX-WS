@@ -19,22 +19,17 @@ import java.util.*;
  */
 public class Graph {
 
-    Map<String, List<Edge>> fromEdges;
-    Map<String, List<Edge>> toEdges;
-    PathsTable shortestPaths = null;
-
-    public Graph() {
-        fromEdges = new HashMap();
-        toEdges = new HashMap();
-    }
+    private Map<String, List<Edge>> fromEdges;
+    private Map<String, List<Edge>> toEdges;
+    private PathsTable shortestPaths = null;
 
     public Graph(DB db) {
-        fromEdges = new HashMap();
-        toEdges = new HashMap();
+        fromEdges = new HashMap<>();
+        toEdges = new HashMap<>();
         try {
             List<String> tables = db.getTableNames();
             for (String s : tables) this.addTable(s);
-            List<ForeignKey> fks = db.buildFKs(tables);
+            List<ForeignKey> fks = db.buildFKs();
             for (ForeignKey fk : fks) this.addFK(fk);
             this.computeShortestPaths();
         } catch (SQLException e) {
@@ -44,16 +39,16 @@ public class Graph {
         }
     }
 
-    public void addTable(String table) {
+    private void addTable(String table) {
         if (fromEdges.containsKey(table)) {
             System.err.println("JoinGraph: Adding Table that already exists " + table);
             return;
         }
-        fromEdges.put(table, new ArrayList(3));
-        toEdges.put(table, new ArrayList(3));
+        fromEdges.put(table, new ArrayList<>(3));
+        toEdges.put(table, new ArrayList<>(3));
     }
 
-    public void addFK(ForeignKey fk) {
+    private void addFK(ForeignKey fk) {
         String fromTable = fk.getFromTable();
         if (!fromEdges.containsKey(fromTable)) {
             addTable(fromTable);
@@ -71,15 +66,15 @@ public class Graph {
         return paths;
     }
 
-    public void computeShortestPaths() {
-        List<Path> newPaths = new ArrayList();
+    private void computeShortestPaths() {
+        List<Path> newPaths = new ArrayList<>();
         if (shortestPaths == null) {
             shortestPaths = new PathsTable();
-            Set<String> allNodes = new HashSet();
+            Set<String> allNodes = new HashSet<>();
             allNodes.addAll(fromEdges.keySet());
             allNodes.addAll(toEdges.keySet());
             for (String table : allNodes) {
-                List<Edge> edges = new ArrayList();
+                List<Edge> edges = new ArrayList<>();
                 if (fromEdges.containsKey(table)) {
                     edges.addAll(fromEdges.get(table));
                 }
@@ -96,10 +91,10 @@ public class Graph {
         computeShortestPaths(newPaths);
     }
 
-    public void computeShortestPaths(List<Path> newPaths) {
+    private void computeShortestPaths(List<Path> newPaths) {
         if (newPaths.size() == 0)
             return;
-        List<Path> computedPaths = new ArrayList();
+        List<Path> computedPaths = new ArrayList<>();
         for (Path path : newPaths) {
             String pathStartTable = path.getStart();
             String pathEndTable = path.getEnd();

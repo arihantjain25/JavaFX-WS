@@ -12,14 +12,14 @@ import autowebservices.database.ForeignKey;
  *
  * @author Curt
  */
-public class  Edge {
-    ForeignKey foreignKey;
+class  Edge {
+    private ForeignKey foreignKey;
 
-    public Edge(ForeignKey fk) {
+    Edge(ForeignKey fk) {
         foreignKey = fk;
     }
     
-    public ForeignKey getForeignKey() {
+    ForeignKey getForeignKey() {
         return foreignKey;
     }
 

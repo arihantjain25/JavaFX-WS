@@ -13,41 +13,26 @@ import java.util.List;
  */
 public class ForeignKey {
 
-    String fromTable;
-    String toTable;
+    private String fromTable;
+    private String toTable;
     List<String> fromColumns;
     List<String> toColumns;
-    int id;
-    static int count = 0;
 
-    public ForeignKey(String fromTable, String toTable, List<String> fromColumns, List<String> toColumns) {
+    ForeignKey(String fromTable, String toTable, List<String> fromColumns, List<String> toColumns) {
         this.fromTable = fromTable;
         this.toTable = toTable;
         this.fromColumns = fromColumns;
         this.toColumns = toColumns;
-        id = count++;
     }
 
-    public ForeignKey(int id, String fromTable, String toTable, List<String> fromColumns, List<String> toColumns) {
-        this.fromTable = fromTable;
-        this.toTable = toTable;
-        this.fromColumns = fromColumns;
-        this.toColumns = toColumns;
-        this.id = id;
-    }
-
-    public void addFromColumn(String col) {
+    void addFromColumn(String col) {
         fromColumns.add(col);
     }
 
-    public void addToColumn(String col) {
+    void addToColumn(String col) {
         toColumns.add(col);
     }
 
-    public int getId() {
-        return id;
-    }
-    
     public String getFromTable() {
         return fromTable;
     }
@@ -57,15 +42,15 @@ public class ForeignKey {
     }
 
     public String generateJoinCondition() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int size = fromColumns.size();
         while (size-- > 0) {
-            result += fromTable + ".\"" + fromColumns.get(size) + "\" = " + toTable + ".\"" + toColumns.get(size) + "\"";
+            result.append(fromTable).append(".\"").append(fromColumns.get(size)).append("\" = ").append(toTable).append(".\"").append(toColumns.get(size)).append("\"");
             if (size > 0) {
-                result += " AND ";
+                result.append(" AND ");
             }
         }
-        return result;
+        return result.toString();
     }
 
     public String getColumnJoin() {

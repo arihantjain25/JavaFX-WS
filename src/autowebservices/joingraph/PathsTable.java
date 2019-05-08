@@ -16,15 +16,15 @@ import java.util.Map;
  *
  * @author Curt
  */
-public class PathsTable {
+class PathsTable {
 
-    Map<String, Map<String, List<Path>>> table;
+    private Map<String, Map<String, List<Path>>> table;
 
-    public PathsTable() {
-        table = new HashMap();
+    PathsTable() {
+        table = new HashMap<>();
     }
 
-    public Boolean contains(String fromTable, String toTable) {
+    Boolean contains(String fromTable, String toTable) {
         if (!table.containsKey(fromTable)) {
             return false;
         }
@@ -32,7 +32,7 @@ public class PathsTable {
         return map.containsKey(toTable);
     }
 
-    public List<Path> getPaths(String fromTable, String toTable) {
+    List<Path> getPaths(String fromTable, String toTable) {
         if (!table.containsKey(fromTable)) {
             return null;
         }
@@ -43,17 +43,17 @@ public class PathsTable {
         return map.get(toTable);
     }
 
-    public void addPath(Path path) {
+    void addPath(Path path) {
         addPath(path.getStart(), path.getEnd(), path);
     }
 
-    public void addPath(String fromTable, String toTable, Path path) {
+    void addPath(String fromTable, String toTable, Path path) {
         if (!table.containsKey(fromTable)) {
-            table.put(fromTable, new HashMap());
+            table.put(fromTable, new HashMap<>());
         }
         Map<String, List<Path>> map = table.get(fromTable);
         if (!map.containsKey(toTable)) {
-            map.put(toTable, new ArrayList());
+            map.put(toTable, new ArrayList<>());
         }
         List<Path> paths = map.get(toTable);
         paths.add(path);

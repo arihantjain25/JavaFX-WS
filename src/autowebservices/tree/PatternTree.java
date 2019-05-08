@@ -27,69 +27,49 @@ import java.util.*;
  */
 public class PatternTree {
 
-    List<PatternTree> children;
-    String label;
-    String value;
-    String table;
-    List<String> potentialLabels;
-    PatternTree parent;
-    static DB db;  // Possibly could be static, but not important?
-    int treeType;
-    public final static int arrayType = 0;
-    public final static int objType = 1;
-    public final static int pairType = 2;
+    private List<PatternTree> children;
+    private String label;
+    private String value;
+    private String table;
+    private PatternTree parent;
+    private static DB db;  // Possibly could be static, but not important?
 
     public PatternTree(DB db) {
-        treeType = objType;
         label = "root";
         value = null;
         parent = null;
-        potentialLabels = null;
-        this.db = db;
+        PatternTree.db = db;
         table = null;
         children = null;
     }
 
-    public PatternTree(DB db, PatternTree p, int type) {
-        treeType = type;
-        label = "none";
-        value = null;
-        parent = null;
-        potentialLabels = null;
-        this.db = db;
-        table = null;
-        children = null;
-    }
-
-    public PatternTree(DB db, PatternTree p, String s, int type) {
-        treeType = type;
+    public PatternTree(DB db, PatternTree p, String s) {
         label = s;
         value = null;
         parent = p;
-        this.db = db;
-        potentialLabels = null;
+        PatternTree.db = db;
         table = null;
         children = null;
     }
 
-    public void setValue(String s) {
+    private void setValue(String s) {
         value = s;
     }
 
-    public boolean hasChildren() {
+    private boolean hasChildren() {
         return children != null;
     }
 
-    public boolean hasChildren(PatternTree patternTree) {
+    private boolean hasChildren(PatternTree patternTree) {
         return patternTree.children != null;
     }
 
-    public boolean isRoot() {
-        return parent == null;
+    private boolean isNotRoot() {
+        return parent != null;
     }
 
-    public boolean isRoot(PatternTree tree) {
-        return tree.label.equals("root");
+    private boolean isNotRoot(PatternTree tree) {
+        return !tree.label.equals("root");
     }
 
     public void addChild(PatternTree t) {
@@ -99,15 +79,15 @@ public class PatternTree {
         children.add(t);
     }
 
-    public PatternTree getRoot() {
+    private PatternTree getRoot() {
         PatternTree rootNode = children.get(0);
-        while (!isRoot(rootNode)) {
+        while (isNotRoot(rootNode)) {
             rootNode = rootNode.parent;
         }
         return rootNode;
     }
 
-    public List<String> listTables() {
+    private List<String> listTables() {
         PatternTree root = getRoot();
         HashSet<String> tables = new HashSet<>();
         listOfTablesInTree(root, tables);
@@ -115,8 +95,8 @@ public class PatternTree {
     }
 
 
-    public void listOfTablesInTree(PatternTree tree, HashSet<String> result) {
-        if (!isRoot()) {
+    private void listOfTablesInTree(PatternTree tree, HashSet<String> result) {
+        if (isNotRoot()) {
             if (table != null) {
                 result.add(table);
             }
@@ -128,15 +108,15 @@ public class PatternTree {
         }
     }
 
-    public List<String> listColumns() {
+    private List<String> listColumns() {
         List<String> columns = new ArrayList<>();
         PatternTree root = getRoot();
         listOfColumnsInTree(root, columns);
         return new ArrayList<>(columns);
     }
 
-    public void listOfColumnsInTree(PatternTree tree, List<String> result) {
-        if (!isRoot()) {
+    private void listOfColumnsInTree(PatternTree tree, List<String> result) {
+        if (isNotRoot()) {
             if (table != null) {
                 result.add(table + ".\"" + value + "\"");
             }
@@ -151,7 +131,6 @@ public class PatternTree {
     public void buildPotentialLabels(String s) {
         setValue(s);
         Set<String> tables = db.stringLookup(s);
-        potentialLabels = new ArrayList<>();
         if (tables != null) {
             for (String tab : tables) {
                 table = tab;
@@ -159,16 +138,16 @@ public class PatternTree {
         }
     }
 
-    public void computeTreePaths(Graph joinGraph, String parentTable) throws IOException {
+    public void computeTreePaths(Graph joinGraph) throws IOException {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
         HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
 
         if (hasChildren()) {
             PatternTree rootNode = getRoot();
-            allPaths = savePaths(joinGraph, rootNode, null, allPaths);
+            allPaths = savePaths(joinGraph, rootNode, allPaths);
             if (rootNode.children.size() == 1) {
-                String query = sqlPull.generateRowsEstimaiton(joinGraph, new HashSet<>(), listColumns().toString(), listTables());
+                String query = sqlPull.generateRowsEstimaiton(new HashSet<>(), listColumns().toString(), listTables());
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumberFromOutput(query));
             }
         }
@@ -180,7 +159,7 @@ public class PatternTree {
             StringBuilder addPath = new StringBuilder();
             for (ForeignKey foreignKey : arrayList1)
                 addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
-            String query = sqlPull.generateRowsEstimaiton(joinGraph, set, listColumns().toString(), listTables());
+            String query = sqlPull.generateRowsEstimaiton(set, listColumns().toString(), listTables());
             if (flag) {
                 queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
                 flag = false;
@@ -209,7 +188,7 @@ public class PatternTree {
     }
 
 
-    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
+    private static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
         List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
         list.sort((val1, val2) -> (val2.getValue()).compareTo(val1.getValue()));
         HashMap<String, Integer> temp = new LinkedHashMap<>();
@@ -218,25 +197,25 @@ public class PatternTree {
     }
 
 
-    public HashMap<Integer, Set<ForeignKey>> savePaths(Graph joinGraph, PatternTree objRoot, String parentTable, HashMap<Integer, Set<ForeignKey>> allPaths) {
+    private HashMap<Integer, Set<ForeignKey>> savePaths(Graph joinGraph, PatternTree objRoot, HashMap<Integer, Set<ForeignKey>> allPaths) {
         if (hasChildren(objRoot)) {
             for (PatternTree child : objRoot.children) {
                 if (child.table != null) {
-                    if (!isRoot(objRoot)) {
-                        List<Path> paths = null;
+                    if (isNotRoot(objRoot)) {
+                        List<Path> paths;
                         if (parent.children.get(0).value != null) {
                             if (!parent.children.get(0).table.equals(child.table)) {
                                 paths = joinGraph.getPaths(parent.children.get(0).table, child.table);
                                 if (paths.size() > 0) {
-                                    allPaths = listBestPaths(joinGraph, paths, allPaths);
+                                    allPaths = listBestPaths(paths, allPaths);
                                 }
                             }
                         }
                     }
-                    allPaths = child.savePaths(joinGraph, child, child.table, allPaths);
+                    allPaths = child.savePaths(joinGraph, child, allPaths);
 
                 } else {
-                    allPaths = child.savePaths(joinGraph, child, parentTable, allPaths);
+                    allPaths = child.savePaths(joinGraph, child, allPaths);
                 }
             }
 
@@ -252,12 +231,12 @@ public class PatternTree {
                                         if (!parent.children.get(0).table.equals(child.table)) {
                                             paths = joinGraph.getPaths(previousChild.table, child.table);
                                             if (paths.size() > 0) {
-                                                allPaths = listBestPaths(joinGraph, paths, allPaths);
+                                                allPaths = listBestPaths(paths, allPaths);
                                             }
                                         }
                                     } else {
                                         if (paths.size() > 0) {
-                                            allPaths = listBestPaths(joinGraph, paths, allPaths);
+                                            allPaths = listBestPaths(paths, allPaths);
                                         }
                                     }
                                 }
@@ -273,33 +252,32 @@ public class PatternTree {
         return allPaths;
     }
 
-    public HashMap<Integer, Set<ForeignKey>> listBestPaths(Graph joinGraph, List<Path> paths, HashMap<Integer, Set<ForeignKey>> allPaths) {
+    private HashMap<Integer, Set<ForeignKey>> listBestPaths(List<Path> paths, HashMap<Integer, Set<ForeignKey>> allPaths) {
         HashMap<Integer, Set<ForeignKey>> tempAllPaths = new HashMap<>();
         int count = 0;
-        for (int i = 0; i < paths.size(); i++) {
+        for (Path path : paths) {
             if (allPaths.size() > 0) {
                 for (Integer integer : allPaths.keySet()) {
                     HashSet<ForeignKey> temphash = new HashSet<>();
                     temphash.addAll(allPaths.get(integer));
-                    temphash.addAll(paths.get(i).getFKs());
+                    temphash.addAll(path.getFKs());
                     tempAllPaths.put(count++, temphash);
                 }
             } else {
-                HashSet<ForeignKey> temphash = new HashSet<>();
-                temphash.addAll(paths.get(i).getFKs());
+                HashSet<ForeignKey> temphash = new HashSet<>(path.getFKs());
                 tempAllPaths.put(count++, temphash);
             }
         }
         return tempAllPaths;
     }
 
-    public <K, V extends Comparable<? super V>> List<Map.Entry<K, V>> hashMapValueSort(Map<K, V> map) {
-        List<Map.Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
-        sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-        return sortedEntries;
-    }
+//    public <K, V extends Comparable<? super V>> List<Map.Entry<K, V>> hashMapValueSort(Map<K, V> map) {
+//        List<Map.Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
+//        sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+//        return sortedEntries;
+//    }
 
-    public int getRowsNumberFromOutput(String query) {
+    private int getRowsNumberFromOutput(String query) {
         try (ResultSet resultSet = db.executeQuery(query)) {
             resultSet.next();
             String toParse = resultSet.getString("QUERY PLAN");
@@ -312,7 +290,7 @@ public class PatternTree {
         return Integer.parseInt("0");
     }
 
-    public int parseQueryOutput(String row) {
+    private int parseQueryOutput(String row) {
         return Integer.parseInt(row.split(" ")[3].split("=")[1]);
     }
 }

@@ -19,7 +19,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static Stage getPrimaryStage() {
+    static Stage getPrimaryStage() {
         return primaryStage;
     }
 
