@@ -72,17 +72,6 @@ public class PatternTree {
         children = null;
     }
 
-    public void buildPotentialLabels(String s) {
-        setValue(s);
-        Set<String> tables = db.stringLookup(s);
-        potentialLabels = new ArrayList<>();
-        if (tables != null) {
-            for (String tab : tables) {
-                table = tab;
-            }
-        }
-    }
-
     public void setValue(String s) {
         value = s;
     }
@@ -108,6 +97,14 @@ public class PatternTree {
             children = new ArrayList<>(3);
         }
         children.add(t);
+    }
+
+    public PatternTree getRoot() {
+        PatternTree rootNode = children.get(0);
+        while (!isRoot(rootNode)) {
+            rootNode = rootNode.parent;
+        }
+        return rootNode;
     }
 
     public List<String> listTables() {
@@ -151,6 +148,17 @@ public class PatternTree {
         }
     }
 
+    public void buildPotentialLabels(String s) {
+        setValue(s);
+        Set<String> tables = db.stringLookup(s);
+        potentialLabels = new ArrayList<>();
+        if (tables != null) {
+            for (String tab : tables) {
+                table = tab;
+            }
+        }
+    }
+
     public void computeTreePaths(Graph joinGraph, String parentTable) throws IOException {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
@@ -161,7 +169,7 @@ public class PatternTree {
             allPaths = savePaths(joinGraph, rootNode, null, allPaths);
             if (rootNode.children.size() == 1) {
                 String query = sqlPull.generateRowsEstimaiton(joinGraph, new HashSet<>(), listColumns().toString(), listTables());
-                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumber(query));
+                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumberFromOutput(query));
             }
         }
         String queryorderby = "";
@@ -177,7 +185,7 @@ public class PatternTree {
                 queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
                 flag = false;
             }
-            queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumber(query));
+            queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumberFromOutput(query));
         }
 
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
@@ -209,13 +217,6 @@ public class PatternTree {
         return temp;
     }
 
-    public PatternTree getRoot() {
-        PatternTree rootNode = children.get(0);
-        while (!isRoot(rootNode)) {
-            rootNode = rootNode.parent;
-        }
-        return rootNode;
-    }
 
     public HashMap<Integer, Set<ForeignKey>> savePaths(Graph joinGraph, PatternTree objRoot, String parentTable, HashMap<Integer, Set<ForeignKey>> allPaths) {
         if (hasChildren(objRoot)) {
@@ -292,26 +293,13 @@ public class PatternTree {
         return tempAllPaths;
     }
 
-    public ArrayList<Integer> getRanking(HashMap<Integer, Integer> hashMap) {
-        List<Map.Entry<Integer, Integer>> hm = hashMapValueSort(hashMap);
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        String string = Arrays.toString(hm.toArray());
-        string = string.replace("[", "");
-        string = string.replace("]", "");
-        string = string.replace(" ", "");
-        List<String> myList = new ArrayList<>(Arrays.asList(string.split(",")));
-        for (String s : myList)
-            arrayList.add(Integer.parseInt(s.split("=")[0]));
-        return arrayList;
-    }
-
     public <K, V extends Comparable<? super V>> List<Map.Entry<K, V>> hashMapValueSort(Map<K, V> map) {
         List<Map.Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
         sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
         return sortedEntries;
     }
 
-    public int getRowsNumber(String query) {
+    public int getRowsNumberFromOutput(String query) {
         try (ResultSet resultSet = db.executeQuery(query)) {
             resultSet.next();
             String toParse = resultSet.getString("QUERY PLAN");

@@ -166,7 +166,7 @@ public class Controller {
 
     public void generateOutput() {
         try {
-            demoGenerator(finalQuery);
+            demoOutputGenerator(finalQuery);
             prettifyJson();
         } catch (SQLException | IOException ignored) {
         }
@@ -188,7 +188,7 @@ public class Controller {
         jsonout.setText(json);
     }
 
-    public void demoGenerator(String query) throws SQLException, IOException {
+    public void demoOutputGenerator(String query) throws SQLException, IOException {
         String filePath = "generatedfiles/schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
@@ -287,7 +287,7 @@ public class Controller {
             fileChooser.getExtensionFilters().add(extFilter);
             File file1 = fileChooser.showSaveDialog(stage);
             if (file1 != null) {
-                SaveFile(py_ws, file1);
+                savePyFile(py_ws, file1);
             }
         });
         VBox vBox = new VBox();
@@ -297,7 +297,7 @@ public class Controller {
         stage.show();
     }
 
-    private void SaveFile(String content, File file) {
+    private void savePyFile(String content, File file) {
         try {
             FileWriter fileWriter;
             fileWriter = new FileWriter(file.getAbsolutePath() + ".py");
