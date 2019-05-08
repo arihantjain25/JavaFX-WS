@@ -146,7 +146,7 @@ public class PatternTree {
         if (hasChildren()) {
             PatternTree rootNode = getRoot();
             allPaths = savePaths(joinGraph, rootNode, allPaths);
-            if (rootNode.children.size() == 1) {
+            if (rootNode.children.size() == 1 || allPaths.isEmpty()) {
                 String query = sqlPull.generateRowsEstimaiton(new HashSet<>(), listColumns().toString(), listTables());
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumberFromOutput(query));
             }
@@ -177,13 +177,15 @@ public class PatternTree {
             it.remove();
         }
 
-        String[] tempOrderBy = queryorderby.split("\"");
-        StringBuilder orderby = new StringBuilder("ORDER BY ");
+        if (!allPaths.isEmpty()) {
+            String[] tempOrderBy = queryorderby.split("\"");
+            StringBuilder orderby = new StringBuilder("ORDER BY ");
 
-        for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
-            orderby.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
-        orderby.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
-        fileWriter.write(orderby.toString());
+            for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
+                orderby.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
+            orderby.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
+            fileWriter.write(orderby.toString());
+        }
         fileWriter.close();
     }
 

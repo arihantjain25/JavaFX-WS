@@ -155,7 +155,6 @@ public class Controller {
         }
         result.append(temp2[temp2.length - 1]);
         finalQuery = result.toString();
-        System.out.println(finalQuery);
         generateOutput();
     }
 
