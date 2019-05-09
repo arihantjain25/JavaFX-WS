@@ -13,7 +13,7 @@
     <TextField fx:id="dbport" layoutX="313.0" layoutY="135.0" text="5432"/>
     <TextField fx:id="dbuser" layoutX="313.0" layoutY="205.0" text="postgres"/>
     <PasswordField fx:id="dbpass" layoutX="313.0" layoutY="275.0" text="password"/>
-    <TextField fx:id="dbname" layoutX="313.0" layoutY="346.0" text="symbiota2"/>
+    <TextField fx:id="dbname" layoutX="313.0" layoutY="346.0" text="northwind"/>
     <Label layoutX="14.0" layoutY="74.0" text="Database URI or IP"/>
     <Label layoutX="14.0" layoutY="140.0" text="Database Port"/>
     <Label layoutX="14.0" layoutY="210.0" text="Database User Name"/>

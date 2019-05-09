@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="fix queries">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/autowebservices/database/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/autowebservices/database/DB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gui/dbconfig.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/dbconfig.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,20 +69,49 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1479">
+            <state relative-caret-position="841">
               <caret line="99" column="18" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4607">
-              <caret line="295" column="7" selection-start-line="295" selection-start-column="7" selection-end-line="295" selection-end-column="7" />
+            <state relative-caret-position="357">
+              <caret line="215" column="78" selection-start-line="215" selection-start-column="78" selection-end-line="215" selection-end-column="78" />
               <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#10645#10646#0" expanded="true" />
                 <element signature="e#10717#10718#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Graph.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1020">
+              <caret line="68" column="41" lean-forward="true" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/autowebservices/database/ForeignKey.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/autowebservices/database/DB.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="474">
+              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
             </state>
           </provider>
         </entry>
@@ -89,7 +120,7 @@
         <entry file="file://$PROJECT_DIR$/src/gui/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="253">
-              <caret line="86" column="5" lean-forward="true" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
+              <caret line="86" column="5" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -100,8 +131,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/Test4.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+            <state relative-caret-position="153">
+              <caret line="9" column="3" lean-forward="true" selection-end-line="10" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -152,7 +183,6 @@
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/gui/Parents.java" />
         <option value="$PROJECT_DIR$/src/gui/ui/TreeRow.java" />
-        <option value="$PROJECT_DIR$/src/gui/dbconfig.fxml" />
         <option value="$PROJECT_DIR$/src/gui/DatabaseController.java" />
         <option value="$PROJECT_DIR$/out.txt" />
         <option value="$PROJECT_DIR$/pyscripts/creategraphimages.py" />
@@ -162,7 +192,6 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/creategraphimages.py" />
         <option value="$PROJECT_DIR$/src/autowebservices/joingraph/Graph.java" />
-        <option value="$PROJECT_DIR$/src/autowebservices/database/DB.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/database/ForeignKey.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/grammar/Visitor.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/grammar/JSONParser.java" />
@@ -172,7 +201,9 @@
         <option value="$PROJECT_DIR$/src/gui/Main.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java" />
         <option value="$PROJECT_DIR$/src/gui/Controller.java" />
+        <option value="$PROJECT_DIR$/src/gui/dbconfig.fxml" />
         <option value="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" />
+        <option value="$PROJECT_DIR$/src/autowebservices/database/DB.java" />
       </list>
     </option>
   </component>
@@ -199,6 +230,37 @@
             <path>
               <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
               <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
+              <item name="joingraph" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
@@ -381,7 +443,8 @@
       <workItem from="1557141583198" duration="948000" />
       <workItem from="1557143941358" duration="9788000" />
       <workItem from="1557234130965" duration="8754000" />
-      <workItem from="1557280472556" duration="16854000" />
+      <workItem from="1557280472556" duration="19970000" />
+      <workItem from="1557403165178" duration="4314000" />
     </task>
     <task id="LOCAL-00001" summary="to fix error stack trace">
       <created>1554773642977</created>
@@ -593,17 +656,24 @@
       <option name="project" value="LOCAL" />
       <updated>1557304222964</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="fix queries">
+      <created>1557327400640</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1557327400640</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="144427000" />
+    <option name="totallyTimeSpent" value="151857000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.15724947" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.15884861" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Palette&#9;" order="3" />
@@ -612,7 +682,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32394367" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32394367" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39937353" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -765,9 +835,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py" />
     <entry file="file://$PROJECT_DIR$/flaskws.py" />
-    <entry file="file://$PROJECT_DIR$/test/Test1.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/Test2.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -800,13 +867,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/database/DB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2941">
-          <caret line="178" column="5" selection-start-line="178" selection-start-column="5" selection-end-line="178" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/autowebservices/grammar/Visitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="739">
@@ -817,21 +877,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/dbconfig.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Node.java" />
     <entry file="file://$PROJECT_DIR$/src/gui/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -841,14 +887,6 @@
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui/main.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/autowebservices/grammar/JSONParser.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -860,24 +898,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Edge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Path.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
           <caret line="48" column="1" selection-start-line="48" selection-start-column="1" selection-end-line="48" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/database/ForeignKey.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
         </state>
       </provider>
     </entry>
@@ -895,44 +919,90 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
+    <entry file="file://$PROJECT_DIR$/test/Test1.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1479">
-          <caret line="99" column="18" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
+        <state relative-caret-position="51">
+          <caret line="3" column="1" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/dbconfig.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui/main.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Edge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="68" column="41" lean-forward="true" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/database/ForeignKey.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
-          <caret line="86" column="5" lean-forward="true" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
+          <caret line="86" column="5" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/joingraph/Graph.java">
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="61" column="45" selection-start-line="61" selection-start-column="45" selection-end-line="61" selection-end-column="45" />
+        <state relative-caret-position="841">
+          <caret line="99" column="18" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/Test4.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+        <state relative-caret-position="153">
+          <caret line="9" column="3" lean-forward="true" selection-end-line="10" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4607">
-          <caret line="295" column="7" selection-start-line="295" selection-start-column="7" selection-end-line="295" selection-end-column="7" />
+        <state relative-caret-position="357">
+          <caret line="215" column="78" selection-start-line="215" selection-start-column="78" selection-end-line="215" selection-end-column="78" />
           <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10645#10646#0" expanded="true" />
             <element signature="e#10717#10718#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/database/DB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
         </state>
       </provider>
     </entry>

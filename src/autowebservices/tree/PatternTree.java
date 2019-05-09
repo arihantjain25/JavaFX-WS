@@ -150,6 +150,7 @@ public class PatternTree {
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumberFromOutput(query));
             }
         }
+
         String queryorderby = "";
         boolean flag = true;
         for (Integer i : allPaths.keySet()) {
@@ -165,8 +166,11 @@ public class PatternTree {
             }
             queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumberFromOutput(query));
         }
-
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
+        writeToFile(queryorderby, temp, allPaths);
+    }
+
+    private static void writeToFile(String queryorderby, HashMap<String, Integer> temp, HashMap<Integer, Set<ForeignKey>> allPaths) throws IOException {
         FileWriter fileWriter = new FileWriter("generatedfiles/queries.txt");
         Iterator it = temp.entrySet().iterator();
 
@@ -179,7 +183,6 @@ public class PatternTree {
         if (!allPaths.isEmpty()) {
             String[] tempOrderBy = queryorderby.split("\"");
             StringBuilder orderby = new StringBuilder("ORDER BY ");
-
             for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
                 orderby.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
             orderby.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
@@ -208,6 +211,9 @@ public class PatternTree {
                                 if (paths.size() > 0) {
                                     allPaths = listBestPaths(paths, allPaths);
                                 }
+                            } else {
+                                System.out.println(parent.children.get(0).table);
+                                db.getFksForTable(parent.children.get(0).table);
                             }
                         }
                     }
