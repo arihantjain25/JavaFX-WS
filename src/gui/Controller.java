@@ -13,7 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import autowebservices.grammar.JSONLexer;
 import autowebservices.grammar.JSONParser;
@@ -47,13 +49,25 @@ public class Controller {
     private DB db;
     private File[] filesJpg;
 
-    public void connectDatabase() throws IOException, SQLException {
+    public void connectDatabase() throws IOException {
         FileWriter fileWriter = new FileWriter("generatedfiles/dbinfo.txt");
         String url = "jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/" + "!" + dbname.getText() + "!" + dbuser.getText() + "!" + dbpass.getText();
         fileWriter.write(url);
         fileWriter.close();
-        db = establishConnection();
-        loadApplication();
+        try {
+            db = establishConnection();
+            loadApplication();
+        } catch (SQLException e) {
+            System.err.println("unable to establish connection");
+            Stage stage = new Stage();
+            TextArea text = new TextArea();
+            text.setEditable(false);
+            text.setText("Unable to establish database connection");
+            Scene scene = new Scene(text, 400, 40);
+            stage.setScene(scene);
+            stage.show();
+
+        }
     }
 
     private DB establishConnection() throws FileNotFoundException, SQLException {
@@ -87,8 +101,8 @@ public class Controller {
     }
 
     private void generateImages() throws IOException {
-//        ProcessBuilder builder = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
-        ProcessBuilder builder = new ProcessBuilder("python", "creategraphimages.py");
+        ProcessBuilder builder = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
+//        ProcessBuilder builder = new ProcessBuilder("python", "creategraphimages.py");
         Process p = builder.start();
         try {
             p.waitFor();
@@ -98,8 +112,8 @@ public class Controller {
     }
 
     private void showImagesInApp() {
-//        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images/");
-        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images\\");
+        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images/");
+//        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
         if (filesJpg != null) {
