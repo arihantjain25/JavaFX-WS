@@ -24,14 +24,8 @@ public class DB {
 
     // Connect to the database and build all of the info for the graph
     public DB(String url, String dbName, String uName, String pwd) throws SQLException {
-        //Configure the following instance variables
-        // Open connection
         conn = DriverManager.getConnection(url + dbName, uName, pwd);
-
-        // Get the metadata for the connnection
         metadata = conn.getMetaData();
-
-        // Get the table names
         tableSet = new HashSet<>();
         List<String> tables = this.getTableNames();
         tableSet.addAll(tables);
@@ -88,7 +82,6 @@ public class DB {
      * @return Result of the query in a ResultSet
      */
     public ResultSet executeQuery(String query) throws SQLException {
-        //Execute statement
         Statement stmt = conn.createStatement();
         rs = stmt.executeQuery(query);
         return rs;

@@ -51,14 +51,14 @@ public class Controller {
 
     public void connectDatabase() throws IOException {
         FileWriter fileWriter = new FileWriter("generatedfiles/dbinfo.txt");
-        String url = "jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/" + "!" + dbname.getText() + "!" + dbuser.getText() + "!" + dbpass.getText();
+        String url = "jdbc:postgresql://" + dburi.getText() + ":" + dbport.getText() + "/"
+                + "!" + dbname.getText() + "!" + dbuser.getText() + "!" + dbpass.getText();
         fileWriter.write(url);
         fileWriter.close();
         try {
             db = establishConnection();
             loadApplication();
         } catch (SQLException e) {
-            System.err.println("unable to establish connection");
             Stage stage = new Stage();
             TextArea text = new TextArea();
             text.setEditable(false);
