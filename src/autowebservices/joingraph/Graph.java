@@ -22,6 +22,9 @@ public class Graph {
     private Map<String, List<Edge>> fromEdges;
     private Map<String, List<Edge>> toEdges;
     private PathsTable shortestPaths = null;
+    private ArrayList<Edge>[] adjacencyList;
+    private String[] allNodesArray;
+
 
     public Graph(DB db) {
         fromEdges = new HashMap<>();
@@ -89,6 +92,7 @@ public class Graph {
             }
         }
         computeShortestPaths(newPaths);
+        computeCyclicPaths(newPaths);
     }
 
     private void computeShortestPaths(List<Path> newPaths) {
@@ -114,5 +118,51 @@ public class Graph {
             shortestPaths.addPath(path);
         }
         computeShortestPaths(computedPaths);
+    }
+
+    private void computeCyclicPaths(List<Path> newPaths) {
+        if (newPaths.size() == 0)
+            return;
+        Set<String> allNodes = new HashSet<>();
+        allNodes.addAll(fromEdges.keySet());
+        allNodes.addAll(toEdges.keySet());
+        allNodesArray = new String[allNodes.size()];
+        allNodes.toArray(allNodesArray);
+        adjacencyList = new ArrayList[allNodes.size()];
+        for (int i = 0; i < allNodes.size(); i++) adjacencyList[i] = new ArrayList<>();
+
+        for (String table : allNodes) {
+            if (fromEdges.containsKey(table)) {
+                if (fromEdges.get(table).size() != 0) {
+                    adjacencyList[getIndex(allNodesArray, fromEdges.get(table).get(0).getForeignKey().getFromTable())].addAll(fromEdges.get(table));
+                }
+            }
+        }
+
+        boolean[] visited = new boolean[allNodesArray.length];
+        for (int v = 0; v < allNodesArray.length; ++v) {
+            if (!visited[v]) {
+                DFSUtil(v, visited);
+                System.out.println();
+            }
+        }
+    }
+
+    private void DFSUtil(int v, boolean[] visited) {
+        visited[v] = true;
+        System.out.print(allNodesArray[v] + " ");
+        for (Edge x : adjacencyList[v]) {
+            int i = getIndex(allNodesArray, x.getForeignKey().getToTable());
+            if (!visited[i]) DFSUtil(i, visited);
+        }
+
+    }
+
+    private int getIndex(String[] array, String table) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equals(table))
+                return i;
+        }
+        return -1;
     }
 }
