@@ -149,6 +149,11 @@ public class PatternTree {
                 String query = sqlPull.generateRowsEstimaiton(new HashSet<>(), listColumns().toString(), listTables());
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
                         getRowsNumberFromOutput(query));
+                if (containsDuplicates) {
+                    String tempQuery = sqlPull.generateQuery(new HashSet<>(), new HashSet<>(listColumns()).toString(), listTables());
+                    query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
+                    queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
+                }
             }
         }
 
@@ -206,7 +211,6 @@ public class PatternTree {
                         }
                     }
                     allPaths = child.savePaths(joinGraph, child, allPaths);
-
                 } else {
                     allPaths = child.savePaths(joinGraph, child, allPaths);
                 }

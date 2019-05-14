@@ -170,7 +170,7 @@ public class Controller {
         } else {
             result.append(pathQueries[path[0]]);
         }
-        finalQuery = result.toString() + " LIMIT 100";
+        finalQuery = result.toString();
         generateOutput();
     }
 
@@ -202,7 +202,7 @@ public class Controller {
         String filePath = "generatedfiles/schema.json";
         db = establishConnection();
         SQLPull sqlPull = new SQLPull();
-        JSONArray jsonArray = sqlPull.convertQueryResultToJson(db.executeQuery(query));
+        JSONArray jsonArray = sqlPull.convertQueryResultToJson(db.executeQuery(query + "LIMIT 100"));
         String[] fillArray = new String[jsonArray.length()];
         for (int i = 0; i < jsonArray.length(); i++) {
             String str = jsonArray.get(i).toString();
