@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class SQLPull {
 
-    private String generateQuery(Set<ForeignKey> result, String columns, List<String> tableList) {
+    public String generateQuery(Set<ForeignKey> result, String columns, List<String> tableList) {
         Set<String> tablesSet = new HashSet<>();
         if (result != null) {
             for (ForeignKey fk : result) {

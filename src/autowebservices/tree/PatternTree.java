@@ -141,6 +141,7 @@ public class PatternTree {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
         HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
+        boolean containsDuplicates = containsDuplicate();
 
         if (hasChildren()) {
             PatternTree rootNode = getRoot();
@@ -155,19 +156,46 @@ public class PatternTree {
         boolean flag = true;
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
-            List<ForeignKey> arrayList1 = new ArrayList<>(allPaths.get(i));
-            StringBuilder addPath = new StringBuilder();
-            for (ForeignKey foreignKey : arrayList1)
-                addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
+            String addPath = createAddPaths(new ArrayList<>(allPaths.get(i)));
             String query = sqlPull.generateRowsEstimaiton(set, listColumns().toString(), listTables());
-            if (flag) {
-                queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
-                flag = false;
+            if (containsDuplicates) {
+                String tempQuery = sqlPull.generateQuery(set, new HashSet<>(listColumns()).toString(), listTables());
+                query = changeQueryToAddSecondTable(tempQuery, listColumns());
+                queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
+            } else {
+                if (flag) {
+                    queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
+                    flag = false;
+                }
+                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath, getRowsNumberFromOutput(query));
             }
-            queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath.toString(), getRowsNumberFromOutput(query));
         }
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
         writeToFile(queryorderby, temp, allPaths);
+    }
+
+    private static String createAddPaths(List<ForeignKey> arrayList) {
+        StringBuilder addPath = new StringBuilder();
+        for (ForeignKey foreignKey : arrayList)
+            addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
+        return addPath.toString();
+    }
+
+    private static String changeQueryToAddSecondTable(String query, List<String> listColumns) {
+        String colJoin = "country";
+        HashSet<String> hashSet = new HashSet<>();
+        List<String> list = new ArrayList<>();
+        for (String col : listColumns) {
+            if (hashSet.add(col)) {
+                list.add("t1." + col.split("\\.")[1]);
+            } else {
+                list.add("t2." + col.split("\\.")[1]);
+            }
+        }
+        String columns = list.toString().split("\\[")[1].split("]")[0];
+        return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
+                "LEFT JOIN " + "(" + query + ") t2 \n" +
+                "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
     }
 
     private static void writeToFile(String queryorderby, HashMap<String, Integer> temp, HashMap<Integer, Set<ForeignKey>> allPaths) throws IOException {
@@ -180,7 +208,7 @@ public class PatternTree {
             it.remove();
         }
 
-        if (!allPaths.isEmpty()) {
+        if (!allPaths.isEmpty() && !queryorderby.equals("")) {
             String[] tempOrderBy = queryorderby.split("\"");
             StringBuilder orderby = new StringBuilder("ORDER BY ");
             for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
@@ -189,6 +217,12 @@ public class PatternTree {
             fileWriter.write(orderby.toString());
         }
         fileWriter.close();
+    }
+
+    private boolean containsDuplicate() {
+        List<String> list = listColumns();
+        Set<String> set = new HashSet<>(list);
+        return (set.size() < list.size());
     }
 
     private static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {
@@ -211,9 +245,6 @@ public class PatternTree {
                                 if (paths.size() > 0) {
                                     allPaths = listBestPaths(paths, allPaths);
                                 }
-                            } else {
-                                System.out.println(parent.children.get(0).table);
-                                db.getFksForTable(parent.children.get(0).table);
                             }
                         }
                     }

@@ -2,6 +2,8 @@ package gui;
 
 import autowebservices.database.DB;
 import autowebservices.datapull.SQLPull;
+import autowebservices.grammar.JSONLexer;
+import autowebservices.grammar.JSONParser;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -14,11 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import autowebservices.grammar.JSONLexer;
-import autowebservices.grammar.JSONParser;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.json.JSONArray;
 
 import javax.imageio.ImageIO;
@@ -159,13 +159,18 @@ public class Controller {
                 pathQueries[j++] = temp2[i];
         }
         StringBuilder result = new StringBuilder();
-        for (int value : path) {
-            if (result.toString().equals(""))
-                result.append(pathQueries[value].split("ORDER BY")[0]);
-            else result.append(" UNION \n").append(pathQueries[value].split("ORDER BY")[0]);
+        if (path.length > 1) {
+            for (int value = 0; value < path.length; value++) {
+                int index = pathQueries[value].lastIndexOf("ORDER BY");
+                if (result.toString().equals("")) {
+                    result.append(pathQueries[value], 0, index);
+                } else result.append(" UNION \n").append(pathQueries[value], 0, index);
+            }
+        } else {
+            result.append(pathQueries[path[0]]);
         }
         result.append(temp2[temp2.length - 1]);
-        finalQuery = result.toString();
+        finalQuery = result.toString() + " LIMIT 100";
         generateOutput();
     }
 
