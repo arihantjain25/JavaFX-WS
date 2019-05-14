@@ -170,9 +170,4 @@ public class DB {
         }
         return names;
     }
-
-    public List<String> getFksForTable(String table) {
-        System.out.println(fkColumns.keySet());
-        return null;
-    }
 }

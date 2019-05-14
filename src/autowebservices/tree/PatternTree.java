@@ -148,7 +148,8 @@ public class PatternTree {
             allPaths = savePaths(joinGraph, rootNode, allPaths);
             if (rootNode.children.size() == 1 || allPaths.isEmpty()) {
                 String query = sqlPull.generateRowsEstimaiton(new HashSet<>(), listColumns().toString(), listTables());
-                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0), getRowsNumberFromOutput(query));
+                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
+                        getRowsNumberFromOutput(query));
             }
         }
 
@@ -167,7 +168,8 @@ public class PatternTree {
                     queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
                     flag = false;
                 }
-                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath, getRowsNumberFromOutput(query));
+                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath,
+                        getRowsNumberFromOutput(query));
             }
         }
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
@@ -177,17 +179,23 @@ public class PatternTree {
     private static String createAddPaths(List<ForeignKey> arrayList) {
         StringBuilder addPath = new StringBuilder();
         for (ForeignKey foreignKey : arrayList)
-            addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).append(",").append(foreignKey.getColumnJoin()).append("@");
+            addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).
+                    append(",").append(foreignKey.getColumnJoin()).append("@");
         return addPath.toString();
     }
 
     private static String changeQueryToAddSecondTable(String query, List<String> listColumns) {
-        String colJoin = "country";
+        String colJoin = null;
+        boolean flag = true;
         HashSet<String> hashSet = new HashSet<>();
         List<String> list = new ArrayList<>();
         for (String col : listColumns) {
             if (hashSet.add(col)) {
                 list.add("t1." + col.split("\\.")[1]);
+                if (flag) {
+                    flag = false;
+                    colJoin = col.split("\\.")[1];
+                }
             } else {
                 list.add("t2." + col.split("\\.")[1]);
             }
@@ -198,7 +206,8 @@ public class PatternTree {
                 "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
     }
 
-    private static void writeToFile(String queryorderby, HashMap<String, Integer> temp, HashMap<Integer, Set<ForeignKey>> allPaths) throws IOException {
+    private static void writeToFile(String queryorderby, HashMap<String, Integer> temp, HashMap<Integer,
+            Set<ForeignKey>> allPaths) throws IOException {
         FileWriter fileWriter = new FileWriter("generatedfiles/queries.txt");
         Iterator it = temp.entrySet().iterator();
 
@@ -233,7 +242,8 @@ public class PatternTree {
         return temp;
     }
 
-    private HashMap<Integer, Set<ForeignKey>> savePaths(Graph joinGraph, PatternTree objRoot, HashMap<Integer, Set<ForeignKey>> allPaths) {
+    private HashMap<Integer, Set<ForeignKey>> savePaths(Graph joinGraph, PatternTree objRoot,
+                                                        HashMap<Integer, Set<ForeignKey>> allPaths) {
         if (hasChildren(objRoot)) {
             for (PatternTree child : objRoot.children) {
                 if (child.table != null) {
@@ -288,7 +298,8 @@ public class PatternTree {
         return allPaths;
     }
 
-    private HashMap<Integer, Set<ForeignKey>> listBestPaths(List<Path> paths, HashMap<Integer, Set<ForeignKey>> allPaths) {
+    private HashMap<Integer, Set<ForeignKey>> listBestPaths(List<Path> paths,
+                                                            HashMap<Integer, Set<ForeignKey>> allPaths) {
         HashMap<Integer, Set<ForeignKey>> tempAllPaths = new HashMap<>();
         int count = 0;
         for (Path path : paths) {
@@ -314,7 +325,6 @@ public class PatternTree {
             return parseQueryOutput(toParse);
         } catch (SQLException e) {
             System.out.println(query);
-            System.out.println();
             System.err.println("Query not executed");
         }
         return Integer.parseInt("0");

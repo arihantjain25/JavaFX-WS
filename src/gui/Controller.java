@@ -217,7 +217,6 @@ public class Controller {
         fileWriter.write(finalOut);
         fileWriter.close();
         newSchema = sqlPull.generateFillableSchema(filePath).toString();
-        System.out.println();
     }
 
     private static String usingBufferedReader(String fileName) {
