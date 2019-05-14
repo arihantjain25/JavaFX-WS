@@ -9,6 +9,7 @@ import autowebservices.database.ForeignKey;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -119,6 +120,28 @@ public class SQLPull {
         return null;
     }
 
+    public String changeQueryToAddSecondTable(String query, List<String> listColumns) {
+        String colJoin = null;
+        boolean flag = true;
+        HashSet<String> hashSet = new HashSet<>();
+        List<String> list = new ArrayList<>();
+        for (String col : listColumns) {
+            if (hashSet.add(col)) {
+                list.add("t1." + col.split("\\.")[1]);
+                if (flag) {
+                    flag = false;
+                    colJoin = col.split("\\.")[1];
+                }
+            } else {
+                list.add("t2." + col.split("\\.")[1]);
+            }
+        }
+        String columns = list.toString().split("\\[")[1].split("]")[0];
+        return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
+                "LEFT JOIN " + "(" + query + ") t2 \n" +
+                "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
+    }
+
     private String readAllBytesInAFile(String filePath) {
         String content = "";
         try {
@@ -143,6 +166,36 @@ public class SQLPull {
             }
         }
         return count;
+    }
+
+    public String createAddPaths(List<ForeignKey> arrayList) {
+        StringBuilder addPath = new StringBuilder();
+        for (ForeignKey foreignKey : arrayList)
+            addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).
+                    append(",").append(foreignKey.getColumnJoin()).append("@");
+        return addPath.toString();
+    }
+
+    public void writeToFile(String queryorderby, HashMap<String, Integer> temp, HashMap<Integer,
+            Set<ForeignKey>> allPaths) throws IOException {
+        FileWriter fileWriter = new FileWriter("generatedfiles/queries.txt");
+        Iterator it = temp.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            fileWriter.write((pair.getKey() + "!!!" + pair.getValue()) + "!!!");
+            it.remove();
+        }
+
+        if (!allPaths.isEmpty() && !queryorderby.equals("")) {
+            String[] tempOrderBy = queryorderby.split("\"");
+            StringBuilder orderBy = new StringBuilder("ORDER BY ");
+            for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
+                orderBy.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
+            orderBy.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
+            fileWriter.write(orderBy.toString());
+        }
+        fileWriter.close();
     }
 
     public JSONArray convertQueryResultToJson(ResultSet resultSet) {

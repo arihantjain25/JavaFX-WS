@@ -11,7 +11,6 @@ import autowebservices.datapull.SQLPull;
 import autowebservices.joingraph.Graph;
 import autowebservices.joingraph.Path;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -157,11 +156,11 @@ public class PatternTree {
         boolean flag = true;
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
-            String addPath = createAddPaths(new ArrayList<>(allPaths.get(i)));
+            String addPath = sqlPull.createAddPaths(new ArrayList<>(allPaths.get(i)));
             String query = sqlPull.generateRowsEstimaiton(set, listColumns().toString(), listTables());
             if (containsDuplicates) {
                 String tempQuery = sqlPull.generateQuery(set, new HashSet<>(listColumns()).toString(), listTables());
-                query = changeQueryToAddSecondTable(tempQuery, listColumns());
+                query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
                 queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
             } else {
                 if (flag) {
@@ -173,59 +172,7 @@ public class PatternTree {
             }
         }
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
-        writeToFile(queryOrderBy, temp, allPaths);
-    }
-
-    private static String createAddPaths(List<ForeignKey> arrayList) {
-        StringBuilder addPath = new StringBuilder();
-        for (ForeignKey foreignKey : arrayList)
-            addPath.append(foreignKey.getFromTable()).append(",").append(foreignKey.getToTable()).
-                    append(",").append(foreignKey.getColumnJoin()).append("@");
-        return addPath.toString();
-    }
-
-    private static String changeQueryToAddSecondTable(String query, List<String> listColumns) {
-        String colJoin = null;
-        boolean flag = true;
-        HashSet<String> hashSet = new HashSet<>();
-        List<String> list = new ArrayList<>();
-        for (String col : listColumns) {
-            if (hashSet.add(col)) {
-                list.add("t1." + col.split("\\.")[1]);
-                if (flag) {
-                    flag = false;
-                    colJoin = col.split("\\.")[1];
-                }
-            } else {
-                list.add("t2." + col.split("\\.")[1]);
-            }
-        }
-        String columns = list.toString().split("\\[")[1].split("]")[0];
-        return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
-                "LEFT JOIN " + "(" + query + ") t2 \n" +
-                "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
-    }
-
-    private static void writeToFile(String queryorderby, HashMap<String, Integer> temp, HashMap<Integer,
-            Set<ForeignKey>> allPaths) throws IOException {
-        FileWriter fileWriter = new FileWriter("generatedfiles/queries.txt");
-        Iterator it = temp.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            fileWriter.write((pair.getKey() + "!!!" + pair.getValue()) + "!!!");
-            it.remove();
-        }
-
-        if (!allPaths.isEmpty() && !queryorderby.equals("")) {
-            String[] tempOrderBy = queryorderby.split("\"");
-            StringBuilder orderBy = new StringBuilder("ORDER BY ");
-            for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
-                orderBy.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
-            orderBy.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
-            fileWriter.write(orderBy.toString());
-        }
-        fileWriter.close();
+        sqlPull.writeToFile(queryOrderBy, temp, allPaths);
     }
 
     private boolean containsDuplicate() {
@@ -334,10 +281,3 @@ public class PatternTree {
         return Integer.parseInt(row.split(" ")[3].split("=")[1]);
     }
 }
-
-
-//    public <K, V extends Comparable<? super V>> List<Map.Entry<K, V>> hashMapValueSort(Map<K, V> map) {
-//        List<Map.Entry<K, V>> sortedEntries = new ArrayList<>(map.entrySet());
-//        sortedEntries.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-//        return sortedEntries;
-//    }
