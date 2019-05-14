@@ -166,10 +166,10 @@ public class Controller {
                     result.append(pathQueries[value], 0, index);
                 } else result.append(" UNION \n").append(pathQueries[value], 0, index);
             }
+            result.append(temp2[temp2.length - 1]);
         } else {
             result.append(pathQueries[path[0]]);
         }
-        result.append(temp2[temp2.length - 1]);
         finalQuery = result.toString() + " LIMIT 100";
         generateOutput();
     }
