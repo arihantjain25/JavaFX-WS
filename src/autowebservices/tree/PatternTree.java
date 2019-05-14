@@ -153,7 +153,7 @@ public class PatternTree {
             }
         }
 
-        String queryorderby = "";
+        String queryOrderBy = "";
         boolean flag = true;
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
@@ -165,7 +165,7 @@ public class PatternTree {
                 queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
             } else {
                 if (flag) {
-                    queryorderby = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
+                    queryOrderBy = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
                     flag = false;
                 }
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + addPath,
@@ -173,7 +173,7 @@ public class PatternTree {
             }
         }
         HashMap<String, Integer> temp = sortByValue(queryAndNumberRows);
-        writeToFile(queryorderby, temp, allPaths);
+        writeToFile(queryOrderBy, temp, allPaths);
     }
 
     private static String createAddPaths(List<ForeignKey> arrayList) {
@@ -219,11 +219,11 @@ public class PatternTree {
 
         if (!allPaths.isEmpty() && !queryorderby.equals("")) {
             String[] tempOrderBy = queryorderby.split("\"");
-            StringBuilder orderby = new StringBuilder("ORDER BY ");
+            StringBuilder orderBy = new StringBuilder("ORDER BY ");
             for (int i = 1; i < tempOrderBy.length - 1; i = i + 2)
-                orderby.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
-            orderby.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
-            fileWriter.write(orderby.toString());
+                orderBy.append("\"").append(tempOrderBy[i]).append("\"").append(", ");
+            orderBy.append("\"").append(tempOrderBy[tempOrderBy.length - 1]).append("\"");
+            fileWriter.write(orderBy.toString());
         }
         fileWriter.close();
     }
@@ -305,14 +305,14 @@ public class PatternTree {
         for (Path path : paths) {
             if (allPaths.size() > 0) {
                 for (Integer integer : allPaths.keySet()) {
-                    HashSet<ForeignKey> temphash = new HashSet<>();
-                    temphash.addAll(allPaths.get(integer));
-                    temphash.addAll(path.getFKs());
-                    tempAllPaths.put(count++, temphash);
+                    HashSet<ForeignKey> tempHash = new HashSet<>();
+                    tempHash.addAll(allPaths.get(integer));
+                    tempHash.addAll(path.getFKs());
+                    tempAllPaths.put(count++, tempHash);
                 }
             } else {
-                HashSet<ForeignKey> temphash = new HashSet<>(path.getFKs());
-                tempAllPaths.put(count++, temphash);
+                HashSet<ForeignKey> tempHash = new HashSet<>(path.getFKs());
+                tempAllPaths.put(count++, tempHash);
             }
         }
         return tempAllPaths;
