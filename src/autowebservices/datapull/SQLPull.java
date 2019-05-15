@@ -98,7 +98,7 @@ public class SQLPull {
     }
 
 
-    public String generateRowsEstimaiton(Set<ForeignKey> result, String columns, List<String> tableList) {
+    public String generateRowsEstimation(Set<ForeignKey> result, String columns, List<String> tableList) {
         return "EXPLAIN " + generateQuery(result, columns, tableList);
     }
 

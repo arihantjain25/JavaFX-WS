@@ -98,8 +98,8 @@ public class Controller {
     }
 
     private void generateImages() throws IOException {
-//        ProcessBuilder builder = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
-        ProcessBuilder builder = new ProcessBuilder("python", "creategraphimages.py");
+        ProcessBuilder builder = new ProcessBuilder("python3", "/home/arihant/IdeaProjects/JavaFX-WS/creategraphimages.py");
+//        ProcessBuilder builder = new ProcessBuilder("python", "creategraphimages.py");
         Process p = builder.start();
         try {
             p.waitFor();
@@ -109,8 +109,8 @@ public class Controller {
     }
 
     private void showImagesInApp() {
-//        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images/");
-        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images\\");
+        File selectedDirectory = new File("/home/arihant/IdeaProjects/JavaFX-WS/images/");
+//        File selectedDirectory = new File("C:\\Users\\Arihant Jain\\IdeaProjects\\JavaFX-WS\\images\\");
         FilenameFilter filterJpg = (dir, name) -> name.toLowerCase().endsWith(".png");
         filesJpg = selectedDirectory.listFiles(filterJpg);
         if (filesJpg != null) {

@@ -146,7 +146,7 @@ public class PatternTree {
             PatternTree rootNode = getRoot();
             allPaths = savePaths(joinGraph, rootNode, allPaths);
             if (rootNode.children.size() == 1 || allPaths.isEmpty()) {
-                String query = sqlPull.generateRowsEstimaiton(new HashSet<>(), listColumns().toString(), listTables());
+                String query = sqlPull.generateRowsEstimation(new HashSet<>(), listColumns().toString(), listTables());
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
                         getRowsNumberFromOutput(query));
                 if (containsDuplicates) {
@@ -162,7 +162,7 @@ public class PatternTree {
         for (Integer i : allPaths.keySet()) {
             Set<ForeignKey> set = new HashSet<>(allPaths.get(i));
             String addPath = sqlPull.createAddPaths(new ArrayList<>(allPaths.get(i)));
-            String query = sqlPull.generateRowsEstimaiton(set, listColumns().toString(), listTables());
+            String query = sqlPull.generateRowsEstimation(set, listColumns().toString(), listTables());
             if (containsDuplicates) {
                 String tempQuery = sqlPull.generateQuery(set, new HashSet<>(listColumns()).toString(), listTables());
                 query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
