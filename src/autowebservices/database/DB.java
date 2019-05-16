@@ -171,7 +171,7 @@ public class DB {
         return names;
     }
 
-    public String getPrimaryKey(String table) throws SQLException {
+    public String getPrimaryKey(String table) {
         String query = "SELECT c.column_name, c.data_type\n" +
                 "FROM information_schema.table_constraints tc \n" +
                 "JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name) \n" +
