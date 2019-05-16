@@ -136,11 +136,12 @@ public class PatternTree {
         }
     }
 
-    public void computeTreePaths(Graph joinGraph) throws IOException {
+    public void computeTreePaths(Graph joinGraph) throws IOException, SQLException {
         SQLPull sqlPull = new SQLPull();
         HashMap<Integer, Set<ForeignKey>> allPaths = new HashMap<>();
         HashMap<String, Integer> queryAndNumberRows = new HashMap<>();
         boolean containsDuplicates = containsDuplicate();
+        List<ForeignKey> fks = db.buildFKs();
 
         if (hasChildren()) {
             PatternTree rootNode = getRoot();
@@ -150,6 +151,15 @@ public class PatternTree {
                 queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
                         getRowsNumberFromOutput(query));
                 if (containsDuplicates) {
+                    String duplicateTableName = getDuplicateTableName();
+                    for (ForeignKey fk : fks) {
+                        if (fk.getFromTable().equals(duplicateTableName)) {
+                            System.out.println(fk.getToTable());
+                        }
+                        if (fk.getToTable().equals(duplicateTableName)) {
+                            System.err.println(fk.getFromTable());
+                        }
+                    }
                     String tempQuery = sqlPull.generateQuery(new HashSet<>(), new HashSet<>(listColumns()).toString(), listTables());
                     query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
                     queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
@@ -164,6 +174,12 @@ public class PatternTree {
             String addPath = sqlPull.createAddPaths(new ArrayList<>(allPaths.get(i)));
             String query = sqlPull.generateRowsEstimation(set, listColumns().toString(), listTables());
             if (containsDuplicates) {
+                String duplicateTableName = getDuplicateTableName();
+                for (ForeignKey fk : fks) {
+                    if (fk.getFromTable().equals(duplicateTableName)) {
+                        System.out.println(fk.getToTable());
+                    }
+                }
                 String tempQuery = sqlPull.generateQuery(set, new HashSet<>(listColumns()).toString(), listTables());
                 query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
                 queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
@@ -184,6 +200,17 @@ public class PatternTree {
         List<String> list = listColumns();
         Set<String> set = new HashSet<>(list);
         return (set.size() < list.size());
+    }
+
+    private String getDuplicateTableName() {
+        List<String> list = listColumns();
+        Set<String> strings = new HashSet<>();
+        for (String l : list) {
+            if (!strings.add(l)) {
+                return l.split("\\.")[0];
+            }
+        }
+        return null;
     }
 
     private static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm) {

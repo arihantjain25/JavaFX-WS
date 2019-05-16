@@ -10,6 +10,7 @@ import autowebservices.joingraph.Graph;
 import autowebservices.tree.PatternTree;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -29,7 +30,7 @@ class Visitor {
         joinGraph = new Graph(db);
     }
 
-    static void exitJson() throws IOException {
+    static void exitJson() throws IOException, SQLException {
         tree.computeTreePaths(joinGraph);
     }
 
