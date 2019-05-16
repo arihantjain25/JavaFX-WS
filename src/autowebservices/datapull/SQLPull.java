@@ -120,26 +120,33 @@ public class SQLPull {
         return null;
     }
 
-    public String changeQueryToAddSecondTable(String query, List<String> listColumns) {
-        String colJoin = null;
+    public String changeQueryToAddSecondTable(String query, List<String> listColumns, List<String> columnJoins, String colJoin) {
         boolean flag = true;
         HashSet<String> hashSet = new HashSet<>();
         List<String> list = new ArrayList<>();
         for (String col : listColumns) {
             if (hashSet.add(col)) {
                 list.add("t1." + col.split("\\.")[1]);
-                if (flag) {
-                    flag = false;
-                    colJoin = col.split("\\.")[1];
+                if (colJoin == null) {
+                    if (flag) {
+                        flag = false;
+                        colJoin = col.split("\\.")[1];
+                    }
                 }
             } else {
                 list.add("t2." + col.split("\\.")[1]);
             }
         }
         String columns = list.toString().split("\\[")[1].split("]")[0];
-        return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
-                "LEFT JOIN " + "(" + query + ") t2 \n" +
-                "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
+        if (columnJoins.size() == 0) {
+            return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
+                    "LEFT JOIN " + "(" + query + ") t2 \n" +
+                    "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
+        } else {
+            return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
+                    "LEFT JOIN " + "(" + query + ") t2 \n" +
+                    "ON " + "t1." + columnJoins.get(0) + " = " + "t2." + columnJoins.get(1) + " \nORDER BY " + columns;
+        }
     }
 
     private String readAllBytesInAFile(String filePath) {

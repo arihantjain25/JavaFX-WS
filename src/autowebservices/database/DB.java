@@ -170,4 +170,20 @@ public class DB {
         }
         return names;
     }
+
+    public String getPrimaryKey(String table) throws SQLException {
+        String query = "SELECT c.column_name, c.data_type\n" +
+                "FROM information_schema.table_constraints tc \n" +
+                "JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name) \n" +
+                "JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema\n" +
+                "  AND tc.table_name = c.table_name AND ccu.column_name = c.column_name\n" +
+                "WHERE constraint_type = 'PRIMARY KEY' and tc.table_name = '" + table + "';";
+        try (ResultSet resultSet = executeQuery(query)) {
+            resultSet.next();
+            return resultSet.getString("COLUMN_NAME");
+        } catch (SQLException e) {
+            System.err.println("Query not executed");
+        }
+        return "";
+    }
 }

@@ -148,21 +148,38 @@ public class PatternTree {
             allPaths = savePaths(joinGraph, rootNode, allPaths);
             if (rootNode.children.size() == 1 || allPaths.isEmpty()) {
                 String query = sqlPull.generateRowsEstimation(new HashSet<>(), listColumns().toString(), listTables());
-                queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
-                        getRowsNumberFromOutput(query));
                 if (containsDuplicates) {
-                    String duplicateTableName = getDuplicateTableName();
+                    String colJoin = "";
+                    boolean flag = true;
+                    String duplicateTableJoin = getDuplicateTableJoin();
+                    String table = Objects.requireNonNull(duplicateTableJoin).split("\\.")[0];
+                    List<String> list = new ArrayList<>(listColumns());
+                    List<String> list1 = new ArrayList<>();
+                    Set<ForeignKey> set = new HashSet<>();
                     for (ForeignKey fk : fks) {
-                        if (fk.getFromTable().equals(duplicateTableName)) {
-                            System.out.println(fk.getToTable());
-                        }
-                        if (fk.getToTable().equals(duplicateTableName)) {
-                            System.err.println(fk.getFromTable());
+                        if (fk.getFromTable().equals(table)) {
+                            if (flag) {
+                                flag = false;
+                                colJoin = db.getPrimaryKey(fk.getToTable());
+                                set.add(fk);
+                                if (fk.generateJoinCondition().split(" = ")[0].split("\\.")[0].equals(fk.getToTable()))
+                                    list.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[0] + ".\"" + colJoin + "\"");
+                                else
+                                    list.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[0] + ".\"" + colJoin + "\"");
+//                                list1.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[1].replace("\"", ""));
+//                                list1.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[1].replace("\"", ""));
+                            }
                         }
                     }
-                    String tempQuery = sqlPull.generateQuery(new HashSet<>(), new HashSet<>(listColumns()).toString(), listTables());
-                    query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
+                    if (fks.size() == 0)
+                        colJoin = nonDuplicateColumn();
+
+                    String tempQuery = sqlPull.generateQuery(set, new HashSet<>(list).toString(), listTables());
+                    query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), list1, colJoin);
                     queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
+                } else {
+                    queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
+                            getRowsNumberFromOutput(query));
                 }
             }
         }
@@ -174,15 +191,32 @@ public class PatternTree {
             String addPath = sqlPull.createAddPaths(new ArrayList<>(allPaths.get(i)));
             String query = sqlPull.generateRowsEstimation(set, listColumns().toString(), listTables());
             if (containsDuplicates) {
-                String duplicateTableName = getDuplicateTableName();
+                String colJoin = "";
+                boolean flag1 = true;
+                String duplicateTableJoin = getDuplicateTableJoin();
+                String table = Objects.requireNonNull(duplicateTableJoin).split("\\.")[0];
+                List<String> list = new ArrayList<>(listColumns());
+                List<String> list1 = new ArrayList<>();
+                Set<ForeignKey> set1 = new HashSet<>();
                 for (ForeignKey fk : fks) {
-                    if (fk.getFromTable().equals(duplicateTableName)) {
-                        System.out.println(fk.getToTable());
+                    if (fk.getFromTable().equals(table)) {
+                        if (flag1) {
+                            flag1 = false;
+                            colJoin = db.getPrimaryKey(fk.getToTable());
+                            set.add(fk);
+                            if (fk.generateJoinCondition().split(" = ")[0].split("\\.")[0].equals(fk.getToTable()))
+                                list.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[0] + ".\"" + colJoin + "\"");
+                            else
+                                list.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[0] + ".\"" + colJoin + "\"");
+//                            list1.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[1].replace("\"", ""));
+//                            list1.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[1].replace("\"", ""));
+                        }
                     }
                 }
-                String tempQuery = sqlPull.generateQuery(set, new HashSet<>(listColumns()).toString(), listTables());
-                query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns());
-                queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
+
+                String tempQuery = sqlPull.generateQuery(set1, new HashSet<>(list).toString(), listTables());
+                query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), list1, colJoin);
+                queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
             } else {
                 if (flag) {
                     queryOrderBy = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
@@ -196,13 +230,23 @@ public class PatternTree {
         sqlPull.writeToFile(queryOrderBy, temp, allPaths);
     }
 
+    private String nonDuplicateColumn() {
+        List<String> list = listColumns();
+        for (String s : list) {
+            if (Collections.frequency(list, s) == 1) {
+                return s.split("\\.")[1].replaceAll("\"", "");
+            }
+        }
+        return null;
+    }
+
     private boolean containsDuplicate() {
         List<String> list = listColumns();
         Set<String> set = new HashSet<>(list);
         return (set.size() < list.size());
     }
 
-    private String getDuplicateTableName() {
+    private String getDuplicateTableJoin() {
         List<String> list = listColumns();
         Set<String> strings = new HashSet<>();
         for (String l : list) {
@@ -302,7 +346,7 @@ public class PatternTree {
             String toParse = resultSet.getString("QUERY PLAN");
             return parseQueryOutput(toParse);
         } catch (SQLException e) {
-            System.out.println(query);
+//            System.out.println(query);
             System.err.println("Query not executed");
         }
         return Integer.parseInt("0");

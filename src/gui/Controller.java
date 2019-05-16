@@ -54,7 +54,20 @@ public class Controller {
         fileWriter.close();
         try {
             db = establishConnection();
-            loadApplication();
+//            loadApplication();
+
+            CharStream charStream = CharStreams.fromString("{\n" +
+                    "  \"lg\": \"lgid\",\n" +
+                    "  \"employee\": \"masterid\",\n" +
+                    "  \"users\": {\n" +
+                    "    \"employee2\": \"masterid\"\n" +
+                    "  }\n" +
+                    "}");
+            JSONLexer lexer = new JSONLexer(charStream);
+            CommonTokenStream ts = new CommonTokenStream(lexer);
+            JSONParser parser = new JSONParser(ts);
+            parser.json(db);
+
         } catch (SQLException e) {
             Stage stage = new Stage();
             TextArea text = new TextArea();
