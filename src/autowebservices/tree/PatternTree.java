@@ -176,6 +176,7 @@ public class PatternTree {
 
                     String tempQuery = sqlPull.generateQuery(set, new HashSet<>(list).toString(), listTables());
                     query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), list1, colJoin);
+                    System.out.println(query);
                     queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
                 } else {
                     queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
