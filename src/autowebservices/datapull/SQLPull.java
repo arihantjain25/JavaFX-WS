@@ -120,7 +120,7 @@ public class SQLPull {
         return null;
     }
 
-    public String changeQueryToAddSecondTable(String query, List<String> listColumns, List<String> columnJoins, String colJoin) {
+    public String changeQueryToAddSecondTable(String query, List<String> listColumns, String colJoin) {
         boolean flag = true;
         HashSet<String> hashSet = new HashSet<>();
         List<String> list = new ArrayList<>();
@@ -138,15 +138,9 @@ public class SQLPull {
             }
         }
         String columns = list.toString().split("\\[")[1].split("]")[0];
-        if (columnJoins.size() == 0) {
-            return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
-                    "LEFT JOIN " + "(" + query + ") t2 \n" +
-                    "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
-        } else {
-            return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
-                    "LEFT JOIN " + "(" + query + ") t2 \n" +
-                    "ON " + "t1." + columnJoins.get(0) + " = " + "t2." + columnJoins.get(1) + " \nORDER BY " + columns;
-        }
+        return "SELECT DISTINCT " + columns + " \nFROM (" + query + ") t1 \n" +
+                "LEFT JOIN " + "(" + query + ") t2 \n" +
+                "ON " + "t1." + colJoin + " = " + "t2." + colJoin + " \nORDER BY " + columns;
     }
 
     private String readAllBytesInAFile(String filePath) {

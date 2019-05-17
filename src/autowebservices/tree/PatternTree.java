@@ -154,7 +154,6 @@ public class PatternTree {
                     String duplicateTableJoin = getDuplicateTableJoin();
                     String table = Objects.requireNonNull(duplicateTableJoin).split("\\.")[0];
                     List<String> list = new ArrayList<>(listColumns());
-                    List<String> list1 = new ArrayList<>();
                     Set<ForeignKey> set = new HashSet<>();
                     for (ForeignKey fk : fks) {
                         if (fk.getFromTable().equals(table)) {
@@ -166,8 +165,6 @@ public class PatternTree {
                                     list.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[0] + ".\"" + colJoin + "\"");
                                 else
                                     list.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[0] + ".\"" + colJoin + "\"");
-//                                list1.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[1].replace("\"", ""));
-//                                list1.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[1].replace("\"", ""));
                             }
                         }
                     }
@@ -175,8 +172,7 @@ public class PatternTree {
                         colJoin = nonDuplicateColumn();
 
                     String tempQuery = sqlPull.generateQuery(set, new HashSet<>(list).toString(), listTables());
-                    query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), list1, colJoin);
-                    System.out.println(query);
+                    query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), colJoin);
                     queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
                 } else {
                     queryAndNumberRows.put(query.split("EXPLAIN ")[1] + "!!!" + listTables().get(0),
@@ -197,10 +193,10 @@ public class PatternTree {
                 String duplicateTableJoin = getDuplicateTableJoin();
                 String table = Objects.requireNonNull(duplicateTableJoin).split("\\.")[0];
                 List<String> list = new ArrayList<>(listColumns());
-                List<String> list1 = new ArrayList<>();
                 Set<ForeignKey> set1 = new HashSet<>();
                 for (ForeignKey fk : fks) {
                     if (fk.getFromTable().equals(table)) {
+                        System.out.println(fk.generateJoinCondition());
                         if (flag1) {
                             flag1 = false;
                             colJoin = db.getPrimaryKey(fk.getToTable());
@@ -209,14 +205,12 @@ public class PatternTree {
                                 list.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[0] + ".\"" + colJoin + "\"");
                             else
                                 list.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[0] + ".\"" + colJoin + "\"");
-//                            list1.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[1].replace("\"", ""));
-//                            list1.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[1].replace("\"", ""));
                         }
                     }
                 }
 
                 String tempQuery = sqlPull.generateQuery(set1, new HashSet<>(list).toString(), listTables());
-                query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), list1, colJoin);
+                query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), colJoin);
                 queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
             } else {
                 if (flag) {
@@ -347,7 +341,7 @@ public class PatternTree {
             String toParse = resultSet.getString("QUERY PLAN");
             return parseQueryOutput(toParse);
         } catch (SQLException e) {
-//            System.out.println(query);
+            System.out.println(query);
             System.err.println("Query not executed");
         }
         return Integer.parseInt("0");
