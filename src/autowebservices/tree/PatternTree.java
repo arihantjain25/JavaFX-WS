@@ -188,30 +188,50 @@ public class PatternTree {
             String addPath = sqlPull.createAddPaths(new ArrayList<>(allPaths.get(i)));
             String query = sqlPull.generateRowsEstimation(set, listColumns().toString(), listTables());
             if (containsDuplicates) {
-                String colJoin = "";
-                boolean flag1 = true;
+                String colJoin = null;
                 String duplicateTableJoin = getDuplicateTableJoin();
                 String table = Objects.requireNonNull(duplicateTableJoin).split("\\.")[0];
-                List<String> list = new ArrayList<>(listColumns());
-                Set<ForeignKey> set1 = new HashSet<>();
+                List<String> tempCol = listColumns();
+                boolean flagDuplicate = true;
                 for (ForeignKey fk : fks) {
                     if (fk.getFromTable().equals(table)) {
-                        System.out.println(fk.generateJoinCondition());
-                        if (flag1) {
-                            flag1 = false;
-                            colJoin = db.getPrimaryKey(fk.getToTable());
-                            set.add(fk);
-                            if (fk.generateJoinCondition().split(" = ")[0].split("\\.")[0].equals(fk.getToTable()))
-                                list.add(fk.generateJoinCondition().split(" = ")[0].split("\\.")[0] + ".\"" + colJoin + "\"");
-                            else
-                                list.add(fk.generateJoinCondition().split(" = ")[1].split("\\.")[0] + ".\"" + colJoin + "\"");
+                        if (fk.getToTable().equals(table)) {
+                            String firstCol = fk.generateJoinCondition().split(" = ")[0].replaceAll(" ", "");
+                            String secondCol = fk.generateJoinCondition().split(" = ")[1].replaceAll(" ", "");
+                            tempCol.add(firstCol);
+                            tempCol.add(secondCol);
+                            Set<String> strings = new HashSet<>(listColumns());
+                            flagDuplicate = false;
+                            if (strings.add(firstCol))
+                                colJoin = firstCol.split("\\.")[1].replaceAll("\"", "");
+                            else colJoin = secondCol.split("\\.")[1].replaceAll("\"", "");
                         }
                     }
                 }
-
-                String tempQuery = sqlPull.generateQuery(set1, new HashSet<>(list).toString(), listTables());
+                if (flagDuplicate) {
+                    for (ForeignKey fk : fks) {
+                        if (fk.getFromTable().equals(table)) {
+                            set.add(fk);
+                            String firstCol = fk.generateJoinCondition().split(" = ")[0].replaceAll(" ", "");
+                            String secondCol = fk.generateJoinCondition().split(" = ")[1].replaceAll(" ", "");
+                            Set<String> strings = new HashSet<>();
+                            for (String s : listColumns()) {
+                                strings.add(s.split("\\.")[1]);
+                            }
+                            if (strings.add(firstCol.split("\\.")[1]))
+                                tempCol.add(firstCol);
+                            if (strings.add(secondCol.split("\\.")[1]))
+                                tempCol.add(secondCol);
+                            Set<String> strings1 = new HashSet<>(listColumns());
+                            if (strings1.add(firstCol))
+                                colJoin = firstCol.split("\\.")[1].replaceAll("\"", "");
+                            else colJoin = secondCol.split("\\.")[1].replaceAll("\"", "");
+                        }
+                    }
+                }
+                String tempQuery = sqlPull.generateQuery(set, new HashSet<>(tempCol).toString(), listTables());
                 query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), colJoin);
-                queryAndNumberRows.put(query + "!!!" + listColumns().get(0), getRowsNumberFromOutput("EXPLAIN " + query));
+                queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
             } else {
                 if (flag) {
                     queryOrderBy = query.split("EXPLAIN ")[1].split("ORDER BY")[1];
