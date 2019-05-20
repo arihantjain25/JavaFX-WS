@@ -229,6 +229,9 @@ public class PatternTree {
                         }
                     }
                 }
+                if (colJoin == null) {
+                    colJoin = nonDuplicateColumn();
+                }
                 String tempQuery = sqlPull.generateQuery(set, new HashSet<>(tempCol).toString(), listTables());
                 query = sqlPull.changeQueryToAddSecondTable(tempQuery, listColumns(), colJoin);
                 queryAndNumberRows.put(query + "!!!" + addPath, getRowsNumberFromOutput("EXPLAIN " + query));
