@@ -254,7 +254,7 @@ public class Controller {
                 "user = '" + dbinfo[2] + "' \n" +
                 "password = '" + dbinfo[3] + "' \n" +
                 "port = '" + temp_host_port[1].split("/")[0] + "' \n" +
-                "query = '''" + finalQuery + "''' \n" +
+                "query = '''" + finalQuery + " LIMIT 1000" + "''' \n" +
                 "json_schema = '''" + newSchema + "''' \n" +
                 "@app.route('/')\n" +
                 "def hello_world():\n" +
