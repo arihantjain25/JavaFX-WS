@@ -168,7 +168,7 @@ public class PatternTree {
                             }
                         }
                     }
-                    if (fks.size() == 0)
+                    if (fks.size() == 0 || colJoin.equals(""))
                         colJoin = nonDuplicateColumn();
 
                     String tempQuery = sqlPull.generateQuery(set, new HashSet<>(list).toString(), listTables());
