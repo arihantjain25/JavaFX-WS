@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * A Path is a list of foreign keys
  *
- * @author Curt
+ * @author Curtis Dyreson & Arihant Jain
  */
 public class Path {
 

@@ -15,7 +15,7 @@ import java.util.*;
  * The Graph is the graph of join relationships established by foreign keys. Use
  * this package to create joins.
  *
- * @author Curt
+ * @author Curtis Dyreson & Arihant Jain
  */
 public class Graph {
 

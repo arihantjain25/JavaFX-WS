@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Curt
+ * @author Curtis Dyreson & Arihant Jain
  */
 public class ForeignKey {
 

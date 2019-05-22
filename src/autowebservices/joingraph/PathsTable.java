@@ -14,7 +14,7 @@ import java.util.Map;
  * A Paths table represents the paths (usually shortest) that connect pairs of
  * nodes
  *
- * @author Curt
+ * @author Curtis Dyreson & Arihant Jain
  */
 class PathsTable {
 

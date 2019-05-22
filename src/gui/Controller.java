@@ -28,6 +28,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * @author Curtis Dyreson & Arihant Jain
+ */
 public class Controller {
     public TextField dburi;
     public TextField dbname;

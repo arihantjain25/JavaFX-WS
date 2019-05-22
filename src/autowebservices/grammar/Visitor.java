@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * @author Curtis Dyreson
+ * @author Curtis Dyreson & Arihant Jain
  */
 class Visitor {
 

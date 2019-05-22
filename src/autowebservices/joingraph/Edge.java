@@ -10,7 +10,7 @@ import autowebservices.database.ForeignKey;
 /**
  * An Edge is a FK relationship in the Graph
  *
- * @author Curt
+ * @author Curtis Dyreson & Arihant Jain
  */
 class  Edge {
     private ForeignKey foreignKey;

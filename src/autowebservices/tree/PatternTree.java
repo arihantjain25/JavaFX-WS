@@ -22,7 +22,7 @@ import java.util.*;
  * JSON pattern is parsed. The tree consists of different kinds of nodes: array,
  * object, and key/value pair.
  *
- * @author Curtis Dyreson
+ * @author Curtis Dyreson & Arihant Jain
  */
 public class PatternTree {
 

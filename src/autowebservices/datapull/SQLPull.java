@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 import java.util.*;
 
 /**
- * @author Curtis Dyreson
+ * @author Curtis Dyreson & Arihant Jain
  */
 public class SQLPull {
 

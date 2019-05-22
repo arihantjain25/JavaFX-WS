@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * The DB class encapsulates the database actions.
  *
- * @author Curt
+ * @author Curtis Dyreson & Arihant Jain
  */
 public class DB {
 
