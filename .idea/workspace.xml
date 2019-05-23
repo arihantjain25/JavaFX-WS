@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="to add comments">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="bug fix: adding colJoin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -62,7 +62,20 @@
     <favorites_list name="JavaFxApplication" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2358">
+              <caret line="198" column="52" selection-start-line="198" selection-start-column="52" selection-end-line="198" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -129,7 +142,6 @@
         <option value="$PROJECT_DIR$/src/autowebservices/grammar/JSONParser.java" />
         <option value="$PROJECT_DIR$/creategraphimages.py" />
         <option value="$PROJECT_DIR$/src/autowebservices/grammar/Visitor.java" />
-        <option value="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/joingraph/Path.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/database/DB.java" />
@@ -138,15 +150,16 @@
         <option value="$PROJECT_DIR$/src/autowebservices/joingraph/Edge.java" />
         <option value="$PROJECT_DIR$/src/autowebservices/database/ForeignKey.java" />
         <option value="$PROJECT_DIR$/src/gui/Controller.java" />
+        <option value="$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-83" />
-    <option name="y" value="-15" />
-    <option name="width" value="1940" />
-    <option name="height" value="1100" />
+    <option name="x" value="188" />
+    <option name="y" value="27" />
+    <option name="width" value="1732" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -157,6 +170,7 @@
     </navigator>
     <panes>
       <pane id="Course" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -164,11 +178,28 @@
               <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
               <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
+              <item name="tree" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -185,13 +216,13 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AutoWebServices" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -353,13 +384,8 @@
       <workItem from="1558051358041" duration="12896000" />
       <workItem from="1558400185377" duration="844000" />
       <workItem from="1558550549361" duration="1240000" />
-    </task>
-    <task id="LOCAL-00002" summary="fix database reconnect">
-      <created>1554848590399</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1554848590400</updated>
+      <workItem from="1558562656032" duration="824000" />
+      <workItem from="1558628128944" duration="727000" />
     </task>
     <task id="LOCAL-00003" summary="to fix db instance save">
       <created>1554867625794</created>
@@ -697,16 +723,23 @@
       <option name="project" value="LOCAL" />
       <updated>1558550921270</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="bug fix: adding colJoin">
+      <created>1558562881017</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1558562881018</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="232029000" />
+    <option name="totallyTimeSpent" value="233580000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.18763326" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.19189766" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Palette&#9;" order="3" />
@@ -719,12 +752,12 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39859045" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="6" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="TODO" order="7" />
       <window_info anchor="bottom" id="Application Servers" order="8" />
       <window_info anchor="bottom" id="Changes" order="9" />
       <window_info anchor="bottom" id="Profiler" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" weight="0.32654658" />
+      <window_info anchor="bottom" id="Event Log" order="11" weight="0.3261105" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.32732967" />
       <window_info anchor="bottom" id="Problems" order="13" />
       <window_info anchor="bottom" id="Version Control" order="14" weight="0.32719395" />
@@ -827,7 +860,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add union support" />
     <MESSAGE value="completed gui; add same table joins" />
     <MESSAGE value="to add same table joins" />
     <MESSAGE value="mild refactoring" />
@@ -852,7 +884,8 @@
     <MESSAGE value="add new tests" />
     <MESSAGE value="to fix panels to tabs" />
     <MESSAGE value="to add comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="to add comments" />
+    <MESSAGE value="bug fix: adding colJoin" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix: adding colJoin" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -916,20 +949,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/Test1.json" />
     <entry file="file://$PROJECT_DIR$/src/gui/dbconfig.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui/main.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_161/src.zip!/java/lang/String.java" />
     <entry file="file://$PROJECT_DIR$/test/Test4.json" />
@@ -1025,16 +1058,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/autowebservices/datapull/SQLPull.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -1067,6 +1090,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2358">
+          <caret line="198" column="52" selection-start-line="198" selection-start-column="52" selection-end-line="198" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
