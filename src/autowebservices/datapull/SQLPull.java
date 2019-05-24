@@ -56,24 +56,29 @@ public class SQLPull {
             }
         }
 
+        boolean flag = true;
+        if (listOfUniqueFkConditions.size() > 0)
+            flag = false;
         while (listOfUniqueFkConditions.size() != 0) {
             leftjoin.append("\n");
             String fkCondition = addNextConditionInQuery(tableCanBeUsed, listOfUniqueFkConditions);
-            if (fkCondition == null) {
+            if (fkCondition == null && flag) {
                 String table = listOfUniqueFkConditions.get(0).replaceAll(" ", "").split("=")[0].split("\\.")[0];
                 tableCanBeUsed.add(table);
                 leftjoin.append(", ").append(table).append(" ");
             } else {
-                String str1 = fkCondition.replaceAll(" ", "").split("=")[0].split("\\.")[0];
-                String str2 = fkCondition.replaceAll(" ", "").split("=")[1].split("\\.")[0];
-                if (!tableCanBeUsed.contains(str1)) {
-                    leftjoin.append("LEFT JOIN ").append(str1);
-                    tableCanBeUsed.add(str1);
-                } else {
-                    leftjoin.append("LEFT JOIN ").append(str2);
-                    tableCanBeUsed.add(str2);
+                if (fkCondition != null) {
+                    String str1 = fkCondition.replaceAll(" ", "").split("=")[0].split("\\.")[0];
+                    String str2 = fkCondition.replaceAll(" ", "").split("=")[1].split("\\.")[0];
+                    if (!tableCanBeUsed.contains(str1)) {
+                        leftjoin.append("LEFT JOIN ").append(str1);
+                        tableCanBeUsed.add(str1);
+                    } else {
+                        leftjoin.append("LEFT JOIN ").append(str2);
+                        tableCanBeUsed.add(str2);
+                    }
+                    leftjoin.append(" ON ").append(fkCondition);
                 }
-                leftjoin.append(" ON ").append(fkCondition);
             }
         }
 
@@ -104,6 +109,9 @@ public class SQLPull {
 
     private String addNextConditionInQuery(HashSet<String> tableCanBeUsed, ArrayList<String> listOfUniqueFkConditions) {
         for (String str : listOfUniqueFkConditions) {
+            String tempStr = str;
+            if (str.contains("AND"))
+                str = str.split(" AND ")[0];
             int count1 = 0;
             int count2 = 0;
             String[] orderOfTables = str.replaceAll(" ", "").split("=");
@@ -112,9 +120,14 @@ public class SQLPull {
             if (tableCanBeUsed.contains(orderOfTables[1])) count1++;
             if (!tableCanBeUsed.contains(orderOfTables[0])) count2++;
             if (!tableCanBeUsed.contains(orderOfTables[1])) count2++;
-            if (count1 == 1 && count2 == 1) {
-                listOfUniqueFkConditions.remove(str);
-                return str;
+            if ((count1 == 1 && count2 == 1) || count1 == 2) {
+                if (tempStr.contains("AND"))
+                    listOfUniqueFkConditions.remove(tempStr);
+                else listOfUniqueFkConditions.remove(str);
+
+                if (count1 == 2)
+                    return null;
+                else return str;
             }
         }
         return null;

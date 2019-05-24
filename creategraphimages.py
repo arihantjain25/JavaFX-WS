@@ -3,8 +3,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import os
 
-directory = r'images\\'
-# directory =  'images/'
+# directory = r'images\\'
+directory =  'images/'
 os.makedirs(os.path.dirname(directory), exist_ok=True)
 filelist = [ f for f in os.listdir(directory) ]
 for f in filelist:
