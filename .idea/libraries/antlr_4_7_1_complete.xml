@@ -4,7 +4,6 @@
       <root url="jar://$PROJECT_DIR$/lib/antlr-4.7.1-complete.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/json-20180813.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/postgresql-42.2.2.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/gson-2.8.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
