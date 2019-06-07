@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="changes for windows path">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/antlr_4_7_1_complete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/antlr_4_7_1_complete.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="remove JSON2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/autowebservices/grammar/JSON2.g4" beforeDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,7 +63,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="427">
@@ -82,19 +80,6 @@
                 <element signature="e#1725#1726#0" expanded="true" />
                 <element signature="e#1776#1777#0" expanded="true" />
                 <element signature="e#1825#1826#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/autowebservices/grammar/JSON.g4">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-              <folding>
-                <element signature="e#0#68#0" expanded="true" />
-                <element signature="e#0#1412#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -203,24 +188,6 @@
             <path>
               <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
               <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="JavaFX-WS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="JavaFX-WS" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="autowebservices" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -419,14 +386,7 @@
       <workItem from="1558829370445" duration="1246000" />
       <workItem from="1558859030075" duration="34000" />
       <workItem from="1559892135601" duration="146000" />
-      <workItem from="1559892312455" duration="2491000" />
-    </task>
-    <task id="LOCAL-00002" summary="fix database reconnect">
-      <created>1554848590399</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1554848590400</updated>
+      <workItem from="1559892312455" duration="2745000" />
     </task>
     <task id="LOCAL-00003" summary="to fix db instance save">
       <created>1554867625794</created>
@@ -764,11 +724,18 @@
       <option name="project" value="LOCAL" />
       <updated>1558751419974</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="remove JSON2">
+      <created>1559895014357</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1559895014358</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250581000" />
+    <option name="totallyTimeSpent" value="250835000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -781,19 +748,19 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Tool Output" weight="0.3217768" />
-      <window_info active="true" anchor="bottom" id="ANTLR Preview" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="ANTLR Preview" weight="0.32936078" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.34777898" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39859045" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="6" weight="0.32889584" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.32827735" />
       <window_info anchor="bottom" id="TODO" order="7" />
       <window_info anchor="bottom" id="Application Servers" order="8" />
       <window_info anchor="bottom" id="Changes" order="9" />
       <window_info anchor="bottom" id="Profiler" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" weight="0.32654658" />
+      <window_info anchor="bottom" id="Event Log" order="11" weight="0.3261105" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.32732967" />
       <window_info anchor="bottom" id="Problems" order="13" />
       <window_info anchor="bottom" id="Version Control" order="14" weight="0.32732967" />
@@ -896,7 +863,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add union support" />
     <MESSAGE value="completed gui; add same table joins" />
     <MESSAGE value="to add same table joins" />
     <MESSAGE value="mild refactoring" />
@@ -921,7 +887,8 @@
     <MESSAGE value="add new tests" />
     <MESSAGE value="remove file path dependency" />
     <MESSAGE value="changes for windows path" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes for windows path" />
+    <MESSAGE value="remove JSON2" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove JSON2" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1161,6 +1128,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/autowebservices/grammar/JSON.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#68#0" expanded="true" />
+            <element signature="e#0#1412#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/autowebservices/tree/PatternTree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="427">
@@ -1177,17 +1155,6 @@
             <element signature="e#1725#1726#0" expanded="true" />
             <element signature="e#1776#1777#0" expanded="true" />
             <element signature="e#1825#1826#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/autowebservices/grammar/JSON.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#68#0" expanded="true" />
-            <element signature="e#0#1412#0" expanded="true" />
           </folding>
         </state>
       </provider>
